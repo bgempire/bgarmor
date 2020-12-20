@@ -24,7 +24,7 @@ echo Command: %INPUT_COMMAND%
 %INPUT_COMMAND%
 
 REM Format set icon command for rcedit
-set INPUT_COMMAND=".\tools\Windows\rcedit.exe" --set-icon ".\icon-launcher.ico" %LAUNCHER_PATH%
+set INPUT_COMMAND=".\tools\Windows\rcedit.exe" --set-icon ".\icons\icon-launcher.ico" %LAUNCHER_PATH%
 
 echo.
 echo Setting launcher icon...
