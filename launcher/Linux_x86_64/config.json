@@ -1,7 +1,7 @@
 {
 	"GameName" : "Example Game",
 	"MainFile" : "Example Game.blend",
-	"EnginePath" : "./engine/engine.exe",
+	"EnginePath" : "./engine/Linux_x86_64/blenderplayer",
 	"DataFile" : "./data.dat",
 	"Persistent" : [
 		"*.bgeconf",

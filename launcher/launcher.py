@@ -7,6 +7,7 @@ import shutil
 import glob
 import ctypes
 import subprocess
+import platform
 
 from pathlib import Path
 from ast import literal_eval
@@ -14,6 +15,7 @@ from pprint import pprint
 
 _DEBUG = 0
 curPath = Path(__file__).resolve().parent
+curPlatform = platform.system() + "_" + platform.processor()
 
 def processMetadata(path):
 	metadata = None
@@ -38,7 +40,7 @@ def processMetadata(path):
 	
 def loadConfig(path):
 	config = None
-	configPath = path / "config.json"
+	configPath = path / (curPlatform + "/config.json")
 	
 	if configPath.exists():
 		with open(configPath.as_posix(), "r") as sourceFile:
@@ -173,9 +175,9 @@ if metadata is not None and config is not None:
 		generalFiles = filesLists[1]
 		
 		enginePath = curPath.parent / config["EnginePath"]
-		command = enginePath.as_posix() + ' "' + config["MainFile"] + '"'
+		command = "'" + enginePath.as_posix() + "' '" + config["MainFile"] + "'"
 		os.chdir(gameDir.as_posix())
-		subprocess.call(command)
+		subprocess.call(command, shell=True)
 		
 		if _DEBUG:
 			print("> Remove all files before finish...")

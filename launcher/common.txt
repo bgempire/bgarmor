@@ -1,2 +1,0 @@
-PYTHON_EXECUTABLE="./engine/2.79/python/bin/python.exe"
-LAUNCHER_SCRIPT="./launcher/launcher.py"
