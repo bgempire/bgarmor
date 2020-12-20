@@ -1,0 +1,10 @@
+{
+	"GameName" : "Example Game",
+	"MainFile" : "Example Game.blend",
+	"EnginePath" : "./engine/engine.exe",
+	"DataFile" : "./data.dat",
+	"Persistent" : [
+		"*.bgeconf",
+		"*.sav",
+	]
+}
