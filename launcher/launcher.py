@@ -15,7 +15,8 @@ from pprint import pprint
 
 _DEBUG = 0
 curPath = Path(__file__).resolve().parent
-curPlatform = platform.system() + "_" + platform.processor()
+curPlatform = platform.system()
+PLAT_QUOTE = '"' if platform.system() == "Windows" else "'"
 
 def processMetadata(path):
 	metadata = None
@@ -175,7 +176,7 @@ if metadata is not None and config is not None:
 		generalFiles = filesLists[1]
 		
 		enginePath = curPath.parent / config["EnginePath"]
-		command = "'" + enginePath.as_posix() + "' '" + config["MainFile"] + "'"
+		command = PLAT_QUOTE + enginePath.as_posix() + PLAT_QUOTE + " " + PLAT_QUOTE + config["MainFile"] + PLAT_QUOTE
 		os.chdir(gameDir.as_posix())
 		subprocess.call(command, shell=True)
 		

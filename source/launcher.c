@@ -4,11 +4,12 @@
 
 #define LINE_BUFFER_LENGTH 512
 #define COMMAND_BUFFER_LENGTH 2048
-#define COMMON_FILE_PATH "./launcher/common.txt"
 
 #ifdef _WIN32
+	#define COMMON_FILE_PATH "./launcher/Windows/common.txt"
 	#define COMMAND_PREFIX "ECHO OFF && "
 #elif defined(__unix__)
+	#define COMMON_FILE_PATH "./launcher/Linux/common.txt"
 	#define COMMAND_PREFIX ""
 #endif
 

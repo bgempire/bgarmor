@@ -1,2 +1,0 @@
-PYTHON_EXECUTABLE="./engine/Linux_x86_64/2.79/python/bin/python3.5m"
-LAUNCHER_SCRIPT="./launcher/launcher.py"
