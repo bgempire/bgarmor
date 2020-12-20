@@ -4,6 +4,8 @@
 
 #define LINE_BUFFER_LENGTH 512
 #define COMMAND_BUFFER_LENGTH 2048
+#define DEFAULT_LAUNCHER_SCRIPT "./launcher/launcher_min.py"
+#define FALLBACK_LAUNCHER_SCRIPT "./launcher/launcher.py"
 
 #ifdef _WIN32
 	#define COMMON_FILE_PATH "./launcher/Windows/common.txt"
@@ -55,11 +57,25 @@ void getPathFromCommon(Common* common) {
 		}
 	}
 	fclose(filePointer);
+	
+	if (strcmp(common->launcherScript, "\"\"") == 0) {
+		if (filePointer = open(DEFAULT_LAUNCHER_SCRIPT, "r") != NULL) {
+			strcpy(common->launcherScript, DEFAULT_LAUNCHER_SCRIPT);
+		}
+		else {
+			strcpy(common->launcherScript, FALLBACK_LAUNCHER_SCRIPT);
+		}
+		fclose(filePointer);
+	}
 }
 
 int main() {
 	Common common;
 	char command[COMMAND_BUFFER_LENGTH];
+	
+	// Cleanup strings
+	strcpy(common.launcherScript, "");
+	strcpy(common.pythonExecutable, "");
 	
 	getPathFromCommon(&common);
 	printf("Python path: %s\nLauncher script path: %s\n\n", common.pythonExecutable, common.launcherScript);
