@@ -6,4 +6,6 @@ __pycache__/
 # Generated files
 /launcher/metadata.dat
 /*.exe
+/Launcher
 /*.o
+/source/*.o
