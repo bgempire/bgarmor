@@ -1,11 +1,11 @@
 echo off
 cls
 
-echo -----------------------------
-echo BGLauncher Engine Icon Setter
-echo -----------------------------
+echo ---------------------------------------
+echo BGLauncher Engine Icon Setter - Windows
+echo ---------------------------------------
 echo.
-echo This utility will change the icon of ./engine/Windows/blenderplayer.exe with the icon ./source/icons/icon-engine.ico
+echo This utility will change the icon of ./engine/Windows/blenderplayer.exe with the icon ./source/icons/icon-engine.ico.
 
 REM Get engine executable name from user
 set /P ENGINE_EXE="Name of the engine executable (optional, default: blenderplayer.exe): "

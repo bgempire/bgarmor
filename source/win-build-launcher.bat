@@ -1,13 +1,13 @@
 echo off
 cls
 
-echo -----------------------------
-echo BGLauncher Executable Builder
-echo -----------------------------
+echo ---------------------------------------
+echo BGLauncher Executable Builder - Windows
+echo ---------------------------------------
 echo.
 
 REM Get launcher name from user
-set /P LAUNCHER_PATH="Name of the launcher (optional, example: My Game): "
+set /P LAUNCHER_PATH="Name of the launcher (optional, default: Launcher): "
 
 REM Set default name if no name is provided by user
 if "%LAUNCHER_PATH%"=="" set LAUNCHER_PATH=Launcher
@@ -16,7 +16,7 @@ REM Add the quotes and extension to launcher name
 set LAUNCHER_PATH="..\%LAUNCHER_PATH%.exe"
 
 REM Format compile command for tcc
-set INPUT_COMMAND=".\tools\Windows\tcc.exe" -o %LAUNCHER_PATH% ".\launcher.c"
+set INPUT_COMMAND=".\tools\Windows\tcc.exe" -o %LAUNCHER_PATH% ".\Launcher.c"
 
 echo.
 echo Building launcher...

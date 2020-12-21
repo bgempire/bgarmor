@@ -19,13 +19,14 @@ const char* DEFAULT_LAUNCHER_SCRIPT = "./launcher/launcher_min.py";
 const char* FALLBACK_LAUNCHER_SCRIPT = "./launcher/launcher.py";
 
 typedef struct {
+    int readSuccess; // Set to 1 when all obligatory files are found
 	char pythonExecutable[LINE_BUFFER_LENGTH];
 	char launcherScript[LINE_BUFFER_LENGTH];
 } Common;
 
 void copyStringChunk(char* source, char* target, const char from, const char to) {
 	int started = 0;
-	
+
 	while (*source != from && *source != '\0') {
 		source++;
 		if (*source == from) {
@@ -50,42 +51,63 @@ void getPathFromCommon(Common* common) {
 	FILE* filePointer = fopen(COMMON_FILE_PATH, "r");
 	char buffer[LINE_BUFFER_LENGTH];
 
-	while(fgets(buffer, LINE_BUFFER_LENGTH, filePointer) != NULL) {
-		if (strstr(buffer, "PYTHON_EXECUTABLE") != NULL)
-			copyStringChunk(buffer, common->pythonExecutable, '"', '"');
+	if (filePointer != NULL) {
+        while(fgets(buffer, LINE_BUFFER_LENGTH, filePointer) != NULL) {
+            if (strstr(buffer, "PYTHON_EXECUTABLE") != NULL)
+                copyStringChunk(buffer, common->pythonExecutable, '"', '"');
+        }
+        fclose(filePointer);
 	}
-	fclose(filePointer);
-	filePointer = NULL;
+	else {
+        return;
+	}
 	filePointer = fopen(DEFAULT_LAUNCHER_SCRIPT, "r");
-	
+
 	if (filePointer) {
 		strcpy(common->launcherScript, DEFAULT_LAUNCHER_SCRIPT);
 		fclose(filePointer);
 	}
 	else {
-		strcpy(common->launcherScript, FALLBACK_LAUNCHER_SCRIPT);
+        filePointer = fopen(FALLBACK_LAUNCHER_SCRIPT, "r");
+        if (filePointer) {
+            strcpy(common->launcherScript, FALLBACK_LAUNCHER_SCRIPT);
+            fclose(filePointer);
+        }
+        else {
+            return;
+        }
 	}
+	common->readSuccess = 1;
 }
 
-int main() {
+int main(int argc, char** argv) {
 	Common common;
 	char command[COMMAND_BUFFER_LENGTH];
-	
+
 	// Cleanup strings
 	strcpy(common.launcherScript, "");
 	strcpy(common.pythonExecutable, "");
-	
+	strcpy(command, "");
+
+	common.readSuccess = 0;
+
 	getPathFromCommon(&common);
-	printf("Python path: %s\nLauncher script path: %s\n\n", common.pythonExecutable, common.launcherScript);
-	
-	strcat(command, COMMAND_PREFIX);
-	strcat(command, DEFAULT_QUOTE);
-	strcat(command, common.pythonExecutable);
-	strcat(command, DEFAULT_QUOTE);
-	strcat(command, " ");
-	strcat(command, DEFAULT_QUOTE);
-	strcat(command, common.launcherScript);
-	strcat(command, DEFAULT_QUOTE);
-	
-	system(command);
+
+	if (common.readSuccess) {
+        printf("> Python path: %s\n> Launcher script path: %s\n\n", common.pythonExecutable, common.launcherScript);
+
+        strcat(command, COMMAND_PREFIX);
+        strcat(command, DEFAULT_QUOTE);
+        strcat(command, common.pythonExecutable);
+        strcat(command, DEFAULT_QUOTE);
+        strcat(command, " ");
+        strcat(command, DEFAULT_QUOTE);
+        strcat(command, common.launcherScript);
+        strcat(command, DEFAULT_QUOTE);
+
+        system(command);
+	}
+	else {
+        printf("X Could not read python executable or launcher path!");
+	}
 }
