@@ -5,7 +5,6 @@ import sys
 import string
 import shutil
 import glob
-import ctypes
 import subprocess
 import platform
 
@@ -77,6 +76,7 @@ def getGameDir(config):
 	
 	# Hide game directory on Windows
 	if sys.platform == "win32":
+		import ctypes
 		ctypes.windll.kernel32.SetFileAttributesW(gameDir.as_posix(), 2)
 		
 	return gameDir
