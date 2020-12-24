@@ -15,8 +15,8 @@ if "%LAUNCHER_PATH%"=="" set LAUNCHER_PATH=Launcher
 REM Add the quotes and extension to launcher name
 set LAUNCHER_PATH="..\%LAUNCHER_PATH%.exe"
 
-REM Format compile command for tcc
-set INPUT_COMMAND=".\tools\Windows\tcc.exe" -o %LAUNCHER_PATH% ".\Launcher.c"
+REM Format compile command
+set INPUT_COMMAND=gcc -no-pie -o %LAUNCHER_PATH% ".\Launcher.c"
 
 echo.
 echo Building launcher...
