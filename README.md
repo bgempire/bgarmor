@@ -18,5 +18,6 @@ game release, including scripts to create the encrypted data files (using 7-Zip)
 ## Wishlist
 Some intended features include:
 
+- One click deploy for all platforms
 - Windows installer automated packaging
 - Linux .desktop files generator and automated .deb packaging
