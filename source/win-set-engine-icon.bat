@@ -1,9 +1,9 @@
 echo off
 cls
 
-echo ---------------------------------------
-echo BGLauncher Engine Icon Setter - Windows
-echo ---------------------------------------
+echo ------------------------------------
+echo BGArmor Engine Icon Setter - Windows
+echo ------------------------------------
 echo.
 echo This utility will change the icon of ./engine/Windows/blenderplayer.exe with the icon ./source/icons/icon-engine.ico.
 

@@ -1,9 +1,9 @@
 echo off
 cls
 
-echo ---------------------------------------
-echo BGLauncher Executable Builder - Windows
-echo ---------------------------------------
+echo ------------------------------------
+echo BGArmor Executable Builder - Windows
+echo ------------------------------------
 echo.
 
 REM Get launcher name from user

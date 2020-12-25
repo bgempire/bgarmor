@@ -1,6 +1,6 @@
-echo "-------------------------------------"
-echo "BGLauncher Executable Builder - Linux"
-echo "-------------------------------------"
+echo "----------------------------------"
+echo "BGArmor Executable Builder - Linux"
+echo "----------------------------------"
 echo
 
 echo "Building launcher executable at root directory..."

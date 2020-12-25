@@ -1,9 +1,9 @@
 echo off
 cls
 
-echo ---------------------------------
-echo BGLauncher Data Builder - Windows
-echo ---------------------------------
+echo ------------------------------
+echo BGArmor Data Builder - Windows
+echo ------------------------------
 echo.
 
 REM Get data source directory from user
