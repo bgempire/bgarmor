@@ -6,13 +6,13 @@
 #define COMMAND_BUFFER_LENGTH 2048
 
 #ifdef _WIN32
-	#define COMMON_FILE_PATH "./launcher/Windows/python_executable.txt"
-	#define COMMAND_PREFIX "ECHO OFF && "
-	#define DEFAULT_QUOTE "\""
+	const char* COMMON_FILE_PATH = "./launcher/Windows/python_executable.txt";
+	const char* COMMAND_PREFIX = "ECHO OFF && ";
+	const char* DEFAULT_QUOTE = "\"";
 #elif defined(__unix__)
-	#define COMMON_FILE_PATH "./launcher/Linux/python_executable.txt"
-	#define COMMAND_PREFIX ""
-	#define DEFAULT_QUOTE "'"
+	const char* COMMON_FILE_PATH = "./launcher/Linux/python_executable.txt";
+	const char* COMMAND_PREFIX = "";
+	const char* DEFAULT_QUOTE = "'";
 #endif
 
 const char* DEFAULT_LAUNCHER_SCRIPT = "./launcher/launcher.py";
@@ -54,7 +54,7 @@ void getPathFromCommon(Common* common) {
 	if (filePointer != NULL) {
         while(fgets(buffer, LINE_BUFFER_LENGTH, filePointer) != NULL) {
             if (strstr(buffer, "PYTHON_EXECUTABLE") != NULL)
-                copyStringChunk(buffer, common->pythonExecutable, '"', '"');
+                copyStringChunk(buffer, common->pythonExecutable, *DEFAULT_QUOTE, *DEFAULT_QUOTE);
         }
         fclose(filePointer);
 	}
@@ -105,6 +105,7 @@ int main(int argc, char** argv) {
         strcat(command, common.launcherScript);
         strcat(command, DEFAULT_QUOTE);
 
+        printf("Command: %s\n", command);
         system(command);
 	}
 	else {

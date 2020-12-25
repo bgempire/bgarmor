@@ -202,3 +202,6 @@ if metadata is not None and config is not None:
             
         # Remove all empty directories before finish
         removeEmptyDirs(gameDir)
+        
+    else:
+        print("X Could not find game data at", dataPath.as_posix())

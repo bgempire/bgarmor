@@ -17,4 +17,4 @@ if data is not None:
     command += meta + data["Quote"] + data["DataSource"] + data["Quote"]
     
     print("\nCommand:", command)
-    subprocess.call(command)
+    os.system(command)
