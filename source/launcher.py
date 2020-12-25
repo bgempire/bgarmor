@@ -17,6 +17,10 @@ curPath = Path(__file__).resolve().parent
 curPlatform = platform.system()
 PLAT_QUOTE = '"' if platform.system() == "Windows" else "'"
 
+if curPath.name == "source":
+    curPath = curPath.parent / "launcher"
+    os.chdir(curPath.as_posix())
+
 def processMetadata(path):
     metadata = None
     metaSourcePath = path.parent / "source/metadata.txt"
@@ -40,25 +44,33 @@ def processMetadata(path):
     
 def loadConfig(path):
     config = None
-    configPath = path / (curPlatform + "/config.json")
+    configPath = path / "config.json"
+    enginePath = path / (curPlatform + "/engine_executable.txt")
     
     if configPath.exists():
         with open(configPath.as_posix(), "r") as sourceFile:
             config = literal_eval(sourceFile.read())
             print("> Read config from", configPath.as_posix())
-    
-    return config
+            
+        if enginePath.exists():
+            with open(enginePath.as_posix(), "r") as sourceFile:
+                enginePathRead = eval(sourceFile.read().split('=')[-1])
+                
+                if enginePathRead:
+                    config["EnginePath"] = enginePathRead
+                    print("> Read engine path from", enginePath.as_posix())
+            
+            return config
 
 def getGameDir(config):
     
     def getGameDirName(name):
         result = ""
-        name = name.lower()
-        allowedChars = string.ascii_lowercase + " "
+        allowedChars = string.ascii_lowercase + string.ascii_uppercase + " -"
         for c in name:
             if c in allowedChars:
                 result += c
-        return "." + result.replace(" ", "-")
+        return "." + result
         
     gameDir = Path.home()
     gameName = getGameDirName(config["GameName"])

@@ -10,3 +10,4 @@ __pycache__/
 /*.o
 /source/*.o
 /data.dat
+/launcher/launcher.py

@@ -1,0 +1,11 @@
+{
+    "GameName" : "Example Game",
+    "Version" : "0.0.1",
+    "MainFile" : "Example Game.blend",
+    "DataFile" : "./data.dat",
+    "DataSource" : "./data",
+    "Persistent" : [
+        "*.bgeconf",
+        "*.sav",
+    ]
+}

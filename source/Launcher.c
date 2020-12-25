@@ -6,17 +6,17 @@
 #define COMMAND_BUFFER_LENGTH 2048
 
 #ifdef _WIN32
-	#define COMMON_FILE_PATH "./launcher/Windows/common.txt"
+	#define COMMON_FILE_PATH "./launcher/Windows/python_executable.txt"
 	#define COMMAND_PREFIX "ECHO OFF && "
 	#define DEFAULT_QUOTE "\""
 #elif defined(__unix__)
-	#define COMMON_FILE_PATH "./launcher/Linux/common.txt"
+	#define COMMON_FILE_PATH "./launcher/Linux/python_executable.txt"
 	#define COMMAND_PREFIX ""
 	#define DEFAULT_QUOTE "'"
 #endif
 
-const char* DEFAULT_LAUNCHER_SCRIPT = "./launcher/launcher_min.py";
-const char* FALLBACK_LAUNCHER_SCRIPT = "./launcher/launcher.py";
+const char* DEFAULT_LAUNCHER_SCRIPT = "./launcher/launcher.py";
+const char* FALLBACK_LAUNCHER_SCRIPT = "./source/launcher.py";
 
 typedef struct {
     int readSuccess; // Set to 1 when all obligatory files are found
