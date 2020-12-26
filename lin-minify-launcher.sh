@@ -1,3 +1,4 @@
+#!/bin/bash
 echo "---------------------------------"
 echo "BGArmor Script Minifier - Windows"
 echo "---------------------------------"
