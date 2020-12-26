@@ -13,7 +13,7 @@ if data is not None:
     platExt = ".exe" if platform.system() == "Windows" else ""
     launcherPath = data["CurPath"] / (common.formatFileName(data["GameName"]) + platExt)
     launcherPath = data["CurPath"] / (common.formatFileName(data["GameName"]) + platExt)
-    launcherFallbackPath = data["CurPath"] / ("BGLauncher" + platExt)
+    launcherFallbackPath = data["CurPath"] / ("BGArmor" + platExt)
     enginePath = data["EngineExecutable"]
     
     if launcherFallbackPath.exists() and not launcherPath.exists():
