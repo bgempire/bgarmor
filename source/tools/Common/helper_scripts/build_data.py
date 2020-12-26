@@ -17,4 +17,4 @@ if data is not None:
     command += meta + data["Quote"] + data["DataSource"] + data["Quote"]
     
     print("\nCommand:", command)
-    os.system(command)
+    subprocess.call(command) if platform.system() == "Windows" else os.system(command)
