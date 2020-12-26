@@ -24,6 +24,13 @@ def getData():
             data.update(literal_eval(sourceFile.read()))
             print("> Read config from", configFile.as_posix())
             
+        engineFile = curPath / ('./launcher/' + platform.system() + '/engine_executable.txt')
+        
+        if engineFile.exists():
+            with open(engineFile.as_posix(), 'r') as sourceFile:
+                data["EngineExecutable"] = Path(sourceFile.read().split('=')[-1].replace('"', "").replace("'", ""))
+                print("> Read engine path from", data["EngineExecutable"],engineFile.as_posix())
+            
         metaFile= curPath / './source/metadata.txt'
         
         if metaFile.exists():
@@ -37,7 +44,7 @@ def getData():
             data["7za"] = sevenZip.resolve() / "7za"
             
     return data
-    
+
 def formatFileName(name):
     result = ""
     allowedChars = string.ascii_lowercase + string.ascii_uppercase + " -"
