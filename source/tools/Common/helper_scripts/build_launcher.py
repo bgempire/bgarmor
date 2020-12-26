@@ -13,16 +13,23 @@ if data is not None:
     platExt = ".exe" if platform.system() == "Windows" else ""
     launcherPath = data["CurPath"] / (common.formatFileName(data["GameName"]) + platExt)
     
-    if platform.system() == "Linux":
-        pass # Todo
-        
-    command = 'gcc -no-pie -o ?' + launcherPath.as_posix() + '? ?./source/Launcher.c?'
-    command = command.replace('?', data["Quote"])
     print("\n> Building launcher...")
-    print("Command:", command)
-    subprocess.call(command)
+    
+    if platform.system() == "Linux":
+        command = 'gcc -no-pie -c ./source/Launcher.c -o Launcher.o'
+        print("Command:", command)
+        os.system(command)
+        command = "gcc -no-pie -o ?" + launcherPath.as_posix() + "? Launcher.o"
+        command = command.replace('?', data["Quote"])
+        print("Command:", command)
+        os.system(command)
     
     if platform.system() == "Windows":
+        command = 'gcc -no-pie -o ?' + launcherPath.as_posix() + '? ?./source/Launcher.c?'
+        command = command.replace('?', data["Quote"])
+        print("Command:", command)
+        subprocess.call(command)
+        
         command = '?./source/tools/Windows/rcedit.exe? --set-icon ?./source/icons/icon-launcher.ico? '
         command += '?' + launcherPath.as_posix() + '?'
         command = command.replace('?', data["Quote"])

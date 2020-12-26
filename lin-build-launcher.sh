@@ -4,10 +4,15 @@ echo "BGArmor Executable Builder - Linux"
 echo "----------------------------------"
 echo
 
-echo "Building launcher executable at root directory..."
+# Get Python executable path from current platform configuration
+PYTHON_EXECUTABLE=$(cat ./launcher/Linux/python_executable.txt)
 
-gcc -no-pie -c ./source/Launcher.c -o Launcher.o
-gcc -no-pie -o Launcher Launcher.o
+# Resolve path variable
+eval $PYTHON_EXECUTABLE
+
+# Execute script using given Python executable
+$PYTHON_EXECUTABLE './source/tools/Common/helper_scripts/build_launcher.py'
+
 rm -f Launcher.o
 
 echo "Done!"

@@ -7,6 +7,7 @@ __pycache__/
 /launcher/metadata.dat
 /*.exe
 /Launcher
+/Example Game
 /*.o
 /source/*.o
 /data.dat
