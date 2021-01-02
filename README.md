@@ -10,10 +10,14 @@ it (due to its simplistic concept behind the curtains), it aims to be more
 compatible and portable. It also features a project development structure to 
 aid the game development workflow and ease the release process.
 
+Take a look at the [Quickstart Guide](https://github.com/bgempire/bgarmor/wiki/Quickstart-Guide) 
+to learn how to implement BGArmor in your project.
+
 ## Additional Features
 
 BGArmor also aims to provide a toolchain of scripts to automate the process of 
-game release, including scripts to create the encrypted data files (using 7-Zip), a blenderplayer icon changer (on Windows) and other.
+game release, including scripts to create the encrypted data files (using 7-Zip), 
+a blenderplayer icon changer (on Windows) and other.
 
 ## Wishlist
 Some intended features include:
