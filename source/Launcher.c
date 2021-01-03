@@ -22,9 +22,9 @@
 
 const char* DEFAULT_LAUNCHER_SCRIPT = "./launcher/launcher.py";
 const char* FALLBACK_LAUNCHER_SCRIPT = "./source/launcher.py";
-const char* HELP_TEXT = "BGARMOR COMMAND LINE ARGUMENTS:\n\n"
-                        "-c or --console: Enable console window.\n"
-                        "-h or --help: Show this help text.\n";
+const char* HELP_TEXT = "\nBGARMOR COMMAND LINE ARGUMENTS:\n\n"
+                        "-c\tEnable console window.\n"
+                        "-h\tShow this help text.\n";
 
 typedef struct {
     int readSuccess; // Set to 1 when all obligatory files are found
@@ -90,17 +90,34 @@ void getPathFromCommon(Common* common) {
 
 int main(int argc, char** argv) {
 	Common common;
+	common.readSuccess = 0;
 	char command[COMMAND_BUFFER_LENGTH];
+    char extraArgs[COMMAND_BUFFER_LENGTH];
     int showConsole = 0;
+
+	// Cleanup strings
+	strcpy(common.launcherScript, "");
+	strcpy(common.pythonExecutable, "");
+	strcpy(command, "");
+	strcpy(extraArgs, "");
     
+    // Loop over arguments
     if (argc > 1) {
         int i;
         for (i = 0; i < argc; i++) {
-            if (strcmp(argv[i], "-c") == 0 || strcmp(argv[i], "--console") == 0)
+            // Enable console view
+            if (strcmp(argv[i], "-c")) {
                 showConsole = 1;
-            if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0) {
+            }
+            // Show help text and exit program
+            if (strcmp(argv[i], "-h") == 0) {
                 printf("%s", HELP_TEXT);
                 return 0;
+            }
+            // Add extra args to pass towards Python script
+            if (i > 0) {
+                strcat(extraArgs, " ");
+                strcat(extraArgs, argv[i]);
             }
         }
     }
@@ -112,13 +129,6 @@ int main(int argc, char** argv) {
         ShowWindow(hWnd, SW_HIDE);
     }
     #endif
-
-	// Cleanup strings
-	strcpy(common.launcherScript, "");
-	strcpy(common.pythonExecutable, "");
-	strcpy(command, "");
-
-	common.readSuccess = 0;
 
 	getPathFromCommon(&common);
 
@@ -133,6 +143,7 @@ int main(int argc, char** argv) {
         strcat(command, DEFAULT_QUOTE);
         strcat(command, common.launcherScript);
         strcat(command, DEFAULT_QUOTE);
+        strcat(command, extraArgs);
 
         printf("Command: %s\n", command);
         system(command);

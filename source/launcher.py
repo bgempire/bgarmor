@@ -173,7 +173,8 @@ if config is not None:
         generalFiles = filesLists[1]
         
         enginePath = curPath.parent / config["EnginePath"]
-        command = PLAT_QUOTE + enginePath.as_posix() + PLAT_QUOTE + " " + PLAT_QUOTE + config["MainFile"] + PLAT_QUOTE
+        extraArgs = " " + " ".join(sys.argv[1:]) if len(sys.argv) > 1 else ""
+        command = PLAT_QUOTE + enginePath.as_posix() + PLAT_QUOTE + extraArgs + " " + PLAT_QUOTE + config["MainFile"] + PLAT_QUOTE
         os.chdir(gameDir.as_posix())
         subprocess.call(command, shell=True)
         
