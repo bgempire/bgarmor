@@ -20,27 +20,6 @@ PLAT_QUOTE = '"' if platform.system() == "Windows" else "'"
 if curPath.name == "source":
     curPath = curPath.parent / "launcher"
     os.chdir(curPath.as_posix())
-
-def processMetadata(path):
-    metadata = None
-    metaSourcePath = path.parent / "source/metadata.txt"
-    metaPath = path / "metadata.dat"
-    
-    if metaSourcePath.exists():
-        with open(metaSourcePath.as_posix(), "r") as sourceFile:
-            metadata = sourceFile.read()
-            with open(metaPath.as_posix(), "wb") as targetFile:
-                targetFile.write(zlib.compress(metadata.encode(), zlib.Z_BEST_COMPRESSION))
-                print("> Written metadata to", metaPath.as_posix())
-    
-    elif metaPath.exists():
-        with open(metaPath.as_posix(), "rb") as sourceFile:
-            metadata = zlib.decompress(sourceFile.read()).decode()
-            print("> Read metadata from", metaPath.as_posix())
-    else:
-        print("X Metadata not found, will continue without it")
-        
-    return metadata if metadata is not None else ""
     
 def loadConfig(path):
     config = None
@@ -144,10 +123,9 @@ def removeEmptyDirs(path):
             except:
                 pass
 
-metadata = processMetadata(curPath)
 config = loadConfig(curPath)
 
-if metadata is not None and config is not None:
+if config is not None:
     gameDir = getGameDir(config)
     dataPath = curPath.parent / config["DataFile"]
     
@@ -158,10 +136,17 @@ if metadata is not None and config is not None:
         # Create temporary directory to extract game data
         tempPath.mkdir(parents=True, exist_ok=True)
         
-        # Extract game data into temp directory
-        gameData = zipfile.ZipFile(dataPath.as_posix(), mode='r')
-        gameData.extractall(path=tempPath.as_posix(), pwd=metadata.encode())
+        tempFile = tempPath / "temp.zip"
         
+        # Extract game data into temp directory
+        with open(dataPath.as_posix(), "rb") as sourceFile:
+            with open(tempFile.as_posix(), "wb") as targetFile:
+                targetFile.write(zlib.decompress(sourceFile.read()))
+        
+        if tempFile.exists():
+            shutil.unpack_archive(tempFile.as_posix(), tempPath.as_posix())
+            tempFile.unlink()
+            
         filesLists = getFilesLists(tempPath)
         persistentFiles = filesLists[0]
         generalFiles = filesLists[1]

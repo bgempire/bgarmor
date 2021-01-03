@@ -5,9 +5,8 @@ echo ------------------------------
 echo BGArmor Data Builder - Windows
 echo ------------------------------
 echo.
-echo This script will compress the game source code with the provided 
-echo password at ./source/metadata.txt and will obey all the settings 
-echo provided by ./launcher/config.json
+echo This script will compress the game source code and will obey all
+echo the settings  provided by ./launcher/config.json
 echo.
 
 REM Get Python executable path from current platform configuration

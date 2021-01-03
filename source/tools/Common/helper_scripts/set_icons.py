@@ -16,9 +16,8 @@ if data is not None:
     launcherFallbackPath = data["CurPath"] / ("BGArmor" + platExt)
     enginePath = data["EngineExecutable"]
     
-    if launcherFallbackPath.exists() and not launcherPath.exists():
-        print("\n> Renaming", launcherFallbackPath.name, "to", launcherPath.name, "...")
-        launcherFallbackPath.rename(launcherPath.name)
+    if not launcherPath.exists():
+        launcherPath = launcherFallbackPath
     
     if launcherPath.exists():
         command = '?./source/tools/Windows/rcedit.exe? --set-icon ?./source/icons/icon-launcher.ico? '

@@ -30,19 +30,7 @@ def getData():
             with open(engineFile.as_posix(), 'r') as sourceFile:
                 data["EngineExecutable"] = Path(sourceFile.read().split('=')[-1].replace('"', "").replace("'", ""))
                 print("> Read engine path from", data["EngineExecutable"],engineFile.as_posix())
-            
-        metaFile= curPath / './source/metadata.txt'
-        
-        if metaFile.exists():
-            with open(metaFile.as_posix(), 'r') as sourceFile:
-                data["Meta"] = sourceFile.read()
-                print("> Read metadata from", metaFile.as_posix())
                 
-        sevenZip = curPath / ("./source/tools/" + platform.system())
-        
-        if sevenZip.exists():
-            data["7za"] = sevenZip.resolve() / "7za"
-            
     return data
 
 def formatFileName(name):
