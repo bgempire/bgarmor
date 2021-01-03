@@ -11,7 +11,7 @@ data = common.getData()
 
 if data is not None:
     platExt = ".exe" if platform.system() == "Windows" else ""
-    launcherPath = data["CurPath"] / (common.formatFileName(data["GameName"]) + platExt)
+    launcherPath = data["CurPath"] / ("BGArmor" + platExt)
     
     print("\n> Building launcher...")
     

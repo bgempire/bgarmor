@@ -6,6 +6,11 @@
 #define COMMAND_BUFFER_LENGTH 2048
 
 #ifdef _WIN32
+    #ifdef _WIN32_WINNT
+        #undef _WIN32_WINNT
+    #endif
+    #define _WIN32_WINNT 0x0500
+    #include <windows.h>
 	const char* COMMON_FILE_PATH = "./launcher/Windows/python_executable.txt";
 	const char* COMMAND_PREFIX = "ECHO OFF && ";
 	const char* DEFAULT_QUOTE = "\"";
@@ -17,6 +22,9 @@
 
 const char* DEFAULT_LAUNCHER_SCRIPT = "./launcher/launcher.py";
 const char* FALLBACK_LAUNCHER_SCRIPT = "./source/launcher.py";
+const char* HELP_TEXT = "BGARMOR COMMAND LINE ARGUMENTS:\n\n"
+                        "-c or --console: Enable console window.\n"
+                        "-h or --help: Show this help text.\n";
 
 typedef struct {
     int readSuccess; // Set to 1 when all obligatory files are found
@@ -83,6 +91,27 @@ void getPathFromCommon(Common* common) {
 int main(int argc, char** argv) {
 	Common common;
 	char command[COMMAND_BUFFER_LENGTH];
+    int showConsole = 0;
+    
+    if (argc > 1) {
+        int i;
+        for (i = 0; i < argc; i++) {
+            if (strcmp(argv[i], "-c") == 0 || strcmp(argv[i], "--console") == 0)
+                showConsole = 1;
+            if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0) {
+                printf("%s", HELP_TEXT);
+                return 0;
+            }
+        }
+    }
+    
+    #ifdef _WIN32
+    HWND hWnd = GetConsoleWindow();
+    if (!showConsole) {
+        ShowWindow(hWnd, SW_MINIMIZE);
+        ShowWindow(hWnd, SW_HIDE);
+    }
+    #endif
 
 	// Cleanup strings
 	strcpy(common.launcherScript, "");
@@ -107,6 +136,13 @@ int main(int argc, char** argv) {
 
         printf("Command: %s\n", command);
         system(command);
+    
+        #ifdef _WIN32
+        if (!showConsole) {
+            ShowWindow(hWnd, SW_MAXIMIZE);
+            ShowWindow(hWnd, SW_SHOW);
+        }
+        #endif
 	}
 	else {
         printf("X Could not read python executable or launcher path!");
