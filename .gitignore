@@ -6,8 +6,7 @@ __pycache__/
 # Generated files
 /launcher/metadata.dat
 /*.exe
-/Launcher
-/Example Game
+/BGArmor
 /*.o
 /source/*.o
 /data.dat
