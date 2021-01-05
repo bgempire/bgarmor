@@ -29,7 +29,7 @@ def getData():
         if engineFile.exists():
             with open(engineFile.as_posix(), 'r') as sourceFile:
                 data["EngineExecutable"] = Path(sourceFile.read().split('=')[-1].replace('"', "").replace("'", ""))
-                print("> Read engine path from", data["EngineExecutable"],engineFile.as_posix())
+                print("> Read engine path from", engineFile.as_posix())
                 
     return data
 
