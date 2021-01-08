@@ -1,7 +1,7 @@
 REM Tries to get the Python executable from several game engine paths
 REM After the executable is found, executes it if an argument is given, exits if not
 
-set DEBUG_SCRIPT=1
+set DEBUG_SCRIPT=0
 set PATH_ROOT=.\launcher\
 set PATH_FILE=\python_executable.txt
 
