@@ -33,9 +33,20 @@ def getData():
                 
     return data
 
-def formatFileName(name):
+def formatFileName(name, spaces=True, lowercase=False):
+    allowedChars = string.ascii_lowercase + "-"
     result = ""
-    allowedChars = string.ascii_lowercase + string.ascii_uppercase + " -"
+    
+    if spaces:
+        allowedChars += " "
+    elif not spaces:
+        name = name.replace(" ", "-")
+        
+    if lowercase:
+        name = name.lower()
+    elif not lowercase:
+        allowedChars += string.ascii_uppercase
+        
     for c in name:
         if c in allowedChars:
             result += c
