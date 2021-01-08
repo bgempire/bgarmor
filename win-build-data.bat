@@ -9,17 +9,7 @@ echo This script will compress the game source code and will obey all
 echo the settings  provided by ./launcher/config.json
 echo.
 
-REM Get Python executable path from current platform configuration
-set /p PYTHON_EXECUTABLE=<.\launcher\Windows\python_executable.txt
-
-REM Format path variable resolve
-set PYTHON_EXECUTABLE=set %PYTHON_EXECUTABLE%
-
-REM Resolve path variable
-%PYTHON_EXECUTABLE%
-
-REM Execute script using given Python executable
-%PYTHON_EXECUTABLE% ".\source\tools\Common\helper_scripts\build_data.py"
+call ".\source\tools\Windows\get-python.bat" ".\source\tools\Common\helper_scripts\build_data.py"
 
 echo.
 echo Done!
