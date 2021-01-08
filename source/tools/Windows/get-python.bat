@@ -1,7 +1,7 @@
 REM Tries to get the Python executable from several game engine paths
 REM After the executable is found, executes it if an argument is given, exits if not
 
-set DEBUG_SCRIPT=0
+set DEBUG_SCRIPT=1
 set PATH_ROOT=.\launcher\
 set PATH_FILE=\python_executable.txt
 
@@ -31,6 +31,16 @@ set WIN_VERSION=Windows
 if exist %PATH_ROOT%%WIN_VERSION%%PATH_FILE% (
     set /p PYTHON_EXECUTABLE=<%PATH_ROOT%%WIN_VERSION%%PATH_FILE%
     goto ResolvePathVariable
+) else (
+    goto GetSystemPython
+)
+
+:GetSystemPython
+if %DEBUG_SCRIPT%==1 echo GetSystemPython
+where /q python
+if %ERRORLEVEL%==0 (
+    set PYTHON_EXECUTABLE=python
+    goto CheckArgument
 ) else (
     goto PythonNotFound
 )
