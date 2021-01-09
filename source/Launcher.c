@@ -22,7 +22,7 @@
 
 const char* DEFAULT_LAUNCHER_SCRIPT = "./launcher/launcher.py";
 const char* FALLBACK_LAUNCHER_SCRIPT = "./source/launcher.py";
-const char* HELP_TEXT = "\nBGARMOR COMMAND LINE ARGUMENTS:\n\n"
+const char* HELP_TEXT = "\nLAUNCHER COMMAND LINE ARGUMENTS:\n\n"
                         "-c\tEnable console window.\n"
                         "-h\tShow this help text.\n";
 
