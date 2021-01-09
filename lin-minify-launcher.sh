@@ -7,16 +7,12 @@ echo "This utility will minify and obfuscate the launcher.py script. You can "
 echo "keep any of those scripts on the launcher folder."
 echo
 
-# Get Python executable path from current platform configuration
-PYTHON_EXECUTABLE=$(cat ./launcher/Linux/python_executable.txt)
+source './source/tools/Linux/get-python.sh'
 
-# Resolve path variable
-eval $PYTHON_EXECUTABLE
-
-# Execute script using given Python executable
-PYMINIFIER="$PYTHON_EXECUTABLE -m source.tools.Common.pyminifier"
-
-$PYMINIFIER -o './launcher/launcher.py' --replacement-length=48 --obfuscate-classes --obfuscate-functions --obfuscate-import-methods --obfuscate-builtins './source/launcher.py'
+if [ ! -z $PYTHON_EXECUTABLE ]; then
+    PYMINIFIER="$PYTHON_EXECUTABLE -m source.tools.Common.pyminifier"
+    $PYMINIFIER -o './launcher/launcher.py' --replacement-length=48 --obfuscate-classes --obfuscate-functions --obfuscate-import-methods --obfuscate-builtins './source/launcher.py'
+fi
 
 echo
 echo Done!

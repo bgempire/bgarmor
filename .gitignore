@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 
 # Generated files
+/data/save.sav
 /launcher/metadata.dat
 /*.exe
 /BGArmor

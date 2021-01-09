@@ -134,6 +134,16 @@ int main(int argc, char** argv) {
 
 	if (common.readSuccess) {
         printf("> Python path: %s\n> Launcher script path: %s\n\n", common.pythonExecutable, common.launcherScript);
+        
+        #ifdef __unix__
+        strcat(command, "chmod +x ");
+        strcat(command, COMMAND_PREFIX);
+        strcat(command, DEFAULT_QUOTE);
+        strcat(command, common.pythonExecutable);
+        strcat(command, DEFAULT_QUOTE);
+        printf("Command: %s\n", command);
+	    strcpy(command, "");
+	    #endif
 
         strcat(command, COMMAND_PREFIX);
         strcat(command, DEFAULT_QUOTE);
@@ -145,7 +155,7 @@ int main(int argc, char** argv) {
         strcat(command, DEFAULT_QUOTE);
         strcat(command, extraArgs);
 
-        printf("Command: %s\n", command);
+        printf("Command: %s\n\n", command);
         system(command);
     
         #ifdef _WIN32
@@ -156,6 +166,6 @@ int main(int argc, char** argv) {
         #endif
 	}
 	else {
-        printf("X Could not read python executable or launcher path!");
+        printf("X Could not read python executable or launcher path!\n");
 	}
 }

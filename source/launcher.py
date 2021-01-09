@@ -171,8 +171,11 @@ if config is not None:
         filesLists = getFilesLists(gameDir)
         persistentFiles = filesLists[0]
         generalFiles = filesLists[1]
-        
         enginePath = curPath.parent / config["EnginePath"]
+        
+        if platform.system() != "Windows":
+            os.system("chmod +x " + PLAT_QUOTE + enginePath.as_posix() + PLAT_QUOTE)
+            
         extraArgs = " " + " ".join(sys.argv[1:]) if len(sys.argv) > 1 else ""
         command = PLAT_QUOTE + enginePath.as_posix() + PLAT_QUOTE + extraArgs + " " + PLAT_QUOTE + config["MainFile"] + PLAT_QUOTE
         os.chdir(gameDir.as_posix())

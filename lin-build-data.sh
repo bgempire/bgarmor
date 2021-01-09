@@ -7,14 +7,11 @@ echo "This script will compress the game source code and will obey "
 echo "all the settings provided by ./launcher/config.json"
 echo
 
-# Get Python executable path from current platform configuration
-PYTHON_EXECUTABLE=$(cat ./launcher/Linux/python_executable.txt)
+source './source/tools/Linux/get-python.sh'
 
-# Resolve path variable
-eval $PYTHON_EXECUTABLE
-
-# Execute script using given Python executable
-$PYTHON_EXECUTABLE './source/tools/Common/helper_scripts/build_data.py'
+if [ ! -z $PYTHON_EXECUTABLE ]; then
+    $PYTHON_EXECUTABLE './source/tools/Common/helper_scripts/build_data.py'
+fi
 
 echo
 echo "Done!"

@@ -81,6 +81,7 @@ if data is not None:
         
         for target in targets:
             print("")
+            hasErrors = False
             
             print("> Building target:", target)
             launcherExt = ".exe" if "Windows" in target else ""
@@ -120,17 +121,21 @@ if data is not None:
                 shutil.copy(launcherExecutable.as_posix(), releaseTargetPath.as_posix())
                 
             elif launcherExecutable is None:
-                print("    X Could not find launcher executable for " + target + " on:", releaseTargetPath.as_posix())
+                hasErrors = True
+                print("    X Could not find launcher executable for " + target + " on:", data["CurPath"])
                 
             if compress:
-                print("    > Compressing target release to:", releaseTargetPath.as_posix() + "." + archiveExt)
-                os.chdir(releaseTargetPath.parent.as_posix())
-                shutil.make_archive(
-                    releaseTargetPath.name, 
-                    archiveExt, 
-                    releaseTargetPath.parent.as_posix(), 
-                    releaseTargetPath.name
-                )
-                os.chdir(data["CurPath"].as_posix())
+                if not hasErrors:
+                    print("    > Compressing target release to:", releaseTargetPath.as_posix() + "." + archiveExt)
+                    os.chdir(releaseTargetPath.parent.as_posix())
+                    shutil.make_archive(
+                        releaseTargetPath.name, 
+                        archiveExt, 
+                        releaseTargetPath.parent.as_posix(), 
+                        releaseTargetPath.name
+                    )
+                    os.chdir(data["CurPath"].as_posix())
+                else:
+                    print("    > Errors happened, will not compress this release")
             
             print("    > Build successful:", target)
