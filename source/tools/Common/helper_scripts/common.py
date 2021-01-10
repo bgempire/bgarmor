@@ -34,7 +34,7 @@ def getData():
     return data
 
 def formatFileName(name, spaces=True, lowercase=False):
-    allowedChars = string.ascii_lowercase + "-"
+    allowedChars = string.ascii_lowercase + string.digits + ".-"
     result = ""
     
     if spaces:
