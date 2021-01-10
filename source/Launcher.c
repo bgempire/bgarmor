@@ -142,6 +142,7 @@ int main(int argc, char** argv) {
         strcat(command, common.pythonExecutable);
         strcat(command, DEFAULT_QUOTE);
         printf("Command: %s\n", command);
+        system(command);
 	    strcpy(command, "");
 	    #endif
 
