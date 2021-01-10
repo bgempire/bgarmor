@@ -1,8 +1,6 @@
 {
     # End folders with a forward slash (/)
     "Create" : [
-        "./data/",
-        "./data/DELETE-ME",
         "./engine/",
         "./engine/Windows/",
         "./engine/Linux/",
@@ -13,6 +11,7 @@
         "./source/",
     ],
     "Copy" : [
+        "./data/",
         "./launcher/",
         "./source/icons/",
         "./source/tools/",
@@ -23,5 +22,12 @@
         "./win-build-data.bat",
         "./win-build-release.bat",
         "./win-set-icons.bat",
+    ],
+    "Delete" : [
+        "__pycache__",
+        "pyminifier",
+        "build_bgarmor.py",
+        "build_launcher.py",
+        ".gitignore",
     ]
 }

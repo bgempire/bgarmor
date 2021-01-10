@@ -59,6 +59,13 @@ if data is not None:
                 
             print("    > Copied", elementType, "to:", path.as_posix())
         
-        for _path in glob.glob(targetPath.as_posix() + "/**/__pycache__", recursive=True):
-            shutil.rmtree(_path, ignore_errors=True)
+        print("\n> Removing unnecessary files and folders:")
+        for pattern in releaseFilesList["Delete"]:
+            for _path in glob.glob(targetPath.as_posix() + "/**/" + pattern, recursive=True):
+                _path = Path(_path)
+                if _path.is_dir():
+                    shutil.rmtree(_path.as_posix(), ignore_errors=True)
+                else:
+                    _path.unlink()
+                print("    > Removed:", _path)
     
