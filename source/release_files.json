@@ -1,0 +1,27 @@
+{
+    # End folders with a forward slash (/)
+    "Create" : [
+        "./data/",
+        "./data/DELETE-ME",
+        "./engine/",
+        "./engine/Windows/",
+        "./engine/Linux/",
+        "./engine/Windows/DELETE-ME",
+        "./engine/Linux/DELETE-ME",
+        "./release/",
+        "./release/DELETE-ME",
+        "./source/",
+    ],
+    "Copy" : [
+        "./launcher/",
+        "./source/icons/",
+        "./source/tools/",
+        "./BGArmor",
+        "./BGArmor.exe",
+        "./lin-build-data.sh",
+        "./lin-build-release.sh",
+        "./win-build-data.bat",
+        "./win-build-release.bat",
+        "./win-set-icons.bat",
+    ]
+}
