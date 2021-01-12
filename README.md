@@ -13,5 +13,6 @@ BGArmor also aims to provide a toolchain of scripts to automate the process of g
 ## Wishlist
 Some intended features include:
 
+- GUI frontend to configure BGArmor and substitute the helper scripts
 - Windows installer automated packaging
 - Linux .desktop files generator and automated .deb packaging
