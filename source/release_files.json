@@ -2,10 +2,14 @@
     # End folders with a forward slash (/)
     "Create" : [
         "./engine/",
-        "./engine/Windows/",
-        "./engine/Linux/",
-        "./engine/Windows/DELETE-ME",
-        "./engine/Linux/DELETE-ME",
+        "./engine/Windows32/",
+        "./engine/Windows64/",
+        "./engine/Linux32/",
+        "./engine/Linux64/",
+        "./engine/Windows32/DELETE-ME",
+        "./engine/Windows64/DELETE-ME",
+        "./engine/Linux32/DELETE-ME",
+        "./engine/Linux64/DELETE-ME",
         "./release/",
         "./release/DELETE-ME",
         "./source/",

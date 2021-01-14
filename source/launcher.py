@@ -24,9 +24,16 @@ if curPath.name == "source":
 def loadConfig(path):
     config = None
     configPath = path / "config.json"
-    enginePath = path / (curPlatform + "/engine_executable.txt")
+    engineCandidates = [curPlatform, curPlatform + "32", curPlatform + "64"]
+    enginePath = None
     
-    if configPath.exists():
+    for _path in engineCandidates:
+        _path = path / (_path + "/engine_executable.txt")
+        if _path.exists():
+            enginePath = _path.resolve()
+            break
+    
+    if configPath.exists() and enginePath is not None:
         with open(configPath.as_posix(), "r") as sourceFile:
             config = literal_eval(sourceFile.read())
             print("> Read config from", configPath.as_posix())

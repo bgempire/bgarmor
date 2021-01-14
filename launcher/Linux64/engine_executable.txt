@@ -1,0 +1,1 @@
+ENGINE_EXECUTABLE='./engine/Linux64/blenderplayer'

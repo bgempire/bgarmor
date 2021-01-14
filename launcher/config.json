@@ -1,6 +1,6 @@
 {
     "GameName" : "BGArmor",
-    "Version" : "0.0.2",
+    "Version" : "0.0.3",
     "MainFile" : "Example Game.blend",
     "DataFile" : "./data.dat",
     "DataSource" : "./data",

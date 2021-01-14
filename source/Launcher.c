@@ -12,16 +12,20 @@
     #define _WIN32_WINNT 0x0500
     #include <windows.h>
 	const char* COMMON_FILE_PATH = "./launcher/Windows/python_executable.txt";
+	const char* COMMON_FILE_PATH_32 = "./launcher/Windows32/python_executable.txt";
+	const char* COMMON_FILE_PATH_64 = "./launcher/Windows64/python_executable.txt";
 	const char* COMMAND_PREFIX = "ECHO OFF && ";
 	const char* DEFAULT_QUOTE = "\"";
 #elif defined(__unix__)
 	const char* COMMON_FILE_PATH = "./launcher/Linux/python_executable.txt";
+	const char* COMMON_FILE_PATH_32 = "./launcher/Linux32/python_executable.txt";
+	const char* COMMON_FILE_PATH_64 = "./launcher/Linux64/python_executable.txt";
 	const char* COMMAND_PREFIX = "";
 	const char* DEFAULT_QUOTE = "'";
 #endif
 
-const char* DEFAULT_LAUNCHER_SCRIPT = "./launcher/launcher.py";
-const char* FALLBACK_LAUNCHER_SCRIPT = "./source/launcher.py";
+const char* DEFAULT_LAUNCHER_SCRIPT = "./source/launcher.py";
+const char* FALLBACK_LAUNCHER_SCRIPT = "./launcher/launcher.py";
 const char* HELP_TEXT = "\nLAUNCHER COMMAND LINE ARGUMENTS:\n\n"
                         "-c\tEnable console window.\n"
                         "-h\tShow this help text.\n";
@@ -56,8 +60,16 @@ void copyStringChunk(char* source, char* target, const char from, const char to)
 }
 
 void getPathFromCommon(Common* common) {
-	FILE* filePointer = fopen(COMMON_FILE_PATH, "r");
 	char buffer[LINE_BUFFER_LENGTH];
+	FILE* filePointer = fopen(COMMON_FILE_PATH, "r");
+	
+	if (filePointer == NULL) {
+	    filePointer = fopen(COMMON_FILE_PATH_32, "r");
+	}
+	
+	if (filePointer == NULL) {
+	    filePointer = fopen(COMMON_FILE_PATH_64, "r");
+	}
 
 	if (filePointer != NULL) {
         while(fgets(buffer, LINE_BUFFER_LENGTH, filePointer) != NULL) {
