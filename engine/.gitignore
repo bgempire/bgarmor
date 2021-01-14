@@ -1,4 +1,6 @@
 *
 !.gitignore
-!Windows
-!Linux
+!Windows32
+!Windows64
+!Linux32
+!Linux64
