@@ -30,8 +30,11 @@ if data is not None:
         print("Command:", command)
         subprocess.call(command)
         
-        command = '?./source/tools/Windows/rcedit.exe? --set-icon ?./source/icons/icon-launcher.ico? '
-        command += '?' + launcherPath.as_posix() + '?'
+        command = '?./source/tools/Windows/ResourceHacker.exe? '
+        command += '-open ?' + launcherPath.as_posix() + '? '
+        command += '-save ?' + launcherPath.as_posix() + '? '
+        command += '-action addoverwrite -res ?./source/icons/icon-launcher.ico? '
+        command += '-mask ICONGROUP,APPICON, '
         command = command.replace('?', data["Quote"])
         print("\n> Setting icon of launcher...")
         print("Command:", command)

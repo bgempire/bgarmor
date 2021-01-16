@@ -21,8 +21,11 @@ if data is not None:
             launcherPath = launcherFallbackPath
         
         if launcherPath.exists():
-            command = '?./source/tools/Windows/rcedit.exe? --set-icon ?./source/icons/icon-launcher.ico? '
-            command += '?' + launcherPath.as_posix() + '?'
+            command = '?./source/tools/Windows/ResourceHacker.exe? '
+            command += '-open ?' + launcherPath.as_posix() + '? '
+            command += '-save ?' + launcherPath.as_posix() + '? '
+            command += '-action addoverwrite -res ?./source/icons/icon-launcher.ico? '
+            command += '-mask ICONGROUP,MAINICON,'
             command = command.replace('?', data["Quote"])
             print("\n> Setting icon of launcher...")
             print("Command:", command)
@@ -33,8 +36,11 @@ if data is not None:
             
         for enginePath in enginePaths:
             if "Windows" in enginePath.parent.name:
-                command = '?./source/tools/Windows/rcedit.exe? --set-icon ?./source/icons/icon-engine.ico? '
-                command += '?' + enginePath.as_posix() + '?'
+                command = '?./source/tools/Windows/ResourceHacker.exe? '
+                command += '-open ?' + enginePath.as_posix() + '? '
+                command += '-save ?' + enginePath.as_posix() + '? '
+                command += '-action addoverwrite -res ?./source/icons/icon-engine.ico? '
+                command += '-mask ICONGROUP,APPICON, '
                 command = command.replace('?', data["Quote"])
                 print("\n> Setting icon of engine...")
                 print("Command:", command)

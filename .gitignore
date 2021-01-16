@@ -12,3 +12,4 @@ __pycache__/
 /source/*.o
 /data.dat
 /launcher/launcher.py
+/source/tools/Windows/ResourceHacker.ini
