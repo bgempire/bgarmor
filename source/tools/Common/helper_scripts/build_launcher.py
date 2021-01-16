@@ -16,16 +16,16 @@ if data is not None:
     print("\n> Building launcher...")
     
     if platform.system() == "Linux":
-        command = 'gcc -no-pie -c ./source/Launcher.c -o Launcher.o'
+        command = 'gcc -m32 -no-pie -c ./source/Launcher.c -o Launcher.o'
         print("Command:", command)
         os.system(command)
-        command = "gcc -no-pie -o ?" + launcherPath.as_posix() + "? Launcher.o"
+        command = "gcc -m32 -no-pie -o ?" + launcherPath.as_posix() + "? Launcher.o"
         command = command.replace('?', data["Quote"])
         print("Command:", command)
         os.system(command)
     
     if platform.system() == "Windows":
-        command = 'gcc -no-pie -o ?' + launcherPath.as_posix() + '? ?./source/Launcher.c?'
+        command = 'gcc -m32 -no-pie -o ?' + launcherPath.as_posix() + '? ?./source/Launcher.c?'
         command = command.replace('?', data["Quote"])
         print("Command:", command)
         subprocess.call(command)
