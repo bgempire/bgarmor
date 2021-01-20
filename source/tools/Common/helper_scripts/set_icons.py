@@ -25,7 +25,7 @@ if data is not None:
             command += '-open ?' + launcherPath.as_posix() + '? '
             command += '-save ?' + launcherPath.as_posix() + '? '
             command += '-action addoverwrite -res ?./source/icons/icon-launcher.ico? '
-            command += '-mask ICONGROUP,MAINICON,'
+            command += '-mask ICONGROUP,APPICON,'
             command = command.replace('?', data["Quote"])
             print("\n> Setting icon of launcher...")
             print("Command:", command)
