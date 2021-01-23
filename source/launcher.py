@@ -14,7 +14,6 @@ from time import time
 
 _DEBUG = False
 PLAT_QUOTE = '"' if platform.system() == "Windows" else "'"
-PLAT_PAUSE = "PAUSE" if platform.system() == "Windows" else 'read -p "Press any key to continue..."'
 
 curPath = Path(__file__).resolve().parent
 curPlatform = platform.system()
@@ -175,7 +174,7 @@ if config is not None:
         
         if _DEBUG:
             print("> Extract game data into temp directory...")
-            os.system(PLAT_PAUSE)
+            input("Press any key to continue...")
         
         # Extract game data into temp directory
         decompressDataFile(dataPath, tempPath)
@@ -189,14 +188,14 @@ if config is not None:
         
         if _DEBUG:
             print("> Move files from temp directory to game directory...")
-            os.system(PLAT_PAUSE)
+            input("Press any key to continue...")
         
         # Move files from temp directory to game directory
         moveFilesToMain()
         
         if _DEBUG:
             print("> Remove temp directory after moving files...")
-            os.system(PLAT_PAUSE)
+            input("Press any key to continue...")
         
         # Remove temp directory after moving files
         shutil.rmtree(tempPath.as_posix(), ignore_errors=True)
@@ -216,7 +215,7 @@ if config is not None:
         
         if _DEBUG:
             print("> Remove all files before finish...")
-            os.system(PLAT_PAUSE)
+            input("Press any key to continue...")
         
         # Remove all files before finish
         for _file in generalFiles:
