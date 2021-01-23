@@ -1,21 +1,23 @@
-import zipfile
 import zlib
 import os
 import sys
 import string
 import shutil
 import glob
+import base64
 import subprocess
 import platform
 
 from pathlib import Path
 from ast import literal_eval
-from pprint import pprint
+from time import time
 
-_DEBUG = 0
+_DEBUG = False
+PLAT_QUOTE = '"' if platform.system() == "Windows" else "'"
+PLAT_PAUSE = "PAUSE" if platform.system() == "Windows" else 'read -p "Press any key to continue..."'
+
 curPath = Path(__file__).resolve().parent
 curPlatform = platform.system()
-PLAT_QUOTE = '"' if platform.system() == "Windows" else "'"
 
 if curPath.name == "source":
     curPath = curPath.parent / "launcher"
@@ -105,6 +107,37 @@ def ensurePath(path):
     path.parent.mkdir(parents=True, exist_ok=True)
     return path
 
+def decompressDataFile(dataFile, targetPath):
+    startTime = time()
+    
+    if targetPath.exists():
+        shutil.rmtree(targetPath.as_posix())
+        
+    if not targetPath.exists():
+        targetPath.mkdir()
+    
+    if dataFile.exists():
+        curLineType = "Path"
+        filePath = None
+        print("\n> Decompressing data file from", dataFile.as_posix())
+        
+        for line in open(dataFile.as_posix(), "rb"):
+            if curLineType == "Path":
+                filePath = (targetPath / base64.b64decode(line).decode())
+                curLineType = "Data"
+            else:
+                if not filePath.parent.exists():
+                    try:
+                        os.makedirs(filePath.parent.as_posix())
+                    except:
+                        pass
+                with open(filePath.as_posix(), "wb") as targetFileObj:
+                    targetFileObj.write(zlib.decompress(base64.b64decode(line)))
+                    
+                curLineType = "Path"
+                
+    print("> Done! Time taken:", round(time() - startTime, 3), "seconds\n")
+
 def moveFilesToMain():
     # Move general files to game directory if not already exists
     for _file in generalFiles:
@@ -140,20 +173,13 @@ if config is not None:
         dataPath = dataPath.resolve()
         tempPath = gameDir / ".temp"
         
-        # Create temporary directory to extract game data
-        tempPath.mkdir(parents=True, exist_ok=True)
-        
-        tempFile = tempPath / "temp.zip"
+        if _DEBUG:
+            print("> Extract game data into temp directory...")
+            os.system(PLAT_PAUSE)
         
         # Extract game data into temp directory
-        with open(dataPath.as_posix(), "rb") as sourceFile:
-            with open(tempFile.as_posix(), "wb") as targetFile:
-                targetFile.write(zlib.decompress(sourceFile.read()))
+        decompressDataFile(dataPath, tempPath)
         
-        if tempFile.exists():
-            shutil.unpack_archive(tempFile.as_posix(), tempPath.as_posix())
-            tempFile.unlink()
-            
         filesLists = getFilesLists(tempPath)
         persistentFiles = filesLists[0]
         generalFiles = filesLists[1]
@@ -163,14 +189,14 @@ if config is not None:
         
         if _DEBUG:
             print("> Move files from temp directory to game directory...")
-            os.system("PAUSE")
+            os.system(PLAT_PAUSE)
         
         # Move files from temp directory to game directory
         moveFilesToMain()
         
         if _DEBUG:
             print("> Remove temp directory after moving files...")
-            os.system("PAUSE")
+            os.system(PLAT_PAUSE)
         
         # Remove temp directory after moving files
         shutil.rmtree(tempPath.as_posix(), ignore_errors=True)
@@ -190,7 +216,7 @@ if config is not None:
         
         if _DEBUG:
             print("> Remove all files before finish...")
-            os.system("PAUSE")
+            os.system(PLAT_PAUSE)
         
         # Remove all files before finish
         for _file in generalFiles:
