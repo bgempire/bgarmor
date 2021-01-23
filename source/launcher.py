@@ -14,6 +14,7 @@ from time import time
 
 _DEBUG = False
 PLAT_QUOTE = '"' if platform.system() == "Windows" else "'"
+ITEM_SEPARATOR = "\t"
 
 curPath = Path(__file__).resolve().parent
 curPlatform = platform.system()
@@ -118,22 +119,35 @@ def decompressDataFile(dataFile, targetPath):
     if dataFile.exists():
         curLineType = "Path"
         filePath = None
+        numChunks = 1
+        curChunk = 0
         print("\n> Decompressing data file from", dataFile.as_posix())
         
         for line in open(dataFile.as_posix(), "rb"):
             if curLineType == "Path":
-                filePath = (targetPath / base64.b64decode(line).decode())
+                lineItems = base64.b64decode(line)
+                lineItems = lineItems.decode()
+                lineItems = lineItems.split(ITEM_SEPARATOR)
+                filePath = (targetPath / lineItems[0])
+                numChunks = literal_eval(lineItems[1])
                 curLineType = "Data"
+                
             else:
                 if not filePath.parent.exists():
                     try:
                         os.makedirs(filePath.parent.as_posix())
                     except:
                         pass
-                with open(filePath.as_posix(), "wb") as targetFileObj:
-                    targetFileObj.write(zlib.decompress(base64.b64decode(line)))
-                    
-                curLineType = "Path"
+                        
+                if curChunk < numChunks:
+                    with open(filePath.as_posix(), "ab") as targetFileObj:
+                            targetFileObj.write(zlib.decompress(base64.b64decode(line)))
+                            curChunk += 1
+                        
+                if curChunk >= numChunks:
+                    curChunk = 0
+                    numChunks = 1
+                    curLineType = "Path"
                 
     print("> Done! Time taken:", round(time() - startTime, 3), "seconds\n")
 
