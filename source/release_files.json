@@ -1,6 +1,8 @@
 {
     # End folders with a forward slash (/)
     "Create" : [
+        "./data/",
+        "./data/DELETE-ME",
         "./engine/",
         "./engine/Windows32/",
         "./engine/Windows64/",
@@ -15,7 +17,6 @@
         "./source/",
     ],
     "Copy" : [
-        "./data/",
         "./launcher/",
         "./source/icons/",
         "./source/tools/",
