@@ -5,6 +5,7 @@ echo "-----------------------"
 echo "This script will create the release of current version of BGArmor. This is "
 echo "only used to create the official releases of BGArmor."
 
+source './lin-minify-launcher.sh'
 source './source/tools/Linux/get-python.sh'
 
 if [ ! -z $PYTHON_EXECUTABLE ]; then
