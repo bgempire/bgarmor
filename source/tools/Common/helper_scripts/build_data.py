@@ -12,6 +12,8 @@ from time import time
 from math import ceil
 import common
 
+data = common.getData()
+
 COMPRESSION_LEVEL = 1
 FILE_MAX_SIZE = 1024 * 1024 * 32 # bytes > KB > MB
 ITEM_SEPARATOR = "\t"
@@ -50,9 +52,11 @@ def compressDataFile(sourcePath, dataFile):
                     
     print("> Done! Time taken:", round(time() - startTime, 3), "seconds")
 
-data = common.getData()
-
 if data is not None:
+    
+    if "DataChunkSize" in data.keys():
+        FILE_MAX_SIZE = 1024 * 1024 * data["DataChunkSize"]
+    
     compressDataFile(
         data["CurPath"] / data["DataSource"],
         data["CurPath"] / data["DataFile"]

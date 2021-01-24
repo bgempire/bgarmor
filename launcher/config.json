@@ -4,6 +4,7 @@
     "MainFile" : "Example Game.blend",
     "DataFile" : "./data.dat",
     "DataSource" : "./data",
+    "DataChunkSize" : 32,
     "Persistent" : [
         "*.bgeconf",
         "*.sav",
