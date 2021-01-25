@@ -170,13 +170,6 @@ int main(int argc, char** argv) {
 
         printf("Command: %s\n\n", command);
         system(command);
-    
-        #ifdef _WIN32
-        if (!showConsole) {
-            ShowWindow(hWnd, SW_MAXIMIZE);
-            ShowWindow(hWnd, SW_SHOW);
-        }
-        #endif
 	}
 	else {
         printf("X Could not read python executable or launcher path!\n");
