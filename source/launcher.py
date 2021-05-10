@@ -7,6 +7,7 @@ import glob
 import base64
 import subprocess
 import platform
+import ctypes
 
 from pathlib import Path
 from ast import literal_eval
@@ -82,7 +83,6 @@ def getGameDir(config):
     
     # Hide game directory on Windows
     if sys.platform == "win32":
-        import ctypes
         ctypes.windll.kernel32.SetFileAttributesW(gameDir.as_posix(), 2)
         
     return gameDir
@@ -99,7 +99,6 @@ def getTempDir(config):
     tempDir.mkdir(parents=False, exist_ok=True)
     
     if sys.platform == "win32":
-        import ctypes
         ctypes.windll.kernel32.SetFileAttributesW(tempDir.as_posix(), 2)
         
     return tempDir
