@@ -19,6 +19,7 @@ if exist %PYTHON_EXECUTABLE% (
 
 :RunPyminifier
 %PYTHON_EXECUTABLE% -m source.tools.Common.pyminifier -o ./launcher/launcher.py --replacement-length=48 --obfuscate-classes --obfuscate-functions --obfuscate-import-methods --obfuscate-builtins ./source/launcher.py
+call ".\source\tools\Windows\get-python.bat" ".\source\tools\Common\helper_scripts\minify_launcher.py"
 
 :Finish
 echo.
