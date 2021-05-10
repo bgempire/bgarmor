@@ -10,7 +10,8 @@ import platform
 
 from pathlib import Path
 from ast import literal_eval
-from time import time
+from time import time, sleep
+from hashlib import md5
 
 _DEBUG = False
 PLAT_QUOTE = '"' if platform.system() == "Windows" else "'"
@@ -23,6 +24,13 @@ if curPath.name == "source":
     curPath = curPath.parent / "launcher"
     os.chdir(curPath.as_posix())
     
+def debugMsg(*args, waitInput=True):
+    if _DEBUG:
+        finalMsg = ""
+        for arg in args: finalMsg += str(arg)
+        print(finalMsg)
+        if waitInput: input("Press any key to continue...")
+
 def loadConfig(path):
     config = None
     configPath = path / "config.json"
@@ -42,7 +50,7 @@ def loadConfig(path):
             
         if enginePath.exists():
             with open(enginePath.as_posix(), "r") as sourceFile:
-                enginePathRead = eval(sourceFile.read().split('=')[-1])
+                enginePathRead = literal_eval(sourceFile.read().split('=')[-1])
                 
                 if enginePathRead:
                     config["EnginePath"] = enginePathRead
@@ -68,8 +76,6 @@ def getGameDir(config):
         gameDir = gameDir / ("AppData/Roaming/" + gameName)
     elif sys.platform == "linux":
         gameDir = gameDir / (".local/share/" + gameName)
-    elif sys.platform == "darwin":
-        gameDir = gameDir / ("Library/Application Support/" + gameName)
         
     # Create game directory
     gameDir.mkdir(parents=True, exist_ok=True)
@@ -80,6 +86,24 @@ def getGameDir(config):
         ctypes.windll.kernel32.SetFileAttributesW(gameDir.as_posix(), 2)
         
     return gameDir
+    
+def getTempDir(config):
+    tempDir = Path.home()
+    tempDirName = "." + md5(("BGArmor" + str(time())).encode()).hexdigest()
+    
+    if sys.platform == "win32":
+        tempDir = tempDir / ("AppData/Temp/" + tempDirName)
+    elif sys.platform == "linux":
+        tempDir = Path("/tmp/" + tempDirName)
+        
+    tempDir.mkdir(parents=False, exist_ok=True)
+    
+    # Hide game directory on Windows
+    if sys.platform == "win32":
+        import ctypes
+        ctypes.windll.kernel32.SetFileAttributesW(tempDir.as_posix(), 2)
+        
+    return tempDir
     
 def getFilesLists(path):
         persistentFiles = []
@@ -151,20 +175,11 @@ def decompressDataFile(dataFile, targetPath):
                 
     print("> Done! Time taken:", round(time() - startTime, 3), "seconds\n")
 
-def moveFilesToMain():
-    # Move general files to game directory if not already exists
-    for _file in generalFiles:
-        _fileTarget = Path(_file.as_posix().replace(".temp/", ""))
-        if not _fileTarget.exists():
-            _file.rename(ensurePath(_fileTarget))
-            generalFilesTarget.append(_fileTarget.resolve())
-    
-    # Move persistent files to game directory if not already exists
-    for _file in persistentFiles:
-        _fileTarget = Path(_file.as_posix().replace(".temp/", ""))
-        if not _fileTarget.exists():
-            _file.rename(ensurePath(_fileTarget))
-            persistentFilesTarget.append(_fileTarget.resolve())
+def copyPersistentFiles(pathFrom, pathTo, filesList):
+    for fileFrom in filesList:
+        fileRelative = Path(fileFrom.as_posix().replace(pathFrom.as_posix(), "")[1:])
+        fileTo = (pathTo / fileRelative).resolve()
+        shutil.copy(fileFrom.as_posix(), ensurePath(fileTo).as_posix())
 
 def removeEmptyDirs(path):
     for root, dirs, files in os.walk(path.as_posix(), topdown=False):
@@ -179,44 +194,22 @@ def removeEmptyDirs(path):
 config = loadConfig(curPath)
 
 if config is not None:
-    gameDir = getGameDir(config)
-    dataPath = curPath.parent / config["DataFile"]
+    dataFile = curPath.parent / config["DataFile"]
     
-    if dataPath.exists():
-        dataPath = dataPath.resolve()
-        tempPath = gameDir / ".temp"
+    if dataFile.exists():
+        dataFile = dataFile.resolve()
+        gameDir = getGameDir(config)
+        tempDir = getTempDir(config)
         
-        if _DEBUG:
-            print("> Extract game data into temp directory...")
-            input("Press any key to continue...")
-        
-        # Extract game data into temp directory
-        decompressDataFile(dataPath, tempPath)
-        
-        filesLists = getFilesLists(tempPath)
-        persistentFiles = filesLists[0]
-        generalFiles = filesLists[1]
-        
-        persistentFilesTarget = []
-        generalFilesTarget = []
-        
-        if _DEBUG:
-            print("> Move files from temp directory to game directory...")
-            input("Press any key to continue...")
-        
-        # Move files from temp directory to game directory
-        moveFilesToMain()
-        
-        if _DEBUG:
-            print("> Remove temp directory after moving files...")
-            input("Press any key to continue...")
-        
-        # Remove temp directory after moving files
-        shutil.rmtree(tempPath.as_posix(), ignore_errors=True)
+        debugMsg("> Extract game data into temp directory...")
+        decompressDataFile(dataFile, tempDir)
         
         filesLists = getFilesLists(gameDir)
         persistentFiles = filesLists[0]
-        generalFiles = filesLists[1]
+        
+        debugMsg("> Copy persistent files from game to temp directory...")
+        copyPersistentFiles(gameDir, tempDir, persistentFiles)
+        
         enginePath = curPath.parent / config["EnginePath"]
         
         if platform.system() != "Windows":
@@ -224,19 +217,23 @@ if config is not None:
             
         extraArgs = " " + " ".join(sys.argv[1:]) if len(sys.argv) > 1 else ""
         command = PLAT_QUOTE + enginePath.as_posix() + PLAT_QUOTE + extraArgs + " " + PLAT_QUOTE + config["MainFile"] + PLAT_QUOTE
-        os.chdir(gameDir.as_posix())
+        os.chdir(tempDir.as_posix())
+        debugMsg("> Launch game in blenderplayer")
         subprocess.call(command, shell=True)
+        sleep(0.2)
         
-        if _DEBUG:
-            print("> Remove all files before finish...")
-            input("Press any key to continue...")
+        filesLists = getFilesLists(tempDir)
+        persistentFiles = filesLists[0]
         
-        # Remove all files before finish
-        for _file in generalFiles:
+        debugMsg("> Copy persistent files from temp to game directory...")
+        copyPersistentFiles(tempDir, gameDir, persistentFiles)
+        
+        debugMsg("> Remove all files before finish...")
+        for _file in filesLists[0] + filesLists[1]:
             _file.unlink()
             
-        # Remove all empty directories before finish
-        removeEmptyDirs(gameDir)
+        removeEmptyDirs(tempDir)
+        shutil.rmtree(tempDir.as_posix())
         
     else:
-        print("X Could not find game data at", dataPath.as_posix())
+        print("X Could not find game data at", dataFile.as_posix())

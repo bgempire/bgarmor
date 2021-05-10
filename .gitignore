@@ -1,13 +1,11 @@
 # Byte-compiled / optimized / DLL files
-__pycache__/
+__pycache__
 *.py[cod]
 *$py.class
 
 # Generated files
-/data/save.sav
-/launcher/metadata.dat
-/*.exe
-/BGArmor
+*.sav
+/BGArmor*
 /*.o
 /source/*.o
 /data.dat
