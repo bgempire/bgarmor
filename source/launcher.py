@@ -92,13 +92,12 @@ def getTempDir(config):
     tempDirName = "." + md5(("BGArmor" + str(time())).encode()).hexdigest()
     
     if sys.platform == "win32":
-        tempDir = tempDir / ("AppData/Temp/" + tempDirName)
+        tempDir = tempDir / ("AppData/Local/Temp/" + tempDirName)
     elif sys.platform == "linux":
         tempDir = Path("/tmp/" + tempDirName)
         
     tempDir.mkdir(parents=False, exist_ok=True)
     
-    # Hide game directory on Windows
     if sys.platform == "win32":
         import ctypes
         ctypes.windll.kernel32.SetFileAttributesW(tempDir.as_posix(), 2)
@@ -233,6 +232,7 @@ if config is not None:
             _file.unlink()
             
         removeEmptyDirs(tempDir)
+        os.chdir(tempDir.parent.as_posix())
         shutil.rmtree(tempDir.as_posix())
         
     else:
