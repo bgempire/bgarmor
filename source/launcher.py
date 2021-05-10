@@ -128,12 +128,6 @@ def ensurePath(path):
 def decompressDataFile(dataFile, targetPath):
     startTime = time()
     
-    if targetPath.exists():
-        shutil.rmtree(targetPath.as_posix())
-        
-    if not targetPath.exists():
-        targetPath.mkdir()
-    
     if dataFile.exists():
         curLineType = "Path"
         filePath = None
