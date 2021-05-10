@@ -178,7 +178,7 @@ def decompressDataFile(dataFile, targetPath):
 def copyPersistentFiles(pathFrom, pathTo, filesList):
     for fileFrom in filesList:
         fileRelative = Path(fileFrom.as_posix().replace(pathFrom.as_posix(), "")[1:])
-        fileTo = (pathTo / fileRelative).resolve()
+        fileTo = (pathTo / fileRelative)
         shutil.copy(fileFrom.as_posix(), ensurePath(fileTo).as_posix())
 
 def removeEmptyDirs(path):
