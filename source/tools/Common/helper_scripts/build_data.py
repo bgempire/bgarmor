@@ -1,14 +1,10 @@
 import os
-import platform
-import subprocess
 import zlib
-import shutil
 import glob
 import base64
 from pathlib import Path
-from ast import literal_eval
-from pprint import pprint
 from time import time
+from fnmatch import fnmatchcase
 from math import ceil
 import common
 
@@ -30,8 +26,16 @@ def compressDataFile(sourcePath, dataFile):
         
         for _file in glob.glob(sourcePath.as_posix() + "/**", recursive=True):
             _file = Path(_file).resolve()
+            ignore = False
             
-            if _file.is_file() and not "__pycache__" in _file.as_posix() and not "desktop.ini" in _file.as_posix():
+            if "Ignore" in data.keys():
+                for pattern in data["Ignore"]:
+                    if fnmatchcase(_file.name, pattern):
+                        ignore = True
+                        if _file.is_file(): print("    - Ignored", _file.relative_to(sourcePath))
+                        break
+            
+            if _file.is_file() and not ignore and not "desktop.ini" in _file.as_posix():
                 relativePath = _file.relative_to(sourcePath)
                 fileSize = os.path.getsize(_file.as_posix())
                 numChunks = numChunks = ceil(fileSize / FILE_MAX_SIZE) if fileSize > FILE_MAX_SIZE else 1

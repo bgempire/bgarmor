@@ -1,12 +1,16 @@
 {
-    "GameName" : "BGArmor",
-    "Version" : "0.0.5",
-    "MainFile" : "Example Game.blend",
-    "DataFile" : "./data.dat",
-    "DataSource" : "./data",
-    "DataChunkSize" : 32,
-    "Persistent" : [
+    "GameName": "BGArmor",
+    "Version": "0.0.5",
+    "MainFile": "Example Game.blend",
+    "DataFile": "./data.dat",
+    "DataSource": "./data",
+    "DataChunkSize": 32,
+    "Persistent": [
         "*.bgeconf",
-        "*.sav",
+        "*.sav"
+    ],
+    "Ignore": [
+        "*.pyc",
+        "*.blend1"
     ]
 }
