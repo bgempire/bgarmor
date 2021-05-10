@@ -85,12 +85,12 @@ def getGameDir(config):
     
 def getTempDir(config):
     tempDir = Path.home()
-    tempDirName = "." + md5(("BGArmor" + str(time())).encode()).hexdigest()
+    tempDirName = md5(("BGArmor" + str(time())).encode()).hexdigest().upper()
     
     if sys.platform == "win32":
         tempDir = tempDir / ("AppData/Local/Temp/" + tempDirName)
     elif sys.platform == "linux":
-        tempDir = Path("/tmp/" + tempDirName)
+        tempDir = Path("/tmp/." + tempDirName)
         
     tempDir.mkdir(parents=False, exist_ok=True)
     
