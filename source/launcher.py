@@ -67,7 +67,7 @@ def getGameDir(config):
         for c in name:
             if c in allowedChars:
                 result += c
-        return "." + result
+        return result
         
     gameDir = Path.home()
     gameName = getGameDirName(config["GameName"])
@@ -80,10 +80,6 @@ def getGameDir(config):
         
     # Create game directory
     gameDir.mkdir(parents=True, exist_ok=True)
-    
-    # Hide game directory on Windows
-    if sys.platform == "win32":
-        ctypes.windll.kernel32.SetFileAttributesW(gameDir.as_posix(), 2)
         
     return gameDir
     
