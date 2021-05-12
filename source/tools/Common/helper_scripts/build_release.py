@@ -117,8 +117,12 @@ if data is not None:
                         break
                         
             if launcherExecutable is not None:
-                print("    > Copying launcher executable to:", (releaseTargetPath / launcherExecutable.name).as_posix())
-                shutil.copy(launcherExecutable.as_posix(), releaseTargetPath.as_posix())
+                launcherExecutableTarget = releaseTargetPath / (common.formatFileName(data["GameName"]) + launcherExt)
+                print("    > Copying launcher executable to:", launcherExecutableTarget.as_posix())
+                shutil.copy(
+                    launcherExecutable.as_posix(), 
+                    launcherExecutableTarget.as_posix()
+                )
                 
             elif launcherExecutable is None:
                 hasErrors = True

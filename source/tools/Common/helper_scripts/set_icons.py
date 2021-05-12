@@ -32,7 +32,7 @@ if data is not None:
             subprocess.call(command)
             
         else:
-            print("\nX Launcher executable not found! Try using the name", data["GameName"] + ".exe")
+            print("\nX Launcher executable not found! Try using the name", common.formatFileName(data["GameName"]) + ".exe")
             
         for enginePath in enginePaths:
             if "Windows" in enginePath.parent.name:
