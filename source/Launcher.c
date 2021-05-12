@@ -24,17 +24,13 @@
     const char* DEFAULT_QUOTE = "'";
 #endif
 
-const char* DEFAULT_LAUNCHER_SCRIPT = "./source/launcher.py";
-const char* FALLBACK_LAUNCHER_SCRIPT = "./launcher/launcher.py";
-const char* HELP_TEXT = "\nLAUNCHER COMMAND LINE ARGUMENTS:\n\n"
-                        "-c\tEnable console window.\n"
-                        "-h\tShow this help text.\n";
-
 typedef struct {
     int readSuccess; // Set to 1 when all obligatory files are found
     char pythonExecutable[LINE_BUFFER_LENGTH];
     char launcherScript[LINE_BUFFER_LENGTH];
 } Common;
+
+unsigned char logMessages = 0;
 
 void copyStringChunk(char* source, char* target, const char from, const char to) {
     int started = 0;
@@ -60,14 +56,18 @@ void copyStringChunk(char* source, char* target, const char from, const char to)
 }
 
 void getPathFromCommon(Common* common) {
+    const char* DEFAULT_LAUNCHER_SCRIPT = "./source/launcher.py";
+    const char* FALLBACK_LAUNCHER_SCRIPT = "./launcher/launcher.py";
     char buffer[LINE_BUFFER_LENGTH];
     FILE* filePointer = fopen(COMMON_FILE_PATH, "r");
     
     if (filePointer == NULL) {
+        if (logMessages) printf("X Not found: %s\n", COMMON_FILE_PATH);
         filePointer = fopen(COMMON_FILE_PATH_32, "r");
     }
     
     if (filePointer == NULL) {
+        if (logMessages) printf("X Not found: %s\n", COMMON_FILE_PATH_32);
         filePointer = fopen(COMMON_FILE_PATH_64, "r");
     }
 
@@ -79,6 +79,7 @@ void getPathFromCommon(Common* common) {
         fclose(filePointer);
     }
     else {
+        if (logMessages) printf("X Not found: %s\n", COMMON_FILE_PATH_64);
         return;
     }
     filePointer = fopen(DEFAULT_LAUNCHER_SCRIPT, "r");
@@ -88,12 +89,14 @@ void getPathFromCommon(Common* common) {
         fclose(filePointer);
     }
     else {
+        if (logMessages) printf("X Not found: %s\n", DEFAULT_LAUNCHER_SCRIPT);
         filePointer = fopen(FALLBACK_LAUNCHER_SCRIPT, "r");
         if (filePointer) {
             strcpy(common->launcherScript, FALLBACK_LAUNCHER_SCRIPT);
             fclose(filePointer);
         }
         else {
+            if (logMessages) printf("X Not found: %s\n", FALLBACK_LAUNCHER_SCRIPT);
             return;
         }
     }
@@ -106,6 +109,10 @@ int main(int argc, char** argv) {
     char command[COMMAND_BUFFER_LENGTH];
     char extraArgs[COMMAND_BUFFER_LENGTH];
     int showConsole = 0;
+    const char* HELP_TEXT = "\nLAUNCHER COMMAND LINE ARGUMENTS:\n\n"
+                            "-c or --console\tEnable console window.\n"
+                            "-h or --help   \tShow this help text.\n"
+                            "-l or --log    \tLog messages in console.\n";
 
     // Cleanup strings
     strcpy(common.launcherScript, "");
@@ -116,18 +123,23 @@ int main(int argc, char** argv) {
     // Loop over arguments
     if (argc > 1) {
         int i;
-        for (i = 0; i < argc; i++) {
+        for (i = 1; i < argc; i++) {
             // Enable console view
-            if (strcmp(argv[i], "-c")) {
+            if (!strcmp(argv[i], "-c") || !strcmp(argv[i], "--console")) {
                 showConsole = 1;
+                strcat(extraArgs, " -c");
             }
-            // Show help text and exit program
-            if (strcmp(argv[i], "-h") == 0) {
-                printf("%s", HELP_TEXT);
+            // Show help text and exit
+            else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
+                printf("%s\n", HELP_TEXT);
                 return 0;
             }
+            // Show log messages
+            else if (!strcmp(argv[i], "-l") || !strcmp(argv[i], "--log")) {
+                logMessages = 1;
+            }
             // Add extra args to pass towards Python script
-            if (i > 0) {
+            else {
                 strcat(extraArgs, " ");
                 strcat(extraArgs, argv[i]);
             }
@@ -145,7 +157,7 @@ int main(int argc, char** argv) {
     getPathFromCommon(&common);
 
     if (common.readSuccess) {
-        printf("> Python path: %s\n> Launcher script path: %s\n\n", common.pythonExecutable, common.launcherScript);
+        if (logMessages) printf("> Python path: %s\n> Launcher script path: %s\n\n", common.pythonExecutable, common.launcherScript);
         
         #ifdef __unix__
         strcat(command, "chmod +x ");
@@ -153,7 +165,7 @@ int main(int argc, char** argv) {
         strcat(command, DEFAULT_QUOTE);
         strcat(command, common.pythonExecutable);
         strcat(command, DEFAULT_QUOTE);
-        printf("Command: %s\n", command);
+        if (logMessages) printf("Command: %s\n", command);
         system(command);
         strcpy(command, "");
         #endif
@@ -168,7 +180,7 @@ int main(int argc, char** argv) {
         strcat(command, DEFAULT_QUOTE);
         strcat(command, extraArgs);
 
-        printf("Command: %s\n\n", command);
+        if (logMessages) printf("Command: %s\n\n", command);
         system(command);
     }
     else {
