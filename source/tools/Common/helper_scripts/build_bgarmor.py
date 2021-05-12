@@ -15,7 +15,7 @@ if data is not None:
     compress = False
     releaseFilesList = data["CurPath"] / "source/release_files.json"
     targetPath = (data["CurPath"] / "release") / common.formatFileName(
-        data["GameName"] + "-v" + data["Version"] + " Win Linux",
+        "bgarmor-v" + data["Version"] + " Win Linux",
         spaces=False,
         lowercase=True
     )
