@@ -1,5 +1,5 @@
 {
-    "GameName": "BGArmor",
+    "GameName": "Example Game",
     "Version": "0.0.5",
     "MainFile": "Example Game.blend",
     "DataFile": "./data.dat",
