@@ -73,7 +73,7 @@ def getGameDir(config):
     
     # Get game directory in a cross platform way
     if sys.platform == "win32":
-        gameDir = gameDir / ("AppData/Roaming/" + gameName)
+        gameDir = Path(os.environ.get("APPDATA")) / gameName
     elif sys.platform == "linux":
         gameDir = gameDir / (".local/share/" + gameName)
         
@@ -87,7 +87,7 @@ def getTempDir(config):
     tempDirName = md5(("BGArmor" + str(time())).encode()).hexdigest().upper()
     
     if sys.platform == "win32":
-        tempDir = tempDir / ("AppData/Local/Temp/" + tempDirName)
+        tempDir = Path(os.environ.get("TEMP")) / tempDirName
     elif sys.platform == "linux":
         tempDir = Path("/tmp/." + tempDirName)
         
