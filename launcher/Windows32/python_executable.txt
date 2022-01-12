@@ -1,1 +1,0 @@
-PYTHON_EXECUTABLE="./engine/Windows32/2.79/python/bin/python.exe"
