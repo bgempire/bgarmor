@@ -7,7 +7,7 @@ permalink: /
 # BGArmor
 
 Welcome to the BGArmor wiki! If you're new to BGArmor, take a look at the 
-[Quickstart Guide](https://github.com/bgempire/bgarmor/wiki/Quickstart-Guide)
+[Quickstart Guide]({{ site.baseurl }}/quickstart)
 and start using BGArmor in your project right now.
 
 ## Index
