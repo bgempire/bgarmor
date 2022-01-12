@@ -1,14 +1,3 @@
-# Byte-compiled / optimized / DLL files
-__pycache__
-*.py[cod]
-*$py.class
-
-# Generated files
-.vscode
-*.sav
-/BGArmor*
-/*.o
-/source/*.o
-/data.dat
-/launcher/launcher.py
-/source/tools/Windows/ResourceHacker.ini
+vendor
+_site
+Gemfile.lock

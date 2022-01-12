@@ -1,0 +1,9 @@
+<footer class="bg-dark row d-print-none">
+  <div class="footer-container">
+        <small class="text-white">
+          © {{ 'now' | date: "%Y" }} {{ site.author }}. Todos os direitos reservados.<br>
+          <a style="color: #ff5e5e" href="{{ site.repo }}">GitHub</a>
+        </small>
+        {% if site.privacy %}<small class="ml-1"><a href="{{ site.privacy }}" target="_blank">Política de Privacidade</a></small>{% endif %}
+  </div>
+</footer>
