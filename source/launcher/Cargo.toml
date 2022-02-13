@@ -2,10 +2,11 @@
 name = "bgarmor"
 version = "0.1.0"
 edition = "2018"
+build = "build.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-json = "0.12.4"
+winres = "0.1.12"
 clap = "2.33.3"
 subprocess = "0.2.8"
