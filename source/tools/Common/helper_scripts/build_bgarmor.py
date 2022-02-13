@@ -13,7 +13,7 @@ data = common.getData()
 
 if data is not None:
     compress = False
-    releaseFilesList = data["CurPath"] / "source/release_files.json"
+    releaseFilesList = data["CurPath"] / "source/release_files.py"
     targetPath = (data["CurPath"] / "release") / common.formatFileName(
         "bgarmor-v" + data["Version"] + " Win Linux",
         spaces=False,
