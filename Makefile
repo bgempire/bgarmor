@@ -6,6 +6,7 @@ ifdef OS
 	END = &&
 	SOURCE_EXE = ".\target\$(TARGET)\release\bgarmor$(EXT)"
 	TARGET_EXE = "..\..\BGArmor$(EXT)"
+	UPX = REM
 else
 	TARGET = i686-unknown-linux-gnu
 	DELETE = rm -f
@@ -14,6 +15,7 @@ else
 	END = ;
 	SOURCE_EXE = "./target/$(TARGET)/release/bgarmor$(EXT)"
 	TARGET_EXE = "../../BGArmor$(EXT)"
+	UPX = upx -5
 endif
 
 build:
@@ -21,4 +23,4 @@ build:
 	$(DELETE) $(TARGET_EXE) $(END) \
 	cargo build --target=$(TARGET) --release $(END) \
 	$(COPY) $(SOURCE_EXE) $(TARGET_EXE) $(END) \
-	upx -5 $(TARGET_EXE)
+	$(UPX) $(TARGET_EXE)
