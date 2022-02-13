@@ -1,6 +1,6 @@
 {
     "GameName": "Example Game",
-    "Version": "0.0.5",
+    "Version": "0.0.6",
     "MainFile": "Example Game.blend",
     "DataFile": "./data.dat",
     "DataSource": "./data",
