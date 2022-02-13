@@ -55,7 +55,7 @@ if data is not None:
             if elementType == "folder" and not path.exists():
                 shutil.copytree(sourcePath.as_posix(), path.as_posix())
             else:
-                shutil.copy(sourcePath.as_posix(), path.as_posix())
+                shutil.copy2(sourcePath.as_posix(), path.as_posix())
                 
             print("    > Copied", elementType, "to:", path.as_posix())
         

@@ -98,13 +98,13 @@ if data is not None:
                 releaseTargetEnginePath.mkdir()
                 
             print("    > Copying data file to:", (releaseTargetPath / dataFile.name).as_posix())
-            shutil.copy(dataFile.as_posix(), (releaseTargetPath / dataFile.name).as_posix())
+            shutil.copy2(dataFile.as_posix(), (releaseTargetPath / dataFile.name).as_posix())
             
             print("    > Copying launcher files to:", (releaseTargetLauncherPath / target).as_posix())
             shutil.copytree((launcherDir / target).as_posix(), (releaseTargetLauncherPath / target).as_posix())
             for _file in launcherDir.iterdir():
                 if not _file.is_dir():
-                    shutil.copy(_file.as_posix(), releaseTargetLauncherPath.as_posix())
+                    shutil.copy2(_file.as_posix(), releaseTargetLauncherPath.as_posix())
                     
             print("    > Copying engine files to:", (releaseTargetEnginePath / target).as_posix())
             shutil.copytree((engineDir / target).as_posix(), (releaseTargetEnginePath / target).as_posix())
@@ -119,7 +119,7 @@ if data is not None:
             if launcherExecutable is not None:
                 launcherExecutableTarget = releaseTargetPath / (common.formatFileName(data["GameName"]) + launcherExt)
                 print("    > Copying launcher executable to:", launcherExecutableTarget.as_posix())
-                shutil.copy(
+                shutil.copy2(
                     launcherExecutable.as_posix(), 
                     launcherExecutableTarget.as_posix()
                 )
