@@ -1,14 +1,10 @@
-use std::io;
-#[cfg(windows)]
-use winres::WindowsResource;
+extern crate winres;
 
-fn main() -> io::Result<()> {
-    #[cfg(windows)]
-    {
-        WindowsResource::new()
-            .set_icon("../icons/icon-launcher.ico")
-            .compile()
-            .expect("X Could not set icon");
-    }
-    Ok(())
+fn main() {
+  if cfg!(target_os = "windows") {
+    let mut res = winres::WindowsResource::new();
+    res.set_icon("../icons/icon-launcher.ico");
+    res.set_manifest_file("./bgarmor.manifest.xml");
+    res.compile().unwrap();
+  }
 }
