@@ -71,11 +71,7 @@ fn get_executables() -> Vec<String> {
             if engine_executable_path.exists() {
                 executables.push(engine_executable_path_str.clone());
                 return executables;
-            } else {
-                println!("X Invalid engine executable path on {}", engine_config_path_str);
             }
-        } else {
-            println!("X Invalid Python executable path on {}", python_config_path_str);
         }
     }
     return Vec::new();
@@ -117,6 +113,15 @@ fn run_python_executable(executables: Vec<String>, _args: Vec<String>) {
             let mut _process = Popen::create(&["chmod", "+x", el.as_str()], PopenConfig {
                 stdout: Redirection::Pipe, ..Default::default()
             }).expect("X Could not enable execution of Python executable");
+            let _exit_status = _process.wait();
+        
+            let (out, _err) = _process.communicate(None).unwrap();
+            
+            if out != None {
+                println!("{}", out.unwrap());
+            }
+            
+            println!("Enable execution of: {}", el);
         }
     }
     
@@ -136,11 +141,20 @@ fn run_python_executable(executables: Vec<String>, _args: Vec<String>) {
     
     // Execute launcher script on Python interpreter
     for el in executables.iter() {
-            
+        println!("Run executable: {} {}", el, launcher_script.to_str().unwrap());
+        
         let mut _process = Popen::create(&[el.as_str(), launcher_script.to_str().unwrap()], PopenConfig {
             stdout: Redirection::Pipe, ..Default::default()
         }).expect("X Could not run script launcher.py");
         
+        let (out, _err) = _process.communicate(None).unwrap();
+        
+        if out != None {
+            println!("{}", out.unwrap());
+        }
+        
+        let _exit_status = _process.wait().expect("X Could not get exit status");
+        println!("Exit success: {}", _exit_status.success());
         return;
     }
 }
