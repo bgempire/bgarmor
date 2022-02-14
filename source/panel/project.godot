@@ -10,8 +10,8 @@ config_version=4
 
 [application]
 
-config/name="BGArmor"
-run/main_scene="res://welcome.tscn"
+config/name="BGArmor Panel"
+run/main_scene="res://scenes/welcome.tscn"
 boot_splash/image="res://textures/bgarmor_logo.png"
 boot_splash/fullsize=false
 config/icon="res://icon.png"
@@ -22,8 +22,8 @@ Globals="*res://scripts/globals.gd"
 
 [display]
 
-window/size/width=960
-window/size/height=540
+window/size/width=800
+window/size/height=450
 
 [physics]
 
