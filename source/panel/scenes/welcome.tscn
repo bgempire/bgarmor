@@ -40,13 +40,25 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRectLogo" type="TextureRect" parent="Panel"]
-anchor_left = 0.05
-anchor_top = 0.05
-anchor_right = 0.95
-anchor_bottom = 0.45
-margin_top = -1.0
-margin_bottom = -1.0
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRectLogo" type="TextureRect" parent="Panel/VBoxContainer"]
+margin_right = 780.0
+margin_bottom = 189.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.8
 texture = ExtResource( 2 )
 expand = true
 stretch_mode = 6
@@ -54,17 +66,27 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainerL" type="VBoxContainer" parent="Panel"]
-anchor_left = 0.05
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.95
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer"]
+margin_top = 193.0
+margin_right = 780.0
+margin_bottom = 430.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LabelProject" type="Label" parent="Panel/VBoxContainerL"]
-margin_right = 360.0
+[node name="VBoxContainerL" type="VBoxContainer" parent="Panel/VBoxContainer/HBoxContainer"]
+margin_right = 388.0
+margin_bottom = 237.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LabelProject" type="Label" parent="Panel/VBoxContainer/HBoxContainer/VBoxContainerL"]
+margin_right = 388.0
 margin_bottom = 14.0
 text = "Project:"
 align = 1
@@ -72,27 +94,27 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ButtonNew" type="Button" parent="Panel/VBoxContainerL"]
+[node name="ButtonNew" type="Button" parent="Panel/VBoxContainer/HBoxContainer/VBoxContainerL"]
 margin_top = 18.0
-margin_right = 360.0
+margin_right = 388.0
 margin_bottom = 38.0
 text = "New Project"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ButtonOpen" type="Button" parent="Panel/VBoxContainerL"]
+[node name="ButtonOpen" type="Button" parent="Panel/VBoxContainer/HBoxContainer/VBoxContainerL"]
 margin_top = 42.0
-margin_right = 360.0
+margin_right = 388.0
 margin_bottom = 62.0
 text = "Open Project"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LabelLinks" type="Label" parent="Panel/VBoxContainerL"]
+[node name="LabelLinks" type="Label" parent="Panel/VBoxContainer/HBoxContainer/VBoxContainerL"]
 margin_top = 66.0
-margin_right = 360.0
+margin_right = 388.0
 margin_bottom = 97.0
 text = "
 Links:"
@@ -101,35 +123,36 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ButtonDocs" type="Button" parent="Panel/VBoxContainerL"]
+[node name="ButtonDocs" type="Button" parent="Panel/VBoxContainer/HBoxContainer/VBoxContainerL"]
 margin_top = 101.0
-margin_right = 360.0
+margin_right = 388.0
 margin_bottom = 121.0
 text = "Documentation"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ButtonSource" type="Button" parent="Panel/VBoxContainerL"]
+[node name="ButtonSource" type="Button" parent="Panel/VBoxContainer/HBoxContainer/VBoxContainerL"]
 margin_top = 125.0
-margin_right = 360.0
+margin_right = 388.0
 margin_bottom = 145.0
 text = "Source Code"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainerR" type="VBoxContainer" parent="Panel"]
-anchor_left = 0.55
-anchor_top = 0.5
-anchor_right = 0.95
-anchor_bottom = 0.95
+[node name="VBoxContainerR" type="VBoxContainer" parent="Panel/VBoxContainer/HBoxContainer"]
+margin_left = 392.0
+margin_right = 780.0
+margin_bottom = 237.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LabelRecent" type="Label" parent="Panel/VBoxContainerR"]
-margin_right = 320.0
+[node name="LabelRecent" type="Label" parent="Panel/VBoxContainer/HBoxContainer/VBoxContainerR"]
+margin_right = 388.0
 margin_bottom = 14.0
 text = "Recent:"
 align = 1
@@ -137,15 +160,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ButtonClearRecent" type="Button" parent="Panel/VBoxContainerR"]
+[node name="ButtonClearRecent" type="Button" parent="Panel/VBoxContainer/HBoxContainer/VBoxContainerR"]
 margin_top = 18.0
-margin_right = 320.0
+margin_right = 388.0
 margin_bottom = 38.0
 text = "Clear list"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="pressed" from="Panel/VBoxContainerL/ButtonNew" to="." method="_on_ButtonNew_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainerL/ButtonDocs" to="." method="_on_ButtonDocs_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainerL/ButtonSource" to="." method="_on_ButtonSource_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/VBoxContainerL/ButtonNew" to="." method="_on_ButtonNew_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/VBoxContainerL/ButtonDocs" to="." method="_on_ButtonDocs_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/VBoxContainerL/ButtonSource" to="." method="_on_ButtonSource_pressed"]
