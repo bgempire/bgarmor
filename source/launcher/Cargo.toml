@@ -1,0 +1,19 @@
+[package]
+name = "bgarmor"
+version = "0.0.6"
+edition = "2018"
+build = "build.rs"
+
+[dependencies]
+clap = "2.33.3"
+subprocess = "0.2.8"
+
+[build-dependencies]
+winres = "0.1.12"
+
+[package.metadata.winres]
+FileDescription = "BGArmor: BGE and UPBGE game packer and launcher."
+ProductName = "BGArmor"
+OriginalFilename = "BGArmor.exe"
+LegalCopyright = "MIT"
+CompanyName = "BGEmpire"
