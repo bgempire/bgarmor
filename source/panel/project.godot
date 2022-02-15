@@ -12,6 +12,8 @@ config_version=4
 
 config/name="BGArmor Panel"
 run/main_scene="res://scenes/welcome.tscn"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="BGArmor"
 boot_splash/image="res://textures/bgarmor_logo.png"
 boot_splash/fullsize=false
 config/icon="res://icon.png"
@@ -24,6 +26,11 @@ Globals="*res://scripts/globals.gd"
 
 window/size/width=800
 window/size/height=450
+
+[global]
+
+custom=false
+use_custom_dir=false
 
 [physics]
 

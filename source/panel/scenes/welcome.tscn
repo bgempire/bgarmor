@@ -13,6 +13,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+margin_right = 83.0
+margin_bottom = 58.0
+popup_exclusive = true
+
 [node name="FileDialogNew" type="FileDialog" parent="."]
 anchor_left = 0.45
 anchor_top = 0.25
@@ -27,6 +32,27 @@ window_title = "Open a Directory"
 resizable = true
 mode = 2
 access = 2
+current_dir = "/home/bioage/Documents/GitHub/bgarmor/source/panel"
+current_path = "/home/bioage/Documents/GitHub/bgarmor/source/panel/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FileDialogOpen" type="FileDialog" parent="."]
+anchor_left = 0.45
+anchor_top = 0.25
+anchor_right = 0.55
+anchor_bottom = 0.75
+margin_left = -247.5
+margin_top = -69.0
+margin_right = 247.5
+margin_bottom = 69.0
+popup_exclusive = true
+window_title = "Open a File"
+resizable = true
+mode = 0
+access = 2
+filters = PoolStringArray( "*.json" )
 current_dir = "/home/bioage/Documents/GitHub/bgarmor/source/panel"
 current_path = "/home/bioage/Documents/GitHub/bgarmor/source/panel/"
 __meta__ = {
@@ -169,6 +195,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[connection signal="file_selected" from="FileDialogOpen" to="." method="_on_FileDialogOpen_file_selected"]
 [connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/VBoxContainerL/ButtonNew" to="." method="_on_ButtonNew_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/VBoxContainerL/ButtonOpen" to="." method="_on_ButtonOpen_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/VBoxContainerL/ButtonDocs" to="." method="_on_ButtonDocs_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/VBoxContainerL/ButtonSource" to="." method="_on_ButtonSource_pressed"]

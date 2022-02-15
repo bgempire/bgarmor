@@ -30,7 +30,6 @@ __meta__ = {
 }
 
 [node name="Tasks" type="Tabs" parent="Panel/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -266,6 +265,7 @@ items = [ "*.pyc", null, false, "*.blend1", null, false ]
 auto_height = true
 
 [node name="Paths" type="Tabs" parent="Panel/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -447,3 +447,5 @@ text = "Close Project"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[connection signal="pressed" from="Panel/ButtonCloseProject" to="." method="_on_ButtonCloseProject_pressed"]
