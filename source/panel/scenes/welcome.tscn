@@ -28,9 +28,8 @@ margin_top = -69.0
 margin_right = 247.5
 margin_bottom = 69.0
 popup_exclusive = true
-window_title = "Open a Directory"
+window_title = "Create Project"
 resizable = true
-mode = 2
 access = 2
 current_dir = "/home/bioage/Documents/GitHub/bgarmor/source/panel"
 current_path = "/home/bioage/Documents/GitHub/bgarmor/source/panel/"
@@ -167,7 +166,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainerR" type="VBoxContainer" parent="Panel/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainerRecent" type="VBoxContainer" parent="Panel/VBoxContainer/HBoxContainer"]
 margin_left = 392.0
 margin_right = 780.0
 margin_bottom = 237.0
@@ -177,7 +176,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LabelRecent" type="Label" parent="Panel/VBoxContainer/HBoxContainer/VBoxContainerR"]
+[node name="LabelRecent" type="Label" parent="Panel/VBoxContainer/HBoxContainer/VBoxContainerRecent"]
 margin_right = 388.0
 margin_bottom = 14.0
 text = "Recent:"
@@ -186,7 +185,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ButtonClearRecent" type="Button" parent="Panel/VBoxContainer/HBoxContainer/VBoxContainerR"]
+[node name="ButtonClearRecent" type="Button" parent="Panel/VBoxContainer/HBoxContainer/VBoxContainerRecent"]
 margin_top = 18.0
 margin_right = 388.0
 margin_bottom = 38.0
@@ -195,8 +194,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[connection signal="file_selected" from="FileDialogNew" to="." method="_on_FileDialogNew_file_selected"]
 [connection signal="file_selected" from="FileDialogOpen" to="." method="_on_FileDialogOpen_file_selected"]
 [connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/VBoxContainerL/ButtonNew" to="." method="_on_ButtonNew_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/VBoxContainerL/ButtonOpen" to="." method="_on_ButtonOpen_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/VBoxContainerL/ButtonDocs" to="." method="_on_ButtonDocs_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/VBoxContainerL/ButtonSource" to="." method="_on_ButtonSource_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/VBoxContainerRecent/ButtonClearRecent" to="." method="_on_ButtonClearRecent_pressed"]

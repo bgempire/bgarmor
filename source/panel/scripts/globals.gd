@@ -1,5 +1,6 @@
 extends Node
 
+const MAX_RECENT_PROJECTS = 5
 const DEFAULT_CONFIG: Dictionary = {
 	"LastDir": "",
 	"RecentPaths": [],
@@ -54,14 +55,28 @@ func save_config():
 		
 		if config_file.file_exists(config_path):
 			config_file.store_string(JSON.print(config))
-			print("Created new config in " + config_path)
+			print("Saved config to " + config_path)
 			
 		else:
 			config_file.store_string(JSON.print(DEFAULT_CONFIG))
-			print("Saved config to " + config_path)
+			print("Created new config in " + config_path)
 			
 	else:
 		print("Could not create config file at " + config_path)
+
+
+func add_project_to_recent(path: String):
+	var recent_paths: Array = config.get("RecentPaths", [])
+	
+	if recent_paths.has(path):
+		recent_paths.remove(recent_paths.find(path))
+		
+	recent_paths.push_front(path)
+	
+	if recent_paths.size() > MAX_RECENT_PROJECTS:
+		recent_paths.resize(MAX_RECENT_PROJECTS)
+		
+	config["RecentPaths"] = recent_paths
 
 
 func get_json_no_comments(json: String) -> String:
