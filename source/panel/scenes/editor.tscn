@@ -20,6 +20,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ButtonCloseProject" type="Button" parent="Panel"]
+anchor_left = 0.7
+anchor_top = 0.018
+anchor_right = 0.99
+anchor_bottom = 0.05
+margin_bottom = 5.6
+text = "Close Project"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="TabContainer" type="TabContainer" parent="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -30,82 +41,6 @@ __meta__ = {
 }
 
 [node name="Tasks" type="Tabs" parent="Panel/TabContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel/TabContainer/Tasks"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 10.0
-margin_right = -10.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/TabContainer/Tasks/HBoxContainer"]
-margin_right = 772.0
-margin_bottom = 384.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LabelGeneralTasks" type="Label" parent="Panel/TabContainer/Tasks/HBoxContainer/VBoxContainer"]
-margin_right = 772.0
-margin_bottom = 14.0
-text = "General tasks:"
-align = 1
-
-[node name="ButtonBuildData" type="Button" parent="Panel/TabContainer/Tasks/HBoxContainer/VBoxContainer"]
-margin_top = 18.0
-margin_right = 772.0
-margin_bottom = 38.0
-text = "Build Data"
-
-[node name="Label3" type="Label" parent="Panel/TabContainer/Tasks/HBoxContainer/VBoxContainer"]
-margin_top = 42.0
-margin_right = 772.0
-margin_bottom = 73.0
-text = "
-Export to:"
-align = 1
-
-[node name="Button2" type="Button" parent="Panel/TabContainer/Tasks/HBoxContainer/VBoxContainer"]
-margin_top = 77.0
-margin_right = 772.0
-margin_bottom = 97.0
-text = "Windows 32 bits"
-
-[node name="Button3" type="Button" parent="Panel/TabContainer/Tasks/HBoxContainer/VBoxContainer"]
-margin_top = 101.0
-margin_right = 772.0
-margin_bottom = 121.0
-text = "Windows 64 bits"
-
-[node name="Button4" type="Button" parent="Panel/TabContainer/Tasks/HBoxContainer/VBoxContainer"]
-margin_top = 125.0
-margin_right = 772.0
-margin_bottom = 145.0
-text = "Linux 32 bits"
-
-[node name="Button5" type="Button" parent="Panel/TabContainer/Tasks/HBoxContainer/VBoxContainer"]
-margin_top = 149.0
-margin_right = 772.0
-margin_bottom = 169.0
-text = "Linux 64 bits"
-
-[node name="Button" type="Button" parent="Panel/TabContainer/Tasks/HBoxContainer/VBoxContainer"]
-margin_top = 173.0
-margin_right = 772.0
-margin_bottom = 193.0
-text = "All Platforms"
-
-[node name="Project" type="Tabs" parent="Panel/TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -114,27 +49,159 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
-[node name="HBoxContainerConfiguration" type="HBoxContainer" parent="Panel/TabContainer/Project"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/TabContainer/Tasks"]
 anchor_right = 1.0
-margin_left = 10.0
-margin_right = -10.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainerConfiguration" type="VBoxContainer" parent="Panel/TabContainer/Project/HBoxContainerConfiguration"]
-margin_right = 384.0
-margin_bottom = 214.0
+[node name="LabelGeneralTasks" type="Label" parent="Panel/TabContainer/Tasks/VBoxContainer"]
+margin_right = 792.0
+margin_bottom = 14.0
+text = "General tasks:"
+align = 1
+
+[node name="ButtonBuildData" type="Button" parent="Panel/TabContainer/Tasks/VBoxContainer"]
+margin_top = 18.0
+margin_right = 792.0
+margin_bottom = 38.0
+text = "Build Data"
+
+[node name="ButtonSetIcons" type="Button" parent="Panel/TabContainer/Tasks/VBoxContainer"]
+margin_top = 42.0
+margin_right = 792.0
+margin_bottom = 62.0
+text = "Set Icons"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/TabContainer/Tasks/VBoxContainer"]
+margin_top = 66.0
+margin_right = 792.0
+margin_bottom = 384.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/TabContainer/Tasks/VBoxContainer/HBoxContainer"]
+margin_right = 394.0
+margin_bottom = 318.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LabelRun" type="Label" parent="Panel/TabContainer/Tasks/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_right = 394.0
+margin_bottom = 31.0
+text = "
+Run game:"
+align = 1
+
+[node name="ButtonRunWindows32" type="Button" parent="Panel/TabContainer/Tasks/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_top = 35.0
+margin_right = 394.0
+margin_bottom = 55.0
+text = "Windows 32 bits"
+
+[node name="ButtonRunWindows64" type="Button" parent="Panel/TabContainer/Tasks/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_top = 59.0
+margin_right = 394.0
+margin_bottom = 79.0
+text = "Windows 64 bits"
+
+[node name="ButtonRunLinux32" type="Button" parent="Panel/TabContainer/Tasks/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_top = 83.0
+margin_right = 394.0
+margin_bottom = 103.0
+text = "Linux 32 bits"
+
+[node name="ButtonRunLinux64" type="Button" parent="Panel/TabContainer/Tasks/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_top = 107.0
+margin_right = 394.0
+margin_bottom = 127.0
+text = "Linux 64 bits"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Panel/TabContainer/Tasks/VBoxContainer/HBoxContainer"]
+margin_left = 398.0
+margin_right = 792.0
+margin_bottom = 318.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="LabelGameName" type="Label" parent="Panel/TabContainer/Project/HBoxContainerConfiguration/VBoxContainerConfiguration"]
+[node name="LabelExportTo" type="Label" parent="Panel/TabContainer/Tasks/VBoxContainer/HBoxContainer/VBoxContainer2"]
+margin_right = 394.0
+margin_bottom = 31.0
+text = "
+Export to:"
+align = 1
+
+[node name="ButtonExportWindows32" type="Button" parent="Panel/TabContainer/Tasks/VBoxContainer/HBoxContainer/VBoxContainer2"]
+margin_top = 35.0
+margin_right = 394.0
+margin_bottom = 55.0
+text = "Windows 32 bits"
+
+[node name="ButtonExportWindows64" type="Button" parent="Panel/TabContainer/Tasks/VBoxContainer/HBoxContainer/VBoxContainer2"]
+margin_top = 59.0
+margin_right = 394.0
+margin_bottom = 79.0
+text = "Windows 64 bits"
+
+[node name="ButtonExportLinux32" type="Button" parent="Panel/TabContainer/Tasks/VBoxContainer/HBoxContainer/VBoxContainer2"]
+margin_top = 83.0
+margin_right = 394.0
+margin_bottom = 103.0
+text = "Linux 32 bits"
+
+[node name="ButtonExportLinux64" type="Button" parent="Panel/TabContainer/Tasks/VBoxContainer/HBoxContainer/VBoxContainer2"]
+margin_top = 107.0
+margin_right = 394.0
+margin_bottom = 127.0
+text = "Linux 64 bits"
+
+[node name="ButtonExportAll" type="Button" parent="Panel/TabContainer/Tasks/VBoxContainer/HBoxContainer/VBoxContainer2"]
+margin_top = 131.0
+margin_right = 394.0
+margin_bottom = 151.0
+hint_tooltip = "Exports to all available platforms."
+text = "All Platforms"
+
+[node name="Project" type="Tabs" parent="Panel/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/TabContainer/Project"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer1" type="VBoxContainer" parent="Panel/TabContainer/Project/HBoxContainer"]
+margin_right = 384.0
+margin_bottom = 374.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LabelGameName" type="Label" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
 margin_right = 384.0
 margin_bottom = 14.0
 text = "Game name:"
 align = 1
 
-[node name="LineEditGameName" type="LineEdit" parent="Panel/TabContainer/Project/HBoxContainerConfiguration/VBoxContainerConfiguration"]
+[node name="LineEditGameName" type="LineEdit" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
 margin_top = 18.0
 margin_right = 384.0
 margin_bottom = 42.0
@@ -143,14 +210,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LabelVersion" type="Label" parent="Panel/TabContainer/Project/HBoxContainerConfiguration/VBoxContainerConfiguration"]
+[node name="LabelVersion" type="Label" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
 margin_top = 46.0
 margin_right = 384.0
 margin_bottom = 60.0
 text = "Version:"
 align = 1
 
-[node name="LineEditVersion" type="LineEdit" parent="Panel/TabContainer/Project/HBoxContainerConfiguration/VBoxContainerConfiguration"]
+[node name="LineEditVersion" type="LineEdit" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
 margin_top = 64.0
 margin_right = 384.0
 margin_bottom = 88.0
@@ -159,14 +226,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LabelMainFile" type="Label" parent="Panel/TabContainer/Project/HBoxContainerConfiguration/VBoxContainerConfiguration"]
+[node name="LabelMainFile" type="Label" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
 margin_top = 92.0
 margin_right = 384.0
 margin_bottom = 106.0
 text = "Main blend file:"
 align = 1
 
-[node name="ButtonMainFile" type="Button" parent="Panel/TabContainer/Project/HBoxContainerConfiguration/VBoxContainerConfiguration"]
+[node name="ButtonMainFile" type="Button" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
 margin_top = 110.0
 margin_right = 384.0
 margin_bottom = 130.0
@@ -175,14 +242,14 @@ icon = ExtResource( 2 )
 align = 0
 expand_icon = true
 
-[node name="LabelDataFile" type="Label" parent="Panel/TabContainer/Project/HBoxContainerConfiguration/VBoxContainerConfiguration"]
+[node name="LabelDataFile" type="Label" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
 margin_top = 134.0
 margin_right = 384.0
 margin_bottom = 148.0
 text = "Data file:"
 align = 1
 
-[node name="ButtonDataFile" type="Button" parent="Panel/TabContainer/Project/HBoxContainerConfiguration/VBoxContainerConfiguration"]
+[node name="ButtonDataFile" type="Button" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
 margin_top = 152.0
 margin_right = 384.0
 margin_bottom = 172.0
@@ -191,14 +258,14 @@ icon = ExtResource( 2 )
 align = 0
 expand_icon = true
 
-[node name="LabelDataSource" type="Label" parent="Panel/TabContainer/Project/HBoxContainerConfiguration/VBoxContainerConfiguration"]
+[node name="LabelDataSource" type="Label" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
 margin_top = 176.0
 margin_right = 384.0
 margin_bottom = 190.0
 text = "Data source:"
 align = 1
 
-[node name="ButtonDataSource" type="Button" parent="Panel/TabContainer/Project/HBoxContainerConfiguration/VBoxContainerConfiguration"]
+[node name="ButtonDataSource" type="Button" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
 margin_top = 194.0
 margin_right = 384.0
 margin_bottom = 214.0
@@ -207,23 +274,23 @@ icon = ExtResource( 2 )
 align = 0
 expand_icon = true
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="Panel/TabContainer/Project/HBoxContainerConfiguration"]
+[node name="VBoxContainer3" type="VBoxContainer" parent="Panel/TabContainer/Project/HBoxContainer"]
 margin_left = 388.0
 margin_right = 772.0
-margin_bottom = 214.0
+margin_bottom = 374.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LabelDataChunkSize" type="Label" parent="Panel/TabContainer/Project/HBoxContainerConfiguration/VBoxContainer3"]
+[node name="LabelDataChunkSize" type="Label" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3"]
 margin_right = 384.0
 margin_bottom = 14.0
 text = "Data chunk size:"
 align = 1
 
-[node name="SpinBox" type="SpinBox" parent="Panel/TabContainer/Project/HBoxContainerConfiguration/VBoxContainer3"]
+[node name="SpinBoxDataChunkSize" type="SpinBox" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3"]
 margin_top = 18.0
 margin_right = 384.0
 margin_bottom = 42.0
@@ -236,33 +303,89 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LabelPersistent" type="Label" parent="Panel/TabContainer/Project/HBoxContainerConfiguration/VBoxContainer3"]
+[node name="LabelPersistent" type="Label" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3"]
 margin_top = 46.0
 margin_right = 384.0
 margin_bottom = 60.0
 text = "Persistent files:"
 align = 1
 
-[node name="ItemListPersistent" type="ItemList" parent="Panel/TabContainer/Project/HBoxContainerConfiguration/VBoxContainer3"]
+[node name="ItemListPersistent" type="ItemList" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3"]
 margin_top = 64.0
 margin_right = 384.0
-margin_bottom = 109.0
-items = [ "*.bgeconf", null, false, "*.sav", null, false ]
+margin_bottom = 180.0
+size_flags_vertical = 3
 auto_height = true
 
-[node name="LabelPersistent2" type="Label" parent="Panel/TabContainer/Project/HBoxContainerConfiguration/VBoxContainer3"]
-margin_top = 113.0
+[node name="HBoxContainer2" type="HBoxContainer" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3"]
+margin_top = 184.0
 margin_right = 384.0
-margin_bottom = 127.0
+margin_bottom = 208.0
+
+[node name="LineEditPersistent" type="LineEdit" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3/HBoxContainer2"]
+margin_right = 225.0
+margin_bottom = 24.0
+hint_tooltip = "Add glob patterns of files that should be kept between 
+runs such as save games, configuration, etc."
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="ButtonAddPersistent" type="Button" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3/HBoxContainer2"]
+margin_left = 229.0
+margin_right = 304.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+text = "Add+"
+
+[node name="ButtonDelPersistent" type="Button" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3/HBoxContainer2"]
+margin_left = 308.0
+margin_right = 384.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+text = "Del-"
+
+[node name="LabelIgnore" type="Label" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3"]
+margin_top = 212.0
+margin_right = 384.0
+margin_bottom = 226.0
 text = "Ignore patterns:"
 align = 1
 
-[node name="ItemListPersistent2" type="ItemList" parent="Panel/TabContainer/Project/HBoxContainerConfiguration/VBoxContainer3"]
-margin_top = 131.0
+[node name="ItemListIgnore" type="ItemList" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3"]
+margin_top = 230.0
 margin_right = 384.0
-margin_bottom = 176.0
-items = [ "*.pyc", null, false, "*.blend1", null, false ]
+margin_bottom = 346.0
+size_flags_vertical = 3
 auto_height = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3"]
+margin_top = 350.0
+margin_right = 384.0
+margin_bottom = 374.0
+
+[node name="LineEditIgnore" type="LineEdit" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3/HBoxContainer"]
+margin_right = 225.0
+margin_bottom = 24.0
+hint_tooltip = "Add glob patterns of files that should be ignored when building game data file such as 
+Python's .pyc files, .blend1 backups, developer's save games and configuration, etc."
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="ButtonAddIgnore" type="Button" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3/HBoxContainer"]
+margin_left = 229.0
+margin_right = 304.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+text = "Add+"
+
+[node name="ButtonDelIgnore" type="Button" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3/HBoxContainer"]
+margin_left = 308.0
+margin_right = 384.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+text = "Del-"
 
 [node name="Paths" type="Tabs" parent="Panel/TabContainer"]
 visible = false
@@ -296,7 +419,7 @@ text = "Engine executable paths
 "
 align = 1
 
-[node name="LabelEngineWindows33" type="Label" parent="Panel/TabContainer/Paths/HBoxContainer2/VBoxContainer"]
+[node name="LabelEngineWindows32" type="Label" parent="Panel/TabContainer/Paths/HBoxContainer2/VBoxContainer"]
 margin_top = 35.0
 margin_right = 384.0
 margin_bottom = 49.0
@@ -437,15 +560,5 @@ text = "./engine/Linux64/2.79/python/bin/python3.5m"
 icon = ExtResource( 2 )
 align = 0
 expand_icon = true
-
-[node name="ButtonCloseProject" type="Button" parent="Panel"]
-anchor_left = 0.7
-anchor_top = 0.018
-anchor_right = 0.99
-anchor_bottom = 0.05
-text = "Close Project"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [connection signal="pressed" from="Panel/ButtonCloseProject" to="." method="_on_ButtonCloseProject_pressed"]
