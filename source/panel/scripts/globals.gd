@@ -13,6 +13,14 @@ const DEFAULT_FIELDS: Dictionary = {
 	"DataFile": "./data.dat",
 	"DataSource": "./data",
 	"DataChunkSize": 32,
+	"EngineWindows32": "./engine/Windows32/blenderplayer.exe",
+	"EngineWindows64": "./engine/Windows64/blenderplayer.exe",
+	"EngineLinux32": "./engine/Linux32/blenderplayer",
+	"EngineLinux64": "./engine/Linux64/blenderplayer",
+	"PythonWindows32": "./engine/Windows32/2.79/python/bin/python.exe",
+	"PythonWindows64": "./engine/Windows64/2.79/python/bin/python.exe",
+	"PythonLinux32": "./engine/Linux32/2.79/python/bin/python3.5m",
+	"PythonLinux64": "./engine/Linux64/2.79/python/bin/python3.5m",
 	"Persistent": [
 		"*.bgeconf",
 		"*.sav"
