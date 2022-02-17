@@ -105,7 +105,7 @@ func _create_new_project(path: String):
 		print("  Created new folder: " + cur_folder)
 		
 	var project_name: String = path.split("/")[-1].strip_edges()
-	var project_file_path = path + "/" + project_name + ".json"
+	var project_file_path = path + "/" + project_name + ".bgarmor"
 	var file = File.new()
 	
 	if file.open(project_file_path, File.WRITE) == OK:
