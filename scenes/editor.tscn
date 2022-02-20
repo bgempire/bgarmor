@@ -15,6 +15,18 @@ __meta__ = {
 margin_right = 83.0
 margin_bottom = 58.0
 popup_exclusive = true
+resizable = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextEdit" type="TextEdit" parent="AcceptDialog"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+readonly = true
+smooth_scrolling = true
 
 [node name="FileDialog" type="FileDialog" parent="."]
 margin_right = 667.0
@@ -95,7 +107,6 @@ __meta__ = {
 }
 
 [node name="Tasks" type="Tabs" parent="Panel/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -226,6 +237,7 @@ hint_tooltip = "Exports to all available platforms."
 text = "All Platforms"
 
 [node name="Project" type="Tabs" parent="Panel/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -627,6 +639,7 @@ expand_icon = true
 [connection signal="pressed" from="Panel/HBoxContainer/ButtonExplore" to="." method="_on_ButtonExplore_pressed"]
 [connection signal="pressed" from="Panel/HBoxContainer/ButtonSave" to="." method="_on_ButtonSave_pressed"]
 [connection signal="pressed" from="Panel/HBoxContainer/ButtonCloseProject" to="." method="_on_ButtonCloseProject_pressed"]
+[connection signal="pressed" from="Panel/TabContainer/Tasks/VBoxContainer/ButtonBuildData" to="." method="_on_ButtonBuildData_pressed"]
 [connection signal="value_changed" from="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3/SpinBoxDataChunkSize" to="." method="_on_SpinBoxDataChunkSize_value_changed"]
 [connection signal="pressed" from="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3/HBoxContainer2/ButtonAddPersistent" to="." method="_on_ButtonAddPersistent_pressed"]
 [connection signal="pressed" from="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3/HBoxContainer2/ButtonDelPersistent" to="." method="_on_ButtonDelPersistent_pressed"]

@@ -1,5 +1,6 @@
 extends Control
 
+const POPUP_RATIO = 0.75
 const COLOR_NORMAL = Color.white
 const COLOR_INVALID = Color("ff7878")
 const NODE_FIELD_RELATIONS = [
@@ -186,7 +187,12 @@ func _ready() -> void:
 	var _error = $FileDialog.connect("dir_selected", self, "_on_FileDialog_any_selected")
 	_error = $FileDialog.connect("file_selected", self, "_on_FileDialog_any_selected")
 
+
 # Signal handlers
+func _on_ButtonBuildData_pressed() -> void:
+	_run_script("release/scripts/build_data.py", [])
+
+
 func _on_ButtonExplore_pressed() -> void:
 	var _error = OS.shell_open(globals.current_project_dir)
 
@@ -255,7 +261,7 @@ func _on_FileButton_pressed(data: Dictionary) -> void:
 	file_dialog.window_title = data["title"]
 	file_dialog.current_dir = globals.current_project_dir
 	file_dialog.dialog_text = data["node"]
-	file_dialog.popup_centered()
+	file_dialog.popup_centered_ratio(POPUP_RATIO)
 
 
 func _on_FileDialog_any_selected(path: String) -> void:
@@ -280,8 +286,8 @@ func _on_FileDialog_any_selected(path: String) -> void:
 		_update_fields()
 		
 	else:
-		$AcceptDialog.dialog_text = "Path must be inside project folder!"
-		$AcceptDialog.popup_centered()
+		$AcceptDialog/TextEdit.text = "Path must be inside project folder!"
+		$AcceptDialog.popup_centered_ratio(POPUP_RATIO)
 
 
 # Abstraction methods
@@ -407,11 +413,48 @@ func _get_python_current_os() -> String:
 	var cur_dir: Directory = Directory.new()
 	var _error = cur_dir.open(globals.current_project_dir)
 	var cur_os = "Windows" if OS.get_name() == "Windows" else "Linux"
+	var result = ""
 	
 	if cur_dir.file_exists(globals.current_project_data["Python" + cur_os + "32"]):
-		return globals.current_project_data["Python" + cur_os + "32"]
+		result = globals.current_project_data["Python" + cur_os + "32"]
 		
 	elif cur_dir.file_exists(globals.current_project_data["Python" + cur_os + "64"]):
-		return globals.current_project_data["Python" + cur_os + "64"]
+		result = globals.current_project_data["Python" + cur_os + "64"]
 		
-	return ""
+	if result:
+		result = result.replace("./", globals.current_project_dir + "/")
+		
+	return result
+
+
+func _get_script(path: String) -> String:
+	
+	if OS.has_feature("editor"):
+		path = ProjectSettings.globalize_path(path)
+	else:
+		path = OS.get_executable_path().get_base_dir().plus_file(path)
+	
+	return path
+
+
+func _run_script(script_path: String, script_args: Array) -> void:
+	var result = []
+	var args = [_get_script(script_path), "--project", globals.current_project_path]
+	args.append_array(script_args)
+	var text = "Please wait, running task..."
+	
+	$AcceptDialog/TextEdit.text = text
+	$AcceptDialog.popup_centered_ratio(POPUP_RATIO)
+	yield(get_tree().create_timer(0.25), "timeout")
+	var _error = OS.execute(_get_python_current_os(), args, true, result, true)
+	
+	if _error == OK:
+		if len(result):
+			text = result.pop_back()
+		else:
+			text = "Task completed!"
+	else:
+		text = "Could not execute task! Error:" + str(_error)
+		
+	$AcceptDialog/TextEdit.text = text
+	$AcceptDialog.popup_centered_ratio(POPUP_RATIO)
