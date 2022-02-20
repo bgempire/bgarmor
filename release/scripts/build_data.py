@@ -1,12 +1,20 @@
+import common as _common
 from pathlib import Path as _Path
 
 
-COMPRESSION_LEVEL = 1
-CHUNK_MAX_SIZE = 1024 * 1024 * 32 # bytes > KB > MB
 ITEM_SEPARATOR = "\t"
 
+data = _common.getProjectData()
 
-def compressDataFile(data, sourcePath, dataFile):
+
+def main():
+    # type: () -> None
+    
+    if data:
+        _compressDataFile(data, data["CurPath"] / data["DataSource"], data["CurPath"] / data["DataFile"])
+
+
+def _compressDataFile(data, sourcePath, dataFile):
     # type: (dict[str, object], _Path, _Path) -> None
     
     import os
@@ -16,6 +24,9 @@ def compressDataFile(data, sourcePath, dataFile):
     from time import time
     from fnmatch import fnmatchcase
     from math import ceil
+    
+    compressionLevel = int(data.get("CompressionLevel", 1))
+    chunkMaxSize = 1024 * 1024 * int(data.get("DataChunkSize", 32))
     
     startTime = time()
     
@@ -34,13 +45,14 @@ def compressDataFile(data, sourcePath, dataFile):
                 for pattern in data["Ignore"]:
                     if fnmatchcase(_file.name, pattern):
                         ignore = True
-                        if _file.is_file(): print("    - Ignored", _file.relative_to(sourcePath))
+                        if _file.is_file():
+                            print("    - Ignored", _file.relative_to(sourcePath))
                         break
             
             if _file.is_file() and not ignore and not "desktop.ini" in _file.as_posix():
                 relativePath = _file.relative_to(sourcePath)
                 fileSize = os.path.getsize(_file.as_posix())
-                numChunks = numChunks = ceil(fileSize / CHUNK_MAX_SIZE) if fileSize > CHUNK_MAX_SIZE else 1
+                numChunks = ceil(fileSize / chunkMaxSize) if fileSize > chunkMaxSize else 1
                 curChunk = 0
                 
                 dataFileObj.write(base64.b64encode((relativePath.as_posix() + ITEM_SEPARATOR + str(numChunks)).encode()))
@@ -50,7 +62,7 @@ def compressDataFile(data, sourcePath, dataFile):
                 
                 with open(_file.as_posix(), "rb") as currentFileObj:
                     while curChunk < numChunks:
-                        dataFileObj.write(base64.b64encode(zlib.compress(currentFileObj.read(CHUNK_MAX_SIZE), COMPRESSION_LEVEL)))
+                        dataFileObj.write(base64.b64encode(zlib.compress(currentFileObj.read(chunkMaxSize), compressionLevel)))
                         dataFileObj.write("\n".encode())
                         if numChunks > 1:
                             print("        > Written chunk", curChunk + 1)
@@ -58,15 +70,5 @@ def compressDataFile(data, sourcePath, dataFile):
                     
     print("> Done! Time taken:", round(time() - startTime, 3), "seconds")
 
-
-def main():
-    import common
-    
-    global CHUNK_MAX_SIZE
-    data = common.getProjectData()
-    
-    if data:
-        CHUNK_MAX_SIZE = 1024 * 1024 * int(data.get("DataChunkSize", 32))
-        compressDataFile(data, data["CurPath"] / data["DataSource"], data["CurPath"] / data["DataFile"])
 
 main()
