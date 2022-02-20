@@ -254,6 +254,10 @@ func _on_SpinBoxDataChunkSize_value_changed(value: float) -> void:
 	globals.current_project_data["DataChunkSize"] = int(value)
 
 
+func _on_SpinBoxCompressionLevel_value_changed(value: float) -> void:
+	globals.current_project_data["CompressionLevel"] = int(value)
+
+
 func _on_FileButton_pressed(data: Dictionary) -> void:
 	var file_dialog = $FileDialog
 	file_dialog.mode = data["mode"]
