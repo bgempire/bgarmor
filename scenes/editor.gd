@@ -99,70 +99,70 @@ var BUTTON_FILE_DIALOG_RELATIONS = [
 		"field": "DataFile",
 		"filters": PoolStringArray(["*.dat ; Data File"]),
 		"mode": FileDialog.MODE_SAVE_FILE,
-		"title": "Select the game package data file"
+		"title": "Select the game package data file",
 	},
 	{
 		"node": "ButtonDataSource",
 		"field": "DataSource",
 		"filters": PoolStringArray(["*.* ; Data Source"]),
 		"mode": FileDialog.MODE_OPEN_DIR,
-		"title": "Select the game source data directory"
+		"title": "Select the game source data directory",
 	},
 	{
 		"node": "ButtonEngineWindows32",
 		"field": "EngineWindows32",
 		"filters": PoolStringArray(["*.exe ; Executable"]),
 		"mode": FileDialog.MODE_OPEN_FILE,
-		"title": "Select the engine executable"
+		"title": "Select the engine executable",
 	},
 	{
 		"node": "ButtonEngineWindows64",
 		"field": "EngineWindows64",
 		"filters": PoolStringArray(["*.exe ; Executable"]),
 		"mode": FileDialog.MODE_OPEN_FILE,
-		"title": "Select the engine executable"
+		"title": "Select the engine executable",
 	},
 	{
 		"node": "ButtonEngineLinux32",
 		"field": "EngineLinux32",
 		"filters": PoolStringArray(["* ; Executable"]),
 		"mode": FileDialog.MODE_OPEN_FILE,
-		"title": "Select the engine executable"
+		"title": "Select the engine executable",
 	},
 	{
 		"node": "ButtonEngineLinux64",
 		"field": "EngineLinux64",
 		"filters": PoolStringArray(["* ; Executable"]),
 		"mode": FileDialog.MODE_OPEN_FILE,
-		"title": "Select the engine executable"
+		"title": "Select the engine executable",
 	},
 	{
 		"node": "ButtonPythonWindows32",
 		"field": "PythonWindows32",
 		"filters": PoolStringArray(["*.exe ; Executable"]),
 		"mode": FileDialog.MODE_OPEN_FILE,
-		"title": "Select the Python executable"
+		"title": "Select the Python executable",
 	},
 	{
 		"node": "ButtonPythonWindows64",
 		"field": "PythonWindows64",
 		"filters": PoolStringArray(["*.exe ; Executable"]),
 		"mode": FileDialog.MODE_OPEN_FILE,
-		"title": "Select the Python executable"
+		"title": "Select the Python executable",
 	},
 	{
 		"node": "ButtonPythonLinux32",
 		"field": "PythonLinux32",
 		"filters": PoolStringArray(["* ; Executable"]),
 		"mode": FileDialog.MODE_OPEN_FILE,
-		"title": "Select the Python executable"
+		"title": "Select the Python executable",
 	},
 	{
 		"node": "ButtonPythonLinux64",
 		"field": "PythonLinux64",
 		"filters": PoolStringArray(["* ; Executable"]),
 		"mode": FileDialog.MODE_OPEN_FILE,
-		"title": "Select the Python executable"
+		"title": "Select the Python executable",
 	},
 ]
 
