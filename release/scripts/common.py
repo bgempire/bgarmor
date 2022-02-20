@@ -41,7 +41,7 @@ def getProjectData(projectFile):
             if "Engine" in key:
                 engineExecutable = curPath / data[key] # type: _Path
                 
-                if engineExecutable.exists:
+                if engineExecutable.exists():
                     engineExecutables.append(engineExecutable)
                         
         data["CurPath"] = curPath
