@@ -23,6 +23,7 @@ const NODE_FIELD_RELATIONS = [
 		"node": "ButtonMainFile",
 		"field": "MainFile",
 		"property": "text",
+		"ignore_missing": true,
 	},
 	{
 		"node": "ButtonDataSource",
@@ -92,7 +93,8 @@ var BUTTON_FILE_DIALOG_RELATIONS = [
 		"field": "MainFile",
 		"filters": PoolStringArray(["*.blend ; Blend File"]),
 		"mode": FileDialog.MODE_OPEN_FILE,
-		"title": "Select the game main blend file"
+		"title": "Select the game main blend file",
+		"filename_only": true,
 	},
 	{
 		"node": "ButtonDataFile",
@@ -260,8 +262,19 @@ func _on_FileDialog_any_selected(path: String) -> void:
 	
 	if globals.current_project_dir in path:
 		var field_name = $FileDialog.dialog_text.replace("Button", "")
+		var field: Dictionary = {}
+		
+		for _field in BUTTON_FILE_DIALOG_RELATIONS:
+			if _field.get("field") == field_name:
+				field = _field
+				break
+		
 		var button: Button = find_node($FileDialog.dialog_text)
-		var relative_path = path.replace(globals.current_project_dir, ".")
+		var relative_path: String = path.replace(globals.current_project_dir, ".")
+		
+		if field.get("filename_only"):
+			relative_path = relative_path.split("/")[-1]
+		
 		globals.current_project_data[field_name] = relative_path
 		button.text = relative_path
 		_update_fields()
