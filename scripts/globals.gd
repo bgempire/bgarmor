@@ -8,6 +8,13 @@ const DEFAULT_CONFIG: Dictionary = {
 	"RecentPaths": [],
 }
 
+const DEFAULT_PLATFORMS: PoolStringArray = PoolStringArray([
+	"Windows32",
+	"Windows64",
+	"Linux32",
+	"Linux64",
+])
+
 const DEFAULT_PROJECT_FOLDERS: PoolStringArray = PoolStringArray([
 	"",
 	"data",
@@ -16,7 +23,6 @@ const DEFAULT_PROJECT_FOLDERS: PoolStringArray = PoolStringArray([
 	"engine/Linux64",
 	"engine/Windows32",
 	"engine/Windows64",
-	"release",
 	"icons",
 ])
 

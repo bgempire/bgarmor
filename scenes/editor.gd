@@ -184,6 +184,10 @@ func _ready() -> void:
 	var _error = $FileDialog.connect("dir_selected", self, "_on_FileDialog_any_selected")
 	_error = $FileDialog.connect("file_selected", self, "_on_FileDialog_any_selected")
 
+# Signal handlers
+func _on_ButtonExplore_pressed() -> void:
+	var _error = OS.shell_open(globals.current_project_dir)
+
 
 func _on_ButtonSave_pressed() -> void:
 	globals.save_project()
@@ -267,6 +271,7 @@ func _on_FileDialog_any_selected(path: String) -> void:
 		$AcceptDialog.popup_centered()
 
 
+# Abstraction methods
 func _update_fields() -> void:
 	var cur_project = globals.current_project_data
 	var default = globals.DEFAULT_FIELDS
@@ -311,6 +316,49 @@ func _update_fields() -> void:
 		
 		else:
 			print("Could not find node: " + field["node"])
+			
+	_update_task_buttons()
+
+
+func _update_task_buttons() -> void:
+	var project = globals.current_project_data
+	var cur_dir: Directory = Directory.new()
+	var _error = cur_dir.open(globals.current_project_dir)
+	var python_valid = _get_python_current_os() and true
+	
+	var tooltip = "" if python_valid else "Python executable for current platform must be set first."
+	
+	# Set toggle tasks based on existing Python executable
+	var tasks = PoolStringArray(["BuildData", "SetIcons", "ExportAll"])
+	
+	for task in tasks:
+		var button_task: Button = find_node("Button" + task)
+		button_task.disabled = not python_valid
+		button_task.hint_tooltip = tooltip
+	
+	for platform in globals.DEFAULT_PLATFORMS:
+		var button_export: Button = find_node("ButtonExport" + platform)
+		var button_run: Button = find_node("ButtonRun" + platform)
+		var cur_tooltip = ""
+		
+		if python_valid:
+			
+			if cur_dir.file_exists(project["Python" + platform]) and cur_dir.file_exists(project["Engine" + platform]):
+				button_export.disabled = false
+				button_run.disabled = false
+			
+			else:
+				button_export.disabled = true
+				button_run.disabled = true
+				cur_tooltip = "Python and engine executables must be set for this platform."
+			
+		else:
+			button_export.disabled = true
+			button_run.disabled = true
+			cur_tooltip = tooltip
+			
+		button_export.hint_tooltip = cur_tooltip
+		button_run.hint_tooltip = cur_tooltip
 
 
 func _connect_line_edits() -> void:
@@ -341,3 +389,16 @@ func _get_item_list(item_list: ItemList) -> PoolStringArray:
 			
 	return list
 
+
+func _get_python_current_os() -> String:
+	var cur_dir: Directory = Directory.new()
+	var _error = cur_dir.open(globals.current_project_dir)
+	var cur_os = "Windows" if OS.get_name() == "Windows" else "Linux"
+	
+	if cur_dir.file_exists(globals.current_project_data["Python" + cur_os + "32"]):
+		return globals.current_project_data["Python" + cur_os + "32"]
+		
+	elif cur_dir.file_exists(globals.current_project_data["Python" + cur_os + "64"]):
+		return globals.current_project_data["Python" + cur_os + "64"]
+		
+	return ""

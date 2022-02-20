@@ -39,33 +39,48 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
-anchor_left = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.05
+margin_left = 10.0
 margin_top = 10.0
 margin_right = -10.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ButtonSave" type="Button" parent="Panel/HBoxContainer"]
-margin_right = 193.0
+[node name="ButtonExplore" type="Button" parent="Panel/HBoxContainer"]
+margin_right = 257.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 146, 32.9 )
+hint_tooltip = "Open project directory on default file manager."
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "Save Project"
+text = "Explore"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonSave" type="Button" parent="Panel/HBoxContainer"]
+margin_left = 261.0
+margin_right = 518.0
+margin_bottom = 20.0
+rect_pivot_offset = Vector2( 146, 32.9 )
+hint_tooltip = "Save project data."
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Save"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ButtonCloseProject" type="Button" parent="Panel/HBoxContainer"]
-margin_left = 197.0
-margin_right = 390.0
+margin_left = 522.0
+margin_right = 780.0
 margin_bottom = 20.0
+hint_tooltip = "Close project and go back to welcome screen. This discards unsaved changes."
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "Close Project"
+text = "Close"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -73,14 +88,13 @@ __meta__ = {
 [node name="TabContainer" type="TabContainer" parent="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 30.0
+margin_top = 40.0
 tab_align = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Tasks" type="Tabs" parent="Panel/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -118,7 +132,7 @@ text = "Set Icons"
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/TabContainer/Tasks/VBoxContainer"]
 margin_top = 66.0
 margin_right = 792.0
-margin_bottom = 384.0
+margin_bottom = 374.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -127,7 +141,7 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/TabContainer/Tasks/VBoxContainer/HBoxContainer"]
 margin_right = 394.0
-margin_bottom = 318.0
+margin_bottom = 308.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -168,7 +182,7 @@ text = "Linux 64 bits"
 [node name="VBoxContainer2" type="VBoxContainer" parent="Panel/TabContainer/Tasks/VBoxContainer/HBoxContainer"]
 margin_left = 398.0
 margin_right = 792.0
-margin_bottom = 318.0
+margin_bottom = 308.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -211,6 +225,7 @@ hint_tooltip = "Exports to all available platforms."
 text = "All Platforms"
 
 [node name="Project" type="Tabs" parent="Panel/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -606,6 +621,7 @@ icon = ExtResource( 2 )
 align = 0
 expand_icon = true
 
+[connection signal="pressed" from="Panel/HBoxContainer/ButtonExplore" to="." method="_on_ButtonExplore_pressed"]
 [connection signal="pressed" from="Panel/HBoxContainer/ButtonSave" to="." method="_on_ButtonSave_pressed"]
 [connection signal="pressed" from="Panel/HBoxContainer/ButtonCloseProject" to="." method="_on_ButtonCloseProject_pressed"]
 [connection signal="value_changed" from="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3/SpinBoxDataChunkSize" to="." method="_on_SpinBoxDataChunkSize_value_changed"]
