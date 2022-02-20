@@ -19,6 +19,7 @@ func _ready() -> void:
 		_add_recent_paths()
 
 
+# Signal handlers
 func _on_ButtonNew_pressed() -> void:
 	$FileDialogNew.popup()
 
@@ -67,6 +68,7 @@ func _on_ButtonRecent_pressed(path: String) -> void:
 	_load_project(path)
 
 
+# Abstraction methods
 func _validate_data(data: Dictionary) -> bool:
 	
 	# Validate fields on loaded project
@@ -83,14 +85,19 @@ func _validate_data(data: Dictionary) -> bool:
 
 
 func _create_new_project(path: String):
-	var dir = Directory.new()
+	var dir: Directory = Directory.new()
 	
 	print("Creating new project at: " + path)
 	
 	for folder in globals.DEFAULT_PROJECT_FOLDERS:
 		var cur_folder = path + "/" + folder
-		dir.make_dir_recursive(cur_folder)
+		var _error = dir.make_dir_recursive(cur_folder)
 		print("  Created new folder: " + cur_folder)
+	
+	for file in globals.DEFAULT_PROJECT_FILES:
+		var cur_folder = path + "/" + file
+		var _error = dir.copy("res://release/" + file, cur_folder)
+		print("  Copied file: " + cur_folder)
 		
 	var project_name: String = path.split("/")[-1].strip_edges()
 	var project_file_path = path + "/" + project_name + ".bgarmor"

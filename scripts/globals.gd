@@ -26,10 +26,16 @@ const DEFAULT_PROJECT_FOLDERS: PoolStringArray = PoolStringArray([
 	"icons",
 ])
 
+const DEFAULT_PROJECT_FILES: PoolStringArray = PoolStringArray([
+	"data/Example Game.blend",
+	"icons/icon-engine.ico",
+	"icons/icon-launcher.ico",
+])
+
 const DEFAULT_FIELDS: Dictionary = {
 	"GameName": "Game",
 	"Version": "0.0.1",
-	"MainFile": "Game.blend",
+	"MainFile": "Example Game.blend",
 	"DataFile": "./data.dat",
 	"DataSource": "./data",
 	"DataChunkSize": 32,
@@ -43,7 +49,6 @@ const DEFAULT_FIELDS: Dictionary = {
 	"PythonLinux64": "./engine/Linux64/2.79/python/bin/python3.5m",
 	"Persistent": [
 		"*.bgeconf",
-		"*.sav"
 	],
 	"Ignore": [
 		"*.pyc",
