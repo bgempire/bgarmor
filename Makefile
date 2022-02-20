@@ -7,6 +7,7 @@ ifdef OS
 	SOURCE_EXE = ".\target\$(TARGET)\release\bgarmor$(EXT)"
 	TARGET_EXE = "..\..\BGArmor$(EXT)"
 	UPX = REM
+	PYTHON = python.exe
 else
 	TARGET = i686-unknown-linux-gnu
 	DELETE = rm -f
@@ -16,6 +17,7 @@ else
 	SOURCE_EXE = "./target/$(TARGET)/release/bgarmor$(EXT)"
 	TARGET_EXE = "../../BGArmor$(EXT)"
 	UPX = upx -5
+	PYTHON = python3
 endif
 
 build:
@@ -24,3 +26,7 @@ build:
 	cargo build --target=$(TARGET) --release $(END) \
 	$(COPY) $(SOURCE_EXE) $(TARGET_EXE) $(END) \
 	$(UPX) $(TARGET_EXE)
+
+minify:
+	$(PYTHON) -m source.scripts.pyminifier -o './release/launcher/launcher.py' --replacement-length=48 --obfuscate-classes --obfuscate-functions --obfuscate-import-methods --obfuscate-builtins './source/launcher.py' $(END) \
+	$(PYTHON) './source/scripts/minify_launcher.py'
