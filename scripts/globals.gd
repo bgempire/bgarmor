@@ -23,6 +23,7 @@ const DEFAULT_PROJECT_FOLDERS: PoolStringArray = PoolStringArray([
 	"engine/Linux64",
 	"engine/Windows32",
 	"engine/Windows64",
+	"launcher",
 	"icons",
 ])
 
@@ -30,6 +31,9 @@ const DEFAULT_PROJECT_FILES: PoolStringArray = PoolStringArray([
 	"data/Example Game.blend",
 	"icons/icon-engine.ico",
 	"icons/icon-launcher.ico",
+	"launcher/Launcher.exe",
+	"launcher/Launcher",
+	"launcher/launcher.py",
 ])
 
 const DEFAULT_FIELDS: Dictionary = {
@@ -39,6 +43,7 @@ const DEFAULT_FIELDS: Dictionary = {
 	"DataFile": "./data.dat",
 	"DataSource": "./data",
 	"DataChunkSize": 32,
+	"CompressionLevel": 1,
 	"EngineWindows32": "./engine/Windows32/blenderplayer.exe",
 	"EngineWindows64": "./engine/Windows64/blenderplayer.exe",
 	"EngineLinux32": "./engine/Linux32/blenderplayer",

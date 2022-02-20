@@ -5,7 +5,7 @@ ifdef OS
 	EXT = .exe
 	END = &&
 	SOURCE_EXE = ".\target\$(TARGET)\release\bgarmor$(EXT)"
-	TARGET_EXE = "..\..\BGArmor$(EXT)"
+	TARGET_EXE = "..\..\release\launcher\Launcher$(EXT)"
 	UPX = REM
 	PYTHON = python.exe
 else
@@ -15,7 +15,7 @@ else
 	EXT =
 	END = ;
 	SOURCE_EXE = "./target/$(TARGET)/release/bgarmor$(EXT)"
-	TARGET_EXE = "../../BGArmor$(EXT)"
+	TARGET_EXE = "../../release/launcher/Launcher$(EXT)"
 	UPX = upx -5
 	PYTHON = python3
 endif
