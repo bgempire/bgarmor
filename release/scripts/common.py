@@ -19,12 +19,17 @@ def getArgs():
     return args
 
 
-def getProjectData(projectFile):
-    # type: (str | _Path) -> dict[str, object]
+def getProjectData(projectFile=None):
+    # type: (str | _Path) -> dict[str]
     
     import platform
     from ast import literal_eval
     
+    args = getArgs()
+    
+    if not projectFile and args.get("--project"):
+        projectFile = str(args.get("--project"))
+        
     data = {} # type: dict[str, object]
     projectFile = _Path(projectFile).resolve() if type(projectFile) == str else projectFile.resolve() # type: _Path
     
@@ -33,7 +38,7 @@ def getProjectData(projectFile):
         
         with open(projectFile.as_posix(), "r") as sourceFile:
             data.update(literal_eval(sourceFile.read()))
-            print("> Read config from", projectFile.as_posix())
+            print("> Read project from", projectFile.as_posix())
             
         engineExecutables = [] # type: list[_Path]
         
@@ -47,7 +52,10 @@ def getProjectData(projectFile):
         data["CurPath"] = curPath
         data["Quote"] = '"' if platform.system() == "Windows" else "'"
         data["EngineExecutables"] = engineExecutables
-                
+        
+    else:
+        print("X Could not get project data")
+    
     return data
 
 
