@@ -1,51 +1,69 @@
-import os
-import platform
-import subprocess
-from pathlib import Path
-from ast import literal_eval
-from pprint import pprint
+from pathlib import Path as _Path
+import common as _common
 
-import common
 
-data = common.getData()
+args = _common.getArgs()
+data = _common.getProjectData()
 
-if data is not None:
+
+def main():
+    # type: () -> None
     
-    if platform.system() == "Windows":
-        launcherPath = data["CurPath"] / (common.formatFileName(data["GameName"]) + ".exe")
-        launcherFallbackPath = [f for f in data["CurPath"].iterdir() if f.name.endswith(".exe") and f.is_file()]
-        launcherFallbackPath = launcherFallbackPath[0] if len(launcherFallbackPath) > 0 else data["CurPath"] / ("BGArmor.exe")
-        enginePaths = data["EngineExecutables"]
+    import platform
+    import subprocess
+    
+    print("Started launcher and engine icons setting")
+    
+    if data:
         
-        if not launcherPath.exists():
-            launcherPath = launcherFallbackPath
+        if args.get("--resource-hacker"):
         
-        if launcherPath.exists():
-            command = '?./source/tools/Windows/ResourceHacker.exe? '
-            command += '-open ?' + launcherPath.as_posix() + '? '
-            command += '-save ?' + launcherPath.as_posix() + '? '
-            command += '-action addoverwrite -res ?./source/icons/icon-launcher.ico? '
-            command += '-mask ICONGROUP,APPICON,'
-            command = command.replace('?', data["Quote"])
-            print("\n> Setting icon of launcher...")
-            print("Command:", command)
-            subprocess.call(command)
+            if platform.system() == "Windows":
+                launcherPath = data["CurPath"] / "launcher/Launcher.exe"  # type: _Path
+                enginePaths = data["EngineExecutables"]  # type: list[_Path]
+                
+                if launcherPath.exists():
+                    launcherIconPath = data["CurPath"] / "icons/icon-launcher.ico"  # type: _Path
+                    command = _getResourceHackerCommand(launcherPath, launcherIconPath)
+                    print("\n> Setting icon of launcher...")
+                    print("Command:", command)
+                    subprocess.call(command)
+                    
+                else:
+                    print("\nX Launcher executable not found! Try using the name", _common.formatFileName(data["GameName"]) + ".exe")
+                    
+                for enginePath in enginePaths:
+                    
+                    if "Windows" in enginePath.parent.name:
+                        engineIconPath = data["CurPath"] / "icons/icon-engine.ico"  # type: _Path
+                        command = _getResourceHackerCommand(enginePath, engineIconPath)
+                        print("\n> Setting icon of engine...")
+                        print("Command:", command)
+                        subprocess.call(command)
+                        
+            else:
+                print("X Command only available on Windows")
             
         else:
-            print("\nX Launcher executable not found! Try using the name", common.formatFileName(data["GameName"]) + ".exe")
-            
-        for enginePath in enginePaths:
-            if "Windows" in enginePath.parent.name:
-                command = '?./source/tools/Windows/ResourceHacker.exe? '
-                command += '-open ?' + enginePath.as_posix() + '? '
-                command += '-save ?' + enginePath.as_posix() + '? '
-                command += '-action addoverwrite -res ?./source/icons/icon-engine.ico? '
-                command += '-mask ICONGROUP,APPICON, '
-                command = command.replace('?', data["Quote"])
-                print("\n> Setting icon of engine...")
-                print("Command:", command)
-                subprocess.call(command)
-                
-    else:
-        print("X Script only available on Windows!")
-        
+            print("X Argument --resource-hacker must be provided")
+
+
+def _getResourceHackerCommand(executablePath, iconPath):
+    # type: (_Path, _Path) -> str
+    
+    resourceHackerPath = _Path(args.get("--resource-hacker"))
+    
+    if resourceHackerPath.exists():
+        resourceHackerPath = resourceHackerPath.resolve()
+    
+    command = '?' + resourceHackerPath.as_posix() + '? '
+    command += '-open ?' + executablePath.as_posix() + '? '
+    command += '-save ?' + executablePath.as_posix() + '? '
+    command += '-action addoverwrite -res ?' + iconPath.as_posix() + '? '
+    command += '-mask ICONGROUP,APPICON,'
+    command = command.replace('?', data["Quote"])
+    
+    return command
+
+
+main()

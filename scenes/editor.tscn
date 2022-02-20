@@ -26,6 +26,7 @@ anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 readonly = true
+show_line_numbers = true
 smooth_scrolling = true
 
 [node name="FileDialog" type="FileDialog" parent="."]
@@ -659,6 +660,7 @@ expand_icon = true
 [connection signal="pressed" from="Panel/HBoxContainer/ButtonSave" to="." method="_on_ButtonSave_pressed"]
 [connection signal="pressed" from="Panel/HBoxContainer/ButtonCloseProject" to="." method="_on_ButtonCloseProject_pressed"]
 [connection signal="pressed" from="Panel/TabContainer/Tasks/VBoxContainer/ButtonBuildData" to="." method="_on_ButtonBuildData_pressed"]
+[connection signal="pressed" from="Panel/TabContainer/Tasks/VBoxContainer/ButtonSetIcons" to="." method="_on_ButtonSetIcons_pressed"]
 [connection signal="value_changed" from="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1/SpinBoxCompressionLevel" to="." method="_on_SpinBoxCompressionLevel_value_changed"]
 [connection signal="value_changed" from="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3/SpinBoxDataChunkSize" to="." method="_on_SpinBoxDataChunkSize_value_changed"]
 [connection signal="pressed" from="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3/HBoxContainer2/ButtonAddPersistent" to="." method="_on_ButtonAddPersistent_pressed"]

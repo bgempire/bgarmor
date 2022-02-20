@@ -193,6 +193,12 @@ func _on_ButtonBuildData_pressed() -> void:
 	_run_script("release/scripts/build_data.py", [])
 
 
+func _on_ButtonSetIcons_pressed() -> void:
+	_run_script("release/scripts/set_icons.py", [
+		"--resource-hacker", _get_resource("release/tools/ResourceHacker.exe")
+	])
+
+
 func _on_ButtonExplore_pressed() -> void:
 	var _error = OS.shell_open(globals.current_project_dir)
 
@@ -431,7 +437,7 @@ func _get_python_current_os() -> String:
 	return result
 
 
-func _get_script(path: String) -> String:
+func _get_resource(path: String) -> String:
 	
 	if OS.has_feature("editor"):
 		path = ProjectSettings.globalize_path(path)
@@ -443,7 +449,7 @@ func _get_script(path: String) -> String:
 
 func _run_script(script_path: String, script_args: Array) -> void:
 	var result = []
-	var args = [_get_script(script_path), "--project", globals.current_project_path]
+	var args = [_get_resource(script_path), "--project", globals.current_project_path]
 	args.append_array(script_args)
 	var text = "Please wait, running task..."
 	
