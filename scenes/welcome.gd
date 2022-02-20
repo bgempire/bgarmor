@@ -84,22 +84,10 @@ func _validate_data(data: Dictionary) -> bool:
 
 func _create_new_project(path: String):
 	var dir = Directory.new()
-	var folders = [
-		"",
-		"data",
-		"engine",
-		"engine/Linux32",
-		"engine/Linux64",
-		"engine/Windows32",
-		"engine/Windows64",
-		"launcher",
-		"release",
-		"source",
-	]
 	
 	print("Creating new project at: " + path)
 	
-	for folder in folders:
+	for folder in globals.DEFAULT_PROJECT_FOLDERS:
 		var cur_folder = path + "/" + folder
 		dir.make_dir_recursive(cur_folder)
 		print("  Created new folder: " + cur_folder)

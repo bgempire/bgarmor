@@ -8,6 +8,18 @@ const DEFAULT_CONFIG: Dictionary = {
 	"RecentPaths": [],
 }
 
+const DEFAULT_PROJECT_FOLDERS: PoolStringArray = PoolStringArray([
+	"",
+	"data",
+	"engine",
+	"engine/Linux32",
+	"engine/Linux64",
+	"engine/Windows32",
+	"engine/Windows64",
+	"release",
+	"icons",
+])
+
 const DEFAULT_FIELDS: Dictionary = {
 	"GameName": "Game",
 	"Version": "0.0.1",

@@ -12,13 +12,13 @@ const NODE_FIELD_RELATIONS = [
 		"property": "text",
 	},
 	{
-		"node": "LineEditMainFile",
-		"field": "MainFile",
+		"node": "ButtonDataFile",
+		"field": "DataFile",
 		"property": "text",
 	},
 	{
-		"node": "ButtonDataFile",
-		"field": "DataFile",
+		"node": "ButtonMainFile",
+		"field": "MainFile",
 		"property": "text",
 	},
 	{
@@ -84,6 +84,13 @@ const NODE_FIELD_RELATIONS = [
 ]
 
 var BUTTON_FILE_DIALOG_RELATIONS = [
+	{
+		"node": "ButtonMainFile",
+		"field": "MainFile",
+		"filters": PoolStringArray(["*.blend ; Blend File"]),
+		"mode": FileDialog.MODE_OPEN_FILE,
+		"title": "Select the game main blend file"
+	},
 	{
 		"node": "ButtonDataFile",
 		"field": "DataFile",

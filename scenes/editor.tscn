@@ -211,7 +211,6 @@ hint_tooltip = "Exports to all available platforms."
 text = "All Platforms"
 
 [node name="Project" type="Tabs" parent="Panel/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -273,39 +272,42 @@ margin_bottom = 106.0
 text = "Main blend file:"
 align = 1
 
-[node name="LineEditMainFile" type="LineEdit" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
+[node name="ButtonMainFile" type="Button" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
 margin_top = 110.0
 margin_right = 384.0
-margin_bottom = 134.0
+margin_bottom = 130.0
 text = "Example Game.blend"
+icon = ExtResource( 2 )
+align = 0
+expand_icon = true
 
 [node name="LabelDataFile" type="Label" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
-margin_top = 138.0
+margin_top = 134.0
 margin_right = 384.0
-margin_bottom = 152.0
+margin_bottom = 148.0
 text = "Data file:"
 align = 1
 
 [node name="ButtonDataFile" type="Button" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
-margin_top = 156.0
+margin_top = 152.0
 margin_right = 384.0
-margin_bottom = 176.0
+margin_bottom = 172.0
 text = "./data.dat"
 icon = ExtResource( 2 )
 align = 0
 expand_icon = true
 
 [node name="LabelDataSource" type="Label" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
-margin_top = 180.0
+margin_top = 176.0
 margin_right = 384.0
-margin_bottom = 194.0
+margin_bottom = 190.0
 text = "Data source:"
 align = 1
 
 [node name="ButtonDataSource" type="Button" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
-margin_top = 198.0
+margin_top = 194.0
 margin_right = 384.0
-margin_bottom = 218.0
+margin_bottom = 214.0
 text = "./data"
 icon = ExtResource( 2 )
 align = 0
@@ -425,6 +427,7 @@ size_flags_horizontal = 3
 text = "Del"
 
 [node name="Paths" type="Tabs" parent="Panel/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
