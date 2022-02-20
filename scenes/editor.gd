@@ -1,5 +1,7 @@
 extends Control
 
+const COLOR_NORMAL = Color.white
+const COLOR_INVALID = Color("ff7878")
 const NODE_FIELD_RELATIONS = [
 	{
 		"node": "LineEditGameName",
@@ -15,6 +17,7 @@ const NODE_FIELD_RELATIONS = [
 		"node": "ButtonDataFile",
 		"field": "DataFile",
 		"property": "text",
+		"ignore_missing": true,
 	},
 	{
 		"node": "ButtonMainFile",
@@ -165,7 +168,6 @@ var BUTTON_FILE_DIALOG_RELATIONS = [
 
 onready var globals: BGArmorGlobals = $"/root/Globals"
 
-
 func _ready() -> void:
 	var app_name = ProjectSettings.get_setting("application/config/name")
 	var game_name = globals.current_project_data.get("GameName", "")
@@ -258,6 +260,7 @@ func _on_FileDialog_any_selected(path: String) -> void:
 		var relative_path = path.replace(globals.current_project_dir, ".")
 		globals.current_project_data[field_name] = relative_path
 		button.text = relative_path
+		_update_fields()
 		
 	else:
 		$AcceptDialog.dialog_text = "Path must be inside project folder!"
@@ -267,6 +270,12 @@ func _on_FileDialog_any_selected(path: String) -> void:
 func _update_fields() -> void:
 	var cur_project = globals.current_project_data
 	var default = globals.DEFAULT_FIELDS
+	var file_fields = PoolStringArray()
+	var cur_dir: Directory = Directory.new()
+	var _error = cur_dir.open(globals.current_project_dir)
+	
+	for field in BUTTON_FILE_DIALOG_RELATIONS:
+		file_fields.append(field["field"])
 	
 	for field in NODE_FIELD_RELATIONS:
 		var cur_node = find_node(field["node"])
@@ -275,17 +284,31 @@ func _update_fields() -> void:
 			
 			if field.get("is_item_list"):
 				var item_list: ItemList = cur_node
+				item_list.clear()
 				
 				for item in cur_project.get(field["field"], default[field["field"]]):
 					item_list.add_item(item)
 				
 			else:
 				var control: Control = cur_node
+				var field_value = cur_project.get(field["field"], default[field["field"]])
+				var ignore_missing: bool = field.get("ignore_missing", false)
 				
 				control.set(
 					field["property"], 
-					cur_project.get(field["field"], default[field["field"]])
+					field_value
 				)
+				
+				if field["field"] in file_fields:
+					
+					if ignore_missing or cur_dir.file_exists(field_value) or cur_dir.dir_exists(field_value):
+						control.self_modulate = COLOR_NORMAL
+						control.hint_tooltip = ""
+						
+					else:
+						control.self_modulate = COLOR_INVALID
+						control.hint_tooltip = "Could not find this target."
+		
 		else:
 			print("Could not find node: " + field["node"])
 
