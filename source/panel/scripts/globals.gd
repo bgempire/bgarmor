@@ -1,4 +1,6 @@
+class_name BGArmorGlobals
 extends Node
+
 
 const MAX_RECENT_PROJECTS = 5
 const DEFAULT_CONFIG: Dictionary = {
@@ -32,6 +34,7 @@ const DEFAULT_FIELDS: Dictionary = {
 }
 
 onready var current_project_path: String = ""
+onready var current_project_dir: String = ""
 onready var current_project_data: Dictionary = {}
 onready var config: Dictionary = {}
 
@@ -87,6 +90,18 @@ func add_project_to_recent(path: String):
 	config["RecentPaths"] = recent_paths
 
 
+func save_project():
+	
+	if current_project_path:
+		var file = File.new()
+		
+		if file.open(current_project_path, File.WRITE) == OK:
+			file.store_string(JSON.print(current_project_data))
+			
+		file.close()
+		print("Project saved to: " + current_project_path)
+
+
 func get_json_no_comments(json: String) -> String:
 	var lines = json.split("\n")
 	var finalJson = ""
@@ -99,3 +114,22 @@ func get_json_no_comments(json: String) -> String:
 			
 	return finalJson
 
+
+func find_by_class(node: Node, _class_name: String, result: Array = []) -> Array:
+	if node.is_class(_class_name) :
+		result.push_back(node)
+
+	for child in node.get_children():
+		var _temp = find_by_class(child, _class_name, result)
+		
+	return result
+
+
+func get_path_parent(path: String) -> String:
+	var path_array = path.split("/")
+	
+	if path_array.size():
+		path_array.resize(path_array.size() - 1)
+		
+	path = path_array.join("/")
+	return path

@@ -1,6 +1,6 @@
 extends Control
 
-onready var globals = $"/root/Globals"
+onready var globals: BGArmorGlobals = $"/root/Globals"
 
 
 func _ready() -> void:
@@ -39,15 +39,15 @@ func _on_ButtonOpen_pressed() -> void:
 
 
 func _on_FileDialogOpen_file_selected(path: String) -> void:
-	_load_project(path, $FileDialogOpen.current_dir)
+	_load_project(path)
 
 
 func _on_ButtonDocs_pressed() -> void:
-	OS.shell_open("https://bgempire.github.io/bgarmor/")
+	var _error = OS.shell_open("https://bgempire.github.io/bgarmor/")
 
 
 func _on_ButtonSource_pressed() -> void:
-	OS.shell_open("https://github.com/bgempire/bgarmor")
+	var _error = OS.shell_open("https://github.com/bgempire/bgarmor")
 
 
 func _on_ButtonClearRecent_pressed() -> void:
@@ -113,10 +113,11 @@ func _create_new_project(path: String):
 	file.close()
 	
 	print("Created new project at: " + project_file_path)
-	_load_project(project_file_path, path)
+	_load_project(project_file_path)
 
 
-func _load_project(path: String, cur_dir: String = ""):
+func _load_project(path: String):
+	var cur_dir = globals.get_path_parent(path)
 	var file = File.new()
 	file.open(path, File.READ)
 	var file_data = JSON.parse(globals.get_json_no_comments(file.get_as_text()))
@@ -134,7 +135,9 @@ func _load_project(path: String, cur_dir: String = ""):
 		if _validate_data(file_data):
 			globals.current_project_path = path
 			globals.current_project_data = file_data
-			get_tree().change_scene("res://scenes/editor.tscn")
+			globals.current_project_dir = cur_dir
+				
+			var _error = get_tree().change_scene("res://scenes/editor.tscn")
 			
 		else:
 			$AcceptDialog.dialog_text = "Invalid project file data:\n" + path

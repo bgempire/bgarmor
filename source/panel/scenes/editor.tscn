@@ -1,14 +1,32 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://theme.tres" type="Theme" id=1]
 [ext_resource path="res://textures/icons/tile176.png" type="Texture" id=2]
 [ext_resource path="res://scenes/editor.gd" type="Script" id=3]
 
 [node name="Editor" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( 1 )
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+margin_right = 83.0
+margin_bottom = 58.0
+popup_exclusive = true
+
+[node name="FileDialog" type="FileDialog" parent="."]
+margin_right = 667.0
+margin_bottom = 386.0
+popup_exclusive = true
+window_title = ""
+resizable = true
+mode_overrides_title = false
+mode = 0
+access = 2
+current_dir = "/home/bioage/Documents/GitHub/bgarmor/source/panel"
+current_path = "/home/bioage/Documents/GitHub/bgarmor/source/panel/"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -20,12 +38,33 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ButtonCloseProject" type="Button" parent="Panel"]
-anchor_left = 0.7
-anchor_top = 0.018
-anchor_right = 0.99
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+anchor_left = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.05
-margin_bottom = 5.6
+margin_top = 10.0
+margin_right = -10.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonSave" type="Button" parent="Panel/HBoxContainer"]
+margin_right = 193.0
+margin_bottom = 20.0
+rect_pivot_offset = Vector2( 146, 32.9 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Save Project"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonCloseProject" type="Button" parent="Panel/HBoxContainer"]
+margin_left = 197.0
+margin_right = 390.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "Close Project"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -233,42 +272,39 @@ margin_bottom = 106.0
 text = "Main blend file:"
 align = 1
 
-[node name="ButtonMainFile" type="Button" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
+[node name="LineEditMainFile" type="LineEdit" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
 margin_top = 110.0
 margin_right = 384.0
-margin_bottom = 130.0
+margin_bottom = 134.0
 text = "Example Game.blend"
-icon = ExtResource( 2 )
-align = 0
-expand_icon = true
 
 [node name="LabelDataFile" type="Label" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
-margin_top = 134.0
+margin_top = 138.0
 margin_right = 384.0
-margin_bottom = 148.0
+margin_bottom = 152.0
 text = "Data file:"
 align = 1
 
 [node name="ButtonDataFile" type="Button" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
-margin_top = 152.0
+margin_top = 156.0
 margin_right = 384.0
-margin_bottom = 172.0
+margin_bottom = 176.0
 text = "./data.dat"
 icon = ExtResource( 2 )
 align = 0
 expand_icon = true
 
 [node name="LabelDataSource" type="Label" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
-margin_top = 176.0
+margin_top = 180.0
 margin_right = 384.0
-margin_bottom = 190.0
+margin_bottom = 194.0
 text = "Data source:"
 align = 1
 
 [node name="ButtonDataSource" type="Button" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
-margin_top = 194.0
+margin_top = 198.0
 margin_right = 384.0
-margin_bottom = 214.0
+margin_bottom = 218.0
 text = "./data"
 icon = ExtResource( 2 )
 align = 0
@@ -336,14 +372,14 @@ margin_left = 229.0
 margin_right = 304.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
-text = "Add+"
+text = "Add"
 
 [node name="ButtonDelPersistent" type="Button" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3/HBoxContainer2"]
 margin_left = 308.0
 margin_right = 384.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
-text = "Del-"
+text = "Del"
 
 [node name="LabelIgnore" type="Label" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3"]
 margin_top = 212.0
@@ -378,14 +414,14 @@ margin_left = 229.0
 margin_right = 304.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
-text = "Add+"
+text = "Add"
 
 [node name="ButtonDelIgnore" type="Button" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3/HBoxContainer"]
 margin_left = 308.0
 margin_right = 384.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
-text = "Del-"
+text = "Del"
 
 [node name="Paths" type="Tabs" parent="Panel/TabContainer"]
 visible = false
@@ -408,7 +444,7 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/TabContainer/Paths/HBoxContainer2"]
 margin_right = 384.0
-margin_bottom = 199.0
+margin_bottom = 250.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -438,46 +474,49 @@ expand_icon = true
 [node name="LabelEngineWindows64" type="Label" parent="Panel/TabContainer/Paths/HBoxContainer2/VBoxContainer"]
 margin_top = 77.0
 margin_right = 384.0
-margin_bottom = 91.0
-text = "Windows 64 bits:"
+margin_bottom = 108.0
+text = "
+Windows 64 bits:"
 align = 1
 
 [node name="ButtonEngineWindows64" type="Button" parent="Panel/TabContainer/Paths/HBoxContainer2/VBoxContainer"]
-margin_top = 95.0
+margin_top = 112.0
 margin_right = 384.0
-margin_bottom = 115.0
+margin_bottom = 132.0
 text = "./engine/Windows64/blenderplayer.exe"
 icon = ExtResource( 2 )
 align = 0
 expand_icon = true
 
 [node name="LabelEngineLinux32" type="Label" parent="Panel/TabContainer/Paths/HBoxContainer2/VBoxContainer"]
-margin_top = 119.0
+margin_top = 136.0
 margin_right = 384.0
-margin_bottom = 133.0
-text = "Linux 32 bits:"
+margin_bottom = 167.0
+text = "
+Linux 32 bits:"
 align = 1
 
 [node name="ButtonEngineLinux32" type="Button" parent="Panel/TabContainer/Paths/HBoxContainer2/VBoxContainer"]
-margin_top = 137.0
+margin_top = 171.0
 margin_right = 384.0
-margin_bottom = 157.0
+margin_bottom = 191.0
 text = "./engine/Linux32/blenderplayer"
 icon = ExtResource( 2 )
 align = 0
 expand_icon = true
 
 [node name="LabelEngineLinux64" type="Label" parent="Panel/TabContainer/Paths/HBoxContainer2/VBoxContainer"]
-margin_top = 161.0
+margin_top = 195.0
 margin_right = 384.0
-margin_bottom = 175.0
-text = "Linux 64 bits:"
+margin_bottom = 226.0
+text = "
+Linux 64 bits:"
 align = 1
 
 [node name="ButtonEngineLinux64" type="Button" parent="Panel/TabContainer/Paths/HBoxContainer2/VBoxContainer"]
-margin_top = 179.0
+margin_top = 230.0
 margin_right = 384.0
-margin_bottom = 199.0
+margin_bottom = 250.0
 text = "./engine/Linux64/blenderplayer"
 icon = ExtResource( 2 )
 align = 0
@@ -486,7 +525,7 @@ expand_icon = true
 [node name="VBoxContainer2" type="VBoxContainer" parent="Panel/TabContainer/Paths/HBoxContainer2"]
 margin_left = 388.0
 margin_right = 772.0
-margin_bottom = 199.0
+margin_bottom = 250.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -516,49 +555,58 @@ expand_icon = true
 [node name="LabelPythonWindows64" type="Label" parent="Panel/TabContainer/Paths/HBoxContainer2/VBoxContainer2"]
 margin_top = 77.0
 margin_right = 384.0
-margin_bottom = 91.0
-text = "Windows 64 bits:"
+margin_bottom = 108.0
+text = "
+Windows 64 bits:"
 align = 1
 
 [node name="ButtonPythonWindows64" type="Button" parent="Panel/TabContainer/Paths/HBoxContainer2/VBoxContainer2"]
-margin_top = 95.0
+margin_top = 112.0
 margin_right = 384.0
-margin_bottom = 115.0
+margin_bottom = 132.0
 text = "./engine/Windows64/2.79/python/bin/python.exe"
 icon = ExtResource( 2 )
 align = 0
 expand_icon = true
 
 [node name="LabelPythonLinux32" type="Label" parent="Panel/TabContainer/Paths/HBoxContainer2/VBoxContainer2"]
-margin_top = 119.0
+margin_top = 136.0
 margin_right = 384.0
-margin_bottom = 133.0
-text = "Linux 32 bits:"
+margin_bottom = 167.0
+text = "
+Linux 32 bits:"
 align = 1
 
 [node name="ButtonPythonLinux32" type="Button" parent="Panel/TabContainer/Paths/HBoxContainer2/VBoxContainer2"]
-margin_top = 137.0
+margin_top = 171.0
 margin_right = 384.0
-margin_bottom = 157.0
+margin_bottom = 191.0
 text = "./engine/Linux32/2.79/python/bin/python3.5m"
 icon = ExtResource( 2 )
 align = 0
 expand_icon = true
 
 [node name="LabelPythonLinux64" type="Label" parent="Panel/TabContainer/Paths/HBoxContainer2/VBoxContainer2"]
-margin_top = 161.0
+margin_top = 195.0
 margin_right = 384.0
-margin_bottom = 175.0
-text = "Linux 64 bits:"
+margin_bottom = 226.0
+text = "
+Linux 64 bits:"
 align = 1
 
 [node name="ButtonPythonLinux64" type="Button" parent="Panel/TabContainer/Paths/HBoxContainer2/VBoxContainer2"]
-margin_top = 179.0
+margin_top = 230.0
 margin_right = 384.0
-margin_bottom = 199.0
+margin_bottom = 250.0
 text = "./engine/Linux64/2.79/python/bin/python3.5m"
 icon = ExtResource( 2 )
 align = 0
 expand_icon = true
 
-[connection signal="pressed" from="Panel/ButtonCloseProject" to="." method="_on_ButtonCloseProject_pressed"]
+[connection signal="pressed" from="Panel/HBoxContainer/ButtonSave" to="." method="_on_ButtonSave_pressed"]
+[connection signal="pressed" from="Panel/HBoxContainer/ButtonCloseProject" to="." method="_on_ButtonCloseProject_pressed"]
+[connection signal="value_changed" from="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3/SpinBoxDataChunkSize" to="." method="_on_SpinBoxDataChunkSize_value_changed"]
+[connection signal="pressed" from="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3/HBoxContainer2/ButtonAddPersistent" to="." method="_on_ButtonAddPersistent_pressed"]
+[connection signal="pressed" from="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3/HBoxContainer2/ButtonDelPersistent" to="." method="_on_ButtonDelPersistent_pressed"]
+[connection signal="pressed" from="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3/HBoxContainer/ButtonAddIgnore" to="." method="_on_ButtonAddIgnore_pressed"]
+[connection signal="pressed" from="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3/HBoxContainer/ButtonDelIgnore" to="." method="_on_ButtonDelIgnore_pressed"]
