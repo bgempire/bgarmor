@@ -10,6 +10,8 @@ data = _common.getProjectData()
 def main():
     # type: () -> None
     
+    print("Started game package data build")
+    
     if data:
         _compressDataFile(data, data["CurPath"] / data["DataSource"], data["CurPath"] / data["DataFile"])
 
