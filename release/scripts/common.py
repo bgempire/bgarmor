@@ -6,7 +6,7 @@ def getArgs():
     
     from sys import argv
     
-    args = {} # type: dict[str, str]
+    args = {}  # type: dict[str, str]
     
     for i in range(len(argv)):
         if i > 0:
@@ -30,8 +30,8 @@ def getProjectData(projectFile=None):
     if not projectFile and args.get("--project"):
         projectFile = str(args.get("--project"))
         
-    data = {} # type: dict[str, object]
-    projectFile = _Path(projectFile).resolve() if type(projectFile) == str else _Path(str(projectFile)) # type: _Path
+    data = {}  # type: dict[str, object]
+    projectFile = _Path(projectFile).resolve() if type(projectFile) == str else _Path(str(projectFile))  # type: _Path
     
     if projectFile.exists():
         curPath = projectFile.parent
@@ -40,11 +40,11 @@ def getProjectData(projectFile=None):
             data.update(literal_eval(sourceFile.read()))
             print("> Read project from", projectFile.as_posix())
             
-        engineExecutables = {} # type: dict[str, _Path]
+        engineExecutables = {}  # type: dict[str, _Path]
         
         for key in data.keys():
             if "Engine" in key:
-                engineExecutable = curPath / data[key] # type: _Path
+                engineExecutable = curPath / data[key]  # type: _Path
                 
                 if engineExecutable.exists():
                     engineExecutables[engineExecutable.parent.name] = engineExecutable.resolve()
@@ -80,5 +80,6 @@ def formatFileName(name, spaces=True, lowercase=False):
     for c in name:
         if c in allowedChars:
             result += c
+    
     return result
 
