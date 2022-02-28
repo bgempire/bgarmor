@@ -188,6 +188,11 @@ func _ready() -> void:
 	_error = $FileDialog.connect("file_selected", self, "_on_FileDialog_any_selected")
 
 
+func _notification(what):
+	if what == MainLoop.NOTIFICATION_WM_FOCUS_IN:
+		_update_fields()
+
+
 # Signal handlers
 func _on_ButtonBuildData_pressed() -> void:
 	_run_script("release/scripts/build_data.py", [])
