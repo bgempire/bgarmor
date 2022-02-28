@@ -31,7 +31,7 @@ def getProjectData(projectFile=None):
         projectFile = str(args.get("--project"))
         
     data = {} # type: dict[str, object]
-    projectFile = _Path(projectFile).resolve() if type(projectFile) == str else projectFile.resolve() # type: _Path
+    projectFile = _Path(projectFile).resolve() if type(projectFile) == str else _Path(str(projectFile)) # type: _Path
     
     if projectFile.exists():
         curPath = projectFile.parent
@@ -40,14 +40,14 @@ def getProjectData(projectFile=None):
             data.update(literal_eval(sourceFile.read()))
             print("> Read project from", projectFile.as_posix())
             
-        engineExecutables = [] # type: list[_Path]
+        engineExecutables = {} # type: dict[str, _Path]
         
         for key in data.keys():
             if "Engine" in key:
                 engineExecutable = curPath / data[key] # type: _Path
                 
                 if engineExecutable.exists():
-                    engineExecutables.append(engineExecutable)
+                    engineExecutables[engineExecutable.parent.name] = engineExecutable.resolve()
                         
         data["CurPath"] = curPath
         data["Quote"] = '"' if platform.system() == "Windows" else "'"
