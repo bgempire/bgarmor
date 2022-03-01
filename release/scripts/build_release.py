@@ -22,6 +22,7 @@ def _performRelease():
     
     import os
     import shutil
+    import base64
     
     curPath = data["CurPath"]  # type: Path
     targets = [args.get("--target")] if args.get("--target") else []  # type: list[str]
@@ -83,8 +84,11 @@ def _performRelease():
             print("    > Copying launcher files from:", launcherDir)
             print("        > Copying launcher script to:", releaseTargetLauncherPath / "launcher.py")
             shutil.copy2((launcherDir / "launcher.py").as_posix(), (releaseTargetLauncherPath / "launcher.py").as_posix())
-            print("        > Copying launcher config:", releaseTargetLauncherPath / "config.json")
-            shutil.copy2((data["ProjectFile"]).as_posix(), (releaseTargetLauncherPath / "config.json").as_posix())
+            
+            print("        > Creating launcher config:", releaseTargetLauncherPath / "config.dat")
+            with open((data["ProjectFile"]).as_posix(), "rb") as sourceFile:
+                with open((releaseTargetLauncherPath / "config.dat").as_posix(), "wb") as targetFile:
+                    targetFile.write(base64.encodebytes(sourceFile.read()))
             
             launcherExecutable = None  # type: Path
             
