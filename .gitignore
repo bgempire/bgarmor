@@ -4,15 +4,12 @@ __pycache__
 *$py.class
 
 # Generated files
+/BGArmor Panel*
 .idea
 .vscode
 *.sav
-/BGArmor*
-/*.o
-/source/*.o
-/data.dat
-/launcher/launcher.py
-/source/tools/Windows/ResourceHacker.ini
+/bin
+/release/tools/Windows/ResourceHacker.ini
 /source/launcher/target
 
 # Godot-specific ignores
