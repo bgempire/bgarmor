@@ -138,12 +138,14 @@ align = 1
 margin_top = 18.0
 margin_right = 792.0
 margin_bottom = 38.0
+hint_tooltip = "Build game package from source data to target file."
 text = "Build Data"
 
 [node name="ButtonSetIcons" type="Button" parent="Panel/TabContainer/Tasks/VBoxContainer"]
 margin_top = 42.0
 margin_right = 792.0
 margin_bottom = 62.0
+hint_tooltip = "Set icons for engine and launcher executables (only available on Windows)."
 text = "Set Icons"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/TabContainer/Tasks/VBoxContainer"]
@@ -286,6 +288,7 @@ align = 1
 margin_top = 18.0
 margin_right = 384.0
 margin_bottom = 42.0
+hint_tooltip = "Game name. Affects launcher and release target names."
 text = "Example Game"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -302,6 +305,7 @@ align = 1
 margin_top = 64.0
 margin_right = 384.0
 margin_bottom = 88.0
+hint_tooltip = "Game version. Affects release target name."
 text = "v0.0.1"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -369,7 +373,7 @@ align = 1
 margin_top = 236.0
 margin_right = 384.0
 margin_bottom = 260.0
-hint_tooltip = "Data compression level. Lower values give larger package size over fast decompression speed."
+hint_tooltip = "Data compression level of game package file. Lower values give larger package size over fast decompression speed."
 max_value = 9.0
 value = 1.0
 rounded = true
@@ -397,6 +401,7 @@ align = 1
 margin_top = 18.0
 margin_right = 384.0
 margin_bottom = 42.0
+hint_tooltip = "Max file chunk size. This is the maximum ammount of memory a file is able to be allocated in memory before it gets split in parts."
 min_value = 1.0
 max_value = 256.0
 value = 32.0
