@@ -87,6 +87,13 @@ const NODE_FIELD_RELATIONS = [
 		"is_item_list": true,
 	},
 ]
+const EXPORT_TARGETS := PoolStringArray([
+	"All",
+	"Linux32",
+	"Linux64",
+	"Windows32",
+	"Windows64",
+])
 
 var BUTTON_FILE_DIALOG_RELATIONS = [
 	{
@@ -171,6 +178,7 @@ var BUTTON_FILE_DIALOG_RELATIONS = [
 
 onready var globals: BGArmorGlobals = $"/root/Globals"
 
+
 func _ready() -> void:
 	var app_name = ProjectSettings.get_setting("application/config/name")
 	var game_name = globals.current_project_data.get("GameName", "")
@@ -184,6 +192,7 @@ func _ready() -> void:
 	_update_fields()
 	_connect_line_edits()
 	_connect_file_buttons()
+	_connect_export_buttons()
 	var _error = $FileDialog.connect("dir_selected", self, "_on_FileDialog_any_selected")
 	_error = $FileDialog.connect("file_selected", self, "_on_FileDialog_any_selected")
 
@@ -202,6 +211,16 @@ func _on_ButtonSetIcons_pressed() -> void:
 	_run_script("release/scripts/set_icons.py", [
 		"--resource-hacker", _get_resource("release/tools/ResourceHacker.exe")
 	])
+
+
+func _on_ButtonExport_pressed(target: String) -> void:
+	var args = ["--target", target]
+	var checkbox: CheckBox = find_node("CheckBoxExportCompress")
+	
+	if checkbox.pressed:
+		args.append("--compress")
+		
+	_run_script("release/scripts/build_release.py", args)
 
 
 func _on_ButtonExplore_pressed() -> void:
@@ -412,6 +431,13 @@ func _connect_file_buttons() -> void:
 	for field in BUTTON_FILE_DIALOG_RELATIONS:
 		var button: Button = find_node(field["node"])
 		var _error = button.connect("pressed", self, "_on_FileButton_pressed", [field])
+
+
+func _connect_export_buttons() -> void:
+	
+	for target in EXPORT_TARGETS:
+		var button: Button = find_node("ButtonExport" + target)
+		var _error = button.connect("pressed", self, "_on_ButtonExport_pressed", [target])
 
 
 func _get_item_list(item_list: ItemList) -> PoolStringArray:
