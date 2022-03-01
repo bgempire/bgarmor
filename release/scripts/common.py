@@ -49,6 +49,7 @@ def getProjectData(projectFile=None):
                 if engineExecutable.exists():
                     engineExecutables[engineExecutable.parent.name] = engineExecutable.resolve()
                         
+        data["ProjectFile"] = projectFile
         data["CurPath"] = curPath
         data["Quote"] = '"' if platform.system() == "Windows" else "'"
         data["EngineExecutables"] = engineExecutables
