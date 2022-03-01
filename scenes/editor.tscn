@@ -373,7 +373,8 @@ align = 1
 margin_top = 236.0
 margin_right = 384.0
 margin_bottom = 260.0
-hint_tooltip = "Data compression level of game package file. Lower values give larger package size over fast decompression speed."
+hint_tooltip = "Data compression level of game package file. Lower values 
+give larger package size over fast decompression speed."
 max_value = 9.0
 value = 1.0
 rounded = true
@@ -401,7 +402,8 @@ align = 1
 margin_top = 18.0
 margin_right = 384.0
 margin_bottom = 42.0
-hint_tooltip = "Max file chunk size. This is the maximum ammount of memory a file is able to be allocated in memory before it gets split in parts."
+hint_tooltip = "Max file chunk size. This is the maximum ammount of memory a 
+file is able to be allocated in memory before it gets split in parts."
 min_value = 1.0
 max_value = 256.0
 value = 32.0
@@ -475,8 +477,9 @@ margin_bottom = 364.0
 [node name="LineEditIgnore" type="LineEdit" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer3/HBoxContainer"]
 margin_right = 225.0
 margin_bottom = 24.0
-hint_tooltip = "Add glob patterns of files that should be ignored when building game data file such as 
-Python's .pyc files, .blend1 backups, developer's save games and configuration, etc."
+hint_tooltip = "Add glob patterns of files that should be ignored when 
+building game data file such as Python's .pyc files, .blend1 
+backups, developer's save games and configuration, etc."
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
