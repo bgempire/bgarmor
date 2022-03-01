@@ -241,6 +241,16 @@ margin_bottom = 151.0
 hint_tooltip = "Exports to all available platforms."
 text = "All Platforms"
 
+[node name="CheckBoxExportCompress" type="CheckBox" parent="Panel/TabContainer/Tasks/VBoxContainer/HBoxContainer/VBoxContainer2"]
+margin_top = 155.0
+margin_right = 394.0
+margin_bottom = 179.0
+hint_tooltip = "Compress release folders as .zip after copied files."
+text = "Compress targets after export"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Project" type="Tabs" parent="Panel/TabContainer"]
 visible = false
 anchor_right = 1.0
