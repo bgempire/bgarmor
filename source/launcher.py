@@ -1,30 +1,72 @@
-import zlib
 import os
 import sys
-import string
 import shutil
-import glob
-import base64
-import subprocess
 import platform
 
 from pathlib import Path
-from ast import literal_eval
 from time import time, sleep
-from hashlib import md5
 
+
+# Constants
 _DEBUG = False
 PLAT_QUOTE = '"' if platform.system() == "Windows" else "'"
 ITEM_SEPARATOR = "\t"
 
+
+# Globals
 curPath = Path(__file__).resolve().parent
 rootPath = curPath.parent
 curPlatform = platform.system()
 
 
-if curPath.name == "source":
-    curPath = curPath.parent / "launcher"
-    os.chdir(curPath.as_posix())
+def main():
+    import subprocess
+
+    if config is not None:
+        dataFile = curPath.parent / config["DataFile"]  # type: Path
+        
+        if dataFile.exists():
+            dataFile = dataFile.resolve()
+            gameDir = getGameDir(config)
+            tempDir = getTempDir(config)
+            
+            debugMsg("> Extract game data into temp directory...")
+            decompressDataFile(dataFile, tempDir)
+            
+            filesLists = getFilesLists(gameDir)
+            persistentFiles = filesLists[0]
+            
+            debugMsg("> Copy persistent files from game to temp directory...")
+            copyPersistentFiles(gameDir, tempDir, persistentFiles)
+            
+            enginePath = curPath.parent / config["EnginePath"]  # type: Path
+            
+            if platform.system() != "Windows":
+                os.system("chmod +x " + PLAT_QUOTE + enginePath.as_posix() + PLAT_QUOTE)
+                
+            extraArgs = " " + " ".join(sys.argv[1:]) if len(sys.argv) > 1 else ""
+            command = PLAT_QUOTE + enginePath.as_posix() + PLAT_QUOTE + extraArgs + " " + PLAT_QUOTE + config["MainFile"] + PLAT_QUOTE
+            os.chdir(tempDir.as_posix())
+            debugMsg("> Launch game in blenderplayer")
+            subprocess.call(command, shell=True)
+            sleep(0.2)
+            
+            filesLists = getFilesLists(tempDir)
+            persistentFiles = filesLists[0]
+            
+            debugMsg("> Copy persistent files from temp to game directory...")
+            copyPersistentFiles(tempDir, gameDir, persistentFiles)
+            
+            debugMsg("> Remove all files before finish...")
+            for _file in filesLists[0] + filesLists[1]:
+                _file.unlink()
+                
+            removeEmptyDirs(tempDir)
+            os.chdir(tempDir.parent.as_posix())
+            shutil.rmtree(tempDir.as_posix())
+            
+        else:
+            print("X Could not find game data at", dataFile.as_posix())
 
 
 def debugMsg(*args, waitInput=True):
@@ -37,47 +79,46 @@ def debugMsg(*args, waitInput=True):
         if waitInput: input("Press any key to continue...")
 
 
-def loadConfig(path):
-    # type: (Path) -> None
+def loadConfig():
+    # type: () -> None
     
-    config = None
-    configPath = path / "config.json"
-    engineCandidates = [curPlatform, curPlatform + "32", curPlatform + "64"]
-    enginePath = None
+    import json
     
-    for _path in engineCandidates:
-        _path = path / (_path + "/engine_executable.txt")
-        
-        if _path.exists():
-            _path = _path.resolve()
-            
-            with open(_path.as_posix(), "r") as sourceFile:
-                enginePathRead = rootPath / literal_eval(sourceFile.read().split('=')[-1]) # type: Path
-                
-                if enginePathRead.exists():
-                    enginePath = enginePathRead
-                    break
+    config = {}  # type: dict[str, object]
+    configPath = curPath / "config.json"
+    engineCandidates = [curPlatform + "32", curPlatform + "64"]
+    enginePath = None  # type: Path
     
     if configPath.exists():
         
         with open(configPath.as_posix(), "r") as sourceFile:
-            config = literal_eval(sourceFile.read())
+            config = json.loads(sourceFile.read())
             print("> Read config from", configPath.as_posix())
+    
+        for candidate in engineCandidates:
+            candidate = rootPath / (config.get("Engine" + candidate, ""))  # type: Path
+            
+            if candidate.exists() and candidate.is_file():
+                enginePath = candidate.resolve()
+                break
             
         if enginePath and enginePath.exists():
                 config["EnginePath"] = enginePath.as_posix()
                 print("> Read engine path from", enginePath.as_posix())
-                return config
                 
         else:
             print("X Could not find suitable engine executable")
                 
     else:
         print("X Could not find config file at", configPath)
+        
+    return config
 
 
 def getGameDir(config):
     # type: (dict[str, object]) -> Path
+    
+    import string
     
     def getGameDirName(name):
         # type: (str) -> str
@@ -88,7 +129,7 @@ def getGameDir(config):
             if c in allowedChars:
                 result += c
         return result
-        
+    
     gameDir = Path.home()
     gameName = getGameDirName(config["GameName"])
     
@@ -106,6 +147,8 @@ def getGameDir(config):
 
 def getTempDir(config):
     # type: (dict[str, object]) -> Path
+    
+    from hashlib import md5
     
     tempDir = Path.home()
     tempDirName = md5(("BGArmor" + str(time())).encode()).hexdigest().upper()
@@ -126,6 +169,8 @@ def getTempDir(config):
 
 def getFilesLists(path):
     # type: (Path) -> list[list[Path]]
+    
+    import glob
     
     persistentFiles = []
     generalFiles = []
@@ -157,6 +202,10 @@ def ensurePath(path):
 
 def decompressDataFile(dataFile, targetPath):
     # type: (Path, Path) -> None
+    
+    import zlib
+    import base64
+    from ast import literal_eval
     
     startTime = time()
     
@@ -218,52 +267,7 @@ def removeEmptyDirs(path):
                 pass
 
 
-config = loadConfig(curPath)
+config = loadConfig()
 
-
-if config is not None:
-    dataFile = curPath.parent / config["DataFile"]
-    
-    if dataFile.exists():
-        dataFile = dataFile.resolve()
-        gameDir = getGameDir(config)
-        tempDir = getTempDir(config)
-        
-        debugMsg("> Extract game data into temp directory...")
-        decompressDataFile(dataFile, tempDir)
-        
-        filesLists = getFilesLists(gameDir)
-        persistentFiles = filesLists[0]
-        
-        debugMsg("> Copy persistent files from game to temp directory...")
-        copyPersistentFiles(gameDir, tempDir, persistentFiles)
-        
-        enginePath = curPath.parent / config["EnginePath"]
-        
-        if platform.system() != "Windows":
-            os.system("chmod +x " + PLAT_QUOTE + enginePath.as_posix() + PLAT_QUOTE)
-            
-        extraArgs = " " + " ".join(sys.argv[1:]) if len(sys.argv) > 1 else ""
-        command = PLAT_QUOTE + enginePath.as_posix() + PLAT_QUOTE + extraArgs + " " + PLAT_QUOTE + config["MainFile"] + PLAT_QUOTE
-        os.chdir(tempDir.as_posix())
-        debugMsg("> Launch game in blenderplayer")
-        subprocess.call(command, shell=True)
-        sleep(0.2)
-        
-        filesLists = getFilesLists(tempDir)
-        persistentFiles = filesLists[0]
-        
-        debugMsg("> Copy persistent files from temp to game directory...")
-        copyPersistentFiles(tempDir, gameDir, persistentFiles)
-        
-        debugMsg("> Remove all files before finish...")
-        for _file in filesLists[0] + filesLists[1]:
-            _file.unlink()
-            
-        removeEmptyDirs(tempDir)
-        os.chdir(tempDir.parent.as_posix())
-        shutil.rmtree(tempDir.as_posix())
-        
-    else:
-        print("X Could not find game data at", dataFile.as_posix())
-
+if config:
+    main()
