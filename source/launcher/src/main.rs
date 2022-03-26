@@ -1,7 +1,7 @@
 use std::env;
 use std::fs;
 use std::path::{PathBuf};
-use clap::{Arg, App};
+use clap::{Arg, App, ArgMatches};
 use json;
 use subprocess::*;
 
@@ -26,10 +26,10 @@ fn main() {
             .help("Pass project file path to be opened by launcher"))
         .get_matches();
         
-    let config = get_config(if matches.is_present("file") {matches.value_of("file").unwrap()} else {""});
+    let config = get_config(&matches);
     
     if config.has_key("GameName") {
-        let executables = get_executables(&config);
+        let executables = get_executables(&config, &matches);
         let quote = if env::consts::FAMILY == "windows" {"\""} else {"'"};
         
         if executables.len() == 2 {
@@ -45,7 +45,7 @@ fn main() {
                 args.push([quote, matches.value_of("file").unwrap(), quote].join("").to_string());
             }
             
-            run_python_executable(executables, args);
+            run_python_executable(executables, args, &matches);
         } else {
             println!("X Could not find any Python and engine executable")
         }
@@ -53,19 +53,24 @@ fn main() {
 }
 
 /// Get base directory where launcher executable is located.
-fn get_base_path() -> std::path::PathBuf {
-    let root_path = env::current_exe().unwrap().to_path_buf();
-    let root_path = root_path.parent().unwrap().to_path_buf();
-    return root_path;
+fn get_base_path(matches: &ArgMatches) -> std::path::PathBuf {
+    let _file = if matches.is_present("file") {matches.value_of("file").unwrap()} else {""};
+    
+    // Return base path from launcher executable
+    if _file.len() == 0 || !PathBuf::from(_file).exists() {
+        let root_path = env::current_exe().unwrap().to_path_buf();
+        return root_path.parent().unwrap().to_path_buf();
+    }
+    
+    // Return base path from project file
+    let root_path = PathBuf::from(_file).parent().unwrap().to_path_buf();
+    return root_path.parent().unwrap().to_path_buf();
 }
 
 /// Read config file from launcher directory and return it as JsonValue.
-fn get_config(_file: &str) -> json::JsonValue {
-    let mut config_path = if _file.len() > 0 {PathBuf::from(_file)} else {get_base_path()};
-    
-    if _file.len() == 0 {
-        config_path.push("launcher/config.json");
-    }
+fn get_config(matches: &ArgMatches) -> json::JsonValue {
+    let mut config_path = get_base_path(matches);
+    config_path.push("launcher/config.json");
     
     if config_path.exists() && config_path.is_file() {
         let config_data_str = fs::read_to_string(config_path).expect("X Could not read file config.json");
@@ -76,8 +81,8 @@ fn get_config(_file: &str) -> json::JsonValue {
 }
 
 /// Get the first existing Python and engine executables from config as a Vec.
-fn get_executables(config: &json::JsonValue) -> Vec<String> {
-    let launcher_base_path_str: PathBuf = get_base_path();
+fn get_executables(config: &json::JsonValue, matches: &ArgMatches) -> Vec<String> {
+    let launcher_base_path_str: PathBuf = get_base_path(matches);
     let cur_os = if env::consts::FAMILY == "windows" {"Windows"} else {"Linux"};
     let architectures = ["32", "64"];
     
@@ -111,7 +116,7 @@ fn get_executables(config: &json::JsonValue) -> Vec<String> {
 }
 
 // Run the launcher script in the Python executable.
-fn run_python_executable(executables: Vec<String>, _args: Vec<String>) {
+fn run_python_executable(executables: Vec<String>, _args: Vec<String>, matches: &ArgMatches) {
     
     // Enable executable execution on Linux
     if env::consts::FAMILY != "windows" {
@@ -124,16 +129,11 @@ fn run_python_executable(executables: Vec<String>, _args: Vec<String>) {
             let _exit_status = _process.wait();
         
             let (_out, _err) = _process.communicate(None).unwrap();
-            
-            if _out != None {
-                println!("{}", _out.unwrap());
-            }
-            
-            println!("Enable execution of: {}", el);
+            println!("> Enable execution of: {}", el);
         }
     }
     
-    let mut launcher_script = get_base_path();
+    let mut launcher_script = get_base_path(&matches);
     launcher_script.push("launcher/launcher.py");
     
     if !launcher_script.exists() {
@@ -145,7 +145,7 @@ fn run_python_executable(executables: Vec<String>, _args: Vec<String>) {
     
     // Execute launcher script on Python interpreter
     for executable in executables.iter() {
-        println!("Run executable: {} {}", executable, launcher_script.to_str().unwrap());
+        println!("> Run executable: {} {}", executable, launcher_script.to_str().unwrap());
         
         let mut args: Vec<&str> = Vec::from([executable.as_str(), launcher_script.to_str().unwrap()]);
         
