@@ -19,6 +19,11 @@ fn main() {
             .long("args")
             .takes_value(true)
             .help("Pass arguments to engine executable (in quotes)"))
+        .arg(Arg::with_name("engine")
+            .short("e")
+            .long("engine")
+            .takes_value(true)
+            .help("Launch in specific engine executable"))
         .arg(Arg::with_name("file")
             .short("f")
             .long("file")
@@ -85,10 +90,20 @@ fn get_executables(config: &json::JsonValue, matches: &ArgMatches) -> Vec<String
     let launcher_base_path_str: PathBuf = get_base_path(matches);
     let cur_os = if env::consts::FAMILY == "windows" {"Windows"} else {"Linux"};
     let architectures = ["32", "64"];
+    let _engine = if matches.is_present("engine") {matches.value_of("engine").unwrap()} else {""};
     
     for architecture in architectures {
-        let key_engine = ["Engine", cur_os, architecture].join("");
-        let key_python = ["Python", cur_os, architecture].join("");
+        let key_engine = if _engine.len() == 0 {
+            ["Engine", cur_os, architecture].join("")
+        } else {
+            ["Engine", _engine].join("")
+        };
+        
+        let key_python = if _engine.len() == 0 {
+            ["Python", cur_os, architecture].join("")
+        } else {
+            ["Python", _engine].join("")
+        };
         
         let path_engine_str = &config[key_engine].as_str().unwrap();
         let path_python_str = &config[key_python].as_str().unwrap();
