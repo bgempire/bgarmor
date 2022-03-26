@@ -43,6 +43,10 @@ func _on_FileDialogOpen_file_selected(path: String) -> void:
 	_load_project(path)
 
 
+func _on_FileDialogOpen_dir_selected(dir: String) -> void:
+	_load_project(dir)
+
+
 func _on_ButtonDocs_pressed() -> void:
 	var _error = OS.shell_open("https://bgempire.github.io/bgarmor/")
 
@@ -99,8 +103,8 @@ func _create_new_project(path: String):
 		var _error = dir.copy("res://release/" + file, cur_folder)
 		print("  Copied file: " + cur_folder)
 		
-	var project_name: String = path.split("/")[-1].strip_edges()
-	var project_file_path = path + "/" + project_name + ".bgarmor"
+	var _project_name: String = path.split("/")[-1].strip_edges()
+	var project_file_path = path + "/launcher/config.json"
 	var file = File.new()
 	
 	if file.open(project_file_path, File.WRITE) == OK:
@@ -112,7 +116,8 @@ func _create_new_project(path: String):
 
 
 func _load_project(path: String):
-	var cur_dir = globals.get_path_parent(path)
+	var cur_dir = path
+	path = path + "/launcher/config.json"
 	var file = File.new()
 	file.open(path, File.READ)
 	var file_data = JSON.parse(globals.get_json_no_comments(file.get_as_text()))
@@ -121,7 +126,7 @@ func _load_project(path: String):
 	if cur_dir:
 		globals.config["LastDir"] = cur_dir
 		
-	globals.add_project_to_recent(path)
+	globals.add_project_to_recent(cur_dir)
 	globals.save_config()
 	
 	if file_data.error == OK:
@@ -135,7 +140,7 @@ func _load_project(path: String):
 			var _error = get_tree().change_scene("res://scenes/editor.tscn")
 			
 		else:
-			$AcceptDialog.dialog_text = "Invalid project file data:\n" + path
+			$AcceptDialog.dialog_text = "Invalid project directory:\n" + cur_dir
 			$AcceptDialog.popup_centered()
 		
 	else:
@@ -147,8 +152,8 @@ func _add_recent_paths():
 	var recent_paths = globals.config.get("RecentPaths", [])
 	
 	for path in recent_paths:
-		var file = File.new()
-		if file.file_exists(path):
+		var dir = Directory.new()
+		if dir.dir_exists(path):
 			var cur_button = Button.new()
 			cur_button.text = path
 			cur_button.flat = true

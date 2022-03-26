@@ -157,7 +157,7 @@ func get_path_parent(path: String) -> String:
 	var path_array = path.split("/")
 	
 	if path_array.size():
-		path_array.resize(path_array.size() - 1)
+		path_array.resize(path_array.size() - 2)
 		
 	path = path_array.join("/")
 	return path

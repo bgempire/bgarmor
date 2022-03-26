@@ -45,11 +45,10 @@ margin_top = -69.0
 margin_right = 247.5
 margin_bottom = 69.0
 popup_exclusive = true
-window_title = "Open a File"
+window_title = "Open a Directory"
 resizable = true
-mode = 0
+mode = 2
 access = 2
-filters = PoolStringArray( "*.bgarmor" )
 current_dir = "/home/bioage/Documents/GitHub/bgarmor"
 current_path = "/home/bioage/Documents/GitHub/bgarmor/"
 __meta__ = {
@@ -193,6 +192,7 @@ __meta__ = {
 }
 
 [connection signal="file_selected" from="FileDialogNew" to="." method="_on_FileDialogNew_file_selected"]
+[connection signal="dir_selected" from="FileDialogOpen" to="." method="_on_FileDialogOpen_dir_selected"]
 [connection signal="file_selected" from="FileDialogOpen" to="." method="_on_FileDialogOpen_file_selected"]
 [connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/VBoxContainerL/ButtonNew" to="." method="_on_ButtonNew_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/VBoxContainerL/ButtonOpen" to="." method="_on_ButtonOpen_pressed"]
