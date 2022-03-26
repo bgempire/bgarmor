@@ -193,6 +193,7 @@ func _ready() -> void:
 	_connect_line_edits()
 	_connect_file_buttons()
 	_connect_export_buttons()
+	_connect_run_buttons()
 	var _error = $FileDialog.connect("dir_selected", self, "_on_FileDialog_any_selected")
 	_error = $FileDialog.connect("file_selected", self, "_on_FileDialog_any_selected")
 
@@ -221,6 +222,11 @@ func _on_ButtonExport_pressed(target: String) -> void:
 		args.append("--compress")
 		
 	_run_script("release/scripts/build_release.py", args)
+
+
+func _on_ButtonRun_pressed(target: String) -> void:
+	var args = ["--engine", target]
+	_run_script("release/scripts/run_launcher.py", args)
 
 
 func _on_ButtonExplore_pressed() -> void:
@@ -438,6 +444,15 @@ func _connect_export_buttons() -> void:
 	for target in EXPORT_TARGETS:
 		var button: Button = find_node("ButtonExport" + target)
 		var _error = button.connect("pressed", self, "_on_ButtonExport_pressed", [target])
+
+
+func _connect_run_buttons() -> void:
+	
+	for target in EXPORT_TARGETS:
+		var button: Button = find_node("ButtonRun" + target)
+		
+		if button:
+			var _error = button.connect("pressed", self, "_on_ButtonRun_pressed", [target])
 
 
 func _get_item_list(item_list: ItemList) -> PoolStringArray:
