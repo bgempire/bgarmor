@@ -50,6 +50,11 @@ fn main() {
                 args.push([quote, matches.value_of("file").unwrap(), quote].join("").to_string());
             }
             
+            if matches.is_present("engine") {
+                args.push("--engine".to_string());
+                args.push(matches.value_of("engine").unwrap().to_string());
+            }
+            
             run_python_executable(executables, args, &matches);
         } else {
             println!("X Could not find any Python and engine executable")
