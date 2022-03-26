@@ -6,8 +6,6 @@ use json;
 use subprocess::*;
 
 fn main() {
-    let config = get_config();
-    
     let matches = App::new("BGArmor Launcher")
         .version("0.1.0")
         .author("Joel Gomes da Silva <joelgomes1994@hotmail.com>")
@@ -21,16 +19,30 @@ fn main() {
             .long("args")
             .takes_value(true)
             .help("Pass arguments to engine executable (in quotes)"))
+        .arg(Arg::with_name("file")
+            .short("f")
+            .long("file")
+            .takes_value(true)
+            .help("Pass project file path to be opened by launcher"))
         .get_matches();
         
+    let config = get_config(if matches.is_present("file") {matches.value_of("file").unwrap()} else {""});
+    
     if config.has_key("GameName") {
         let executables = get_executables(&config);
+        let quote = if env::consts::FAMILY == "windows" {"\""} else {"'"};
         
         if executables.len() == 2 {
             let mut args: Vec<String> = Vec::new();
             
-            if matches.is_present("a") {
-                args.push("a".to_string());
+            if matches.is_present("args") {
+                args.push("--args".to_string());
+                args.push([quote, matches.value_of("args").unwrap(), quote].join("").to_string());
+            }
+            
+            if matches.is_present("file") {
+                args.push("--file".to_string());
+                args.push([quote, matches.value_of("file").unwrap(), quote].join("").to_string());
             }
             
             run_python_executable(executables, args);
@@ -47,10 +59,13 @@ fn get_base_path() -> std::path::PathBuf {
     return root_path;
 }
 
-/// Read config file from launcher directory and returns it as JsonValue.
-fn get_config() -> json::JsonValue {
-    let mut config_path = get_base_path();
-    config_path.push("launcher/config.json");
+/// Read config file from launcher directory and return it as JsonValue.
+fn get_config(_file: &str) -> json::JsonValue {
+    let mut config_path = if _file.len() > 0 {PathBuf::from(_file)} else {get_base_path()};
+    
+    if _file.len() == 0 {
+        config_path.push("launcher/config.json");
+    }
     
     if config_path.exists() && config_path.is_file() {
         let config_data_str = fs::read_to_string(config_path).expect("X Could not read file config.json");
@@ -108,10 +123,10 @@ fn run_python_executable(executables: Vec<String>, _args: Vec<String>) {
             }).expect("X Could not enable execution of Python executable");
             let _exit_status = _process.wait();
         
-            let (out, _err) = _process.communicate(None).unwrap();
+            let (_out, _err) = _process.communicate(None).unwrap();
             
-            if out != None {
-                println!("{}", out.unwrap());
+            if _out != None {
+                println!("{}", _out.unwrap());
             }
             
             println!("Enable execution of: {}", el);
@@ -129,10 +144,16 @@ fn run_python_executable(executables: Vec<String>, _args: Vec<String>) {
     let launcher_script = launcher_script.canonicalize().unwrap();
     
     // Execute launcher script on Python interpreter
-    for el in executables.iter() {
-        println!("Run executable: {} {}", el, launcher_script.to_str().unwrap());
+    for executable in executables.iter() {
+        println!("Run executable: {} {}", executable, launcher_script.to_str().unwrap());
         
-        let mut _process = Popen::create(&[el.as_str(), launcher_script.to_str().unwrap()], PopenConfig {
+        let mut args: Vec<&str> = Vec::from([executable.as_str(), launcher_script.to_str().unwrap()]);
+        
+        for arg in _args.iter() {
+            args.push(arg.as_str());
+        }
+        
+        let mut _process = Popen::create(&args.to_vec() , PopenConfig {
             stdout: Redirection::Pipe, ..Default::default()
         }).expect("X Could not run script launcher.py");
         
