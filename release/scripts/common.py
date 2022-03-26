@@ -34,7 +34,7 @@ def getProjectData(projectFile=None):
     projectFile = _Path(projectFile).resolve() if type(projectFile) == str else _Path(str(projectFile))  # type: _Path
     
     if projectFile.exists():
-        curPath = projectFile.parent
+        curPath = projectFile.parent.parent
         
         with open(projectFile.as_posix(), "r") as sourceFile:
             data.update(literal_eval(sourceFile.read()))
