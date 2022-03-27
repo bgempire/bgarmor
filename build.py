@@ -56,12 +56,14 @@ def build(target):
 
 def minify():
     # type: () -> None
+    
     script = curDir / "source/scripts/minify_launcher.py"
     subprocess.call([pythonExecutable.as_posix(), script.as_posix()])
 
 
 def clean():
     # type: () -> None
+    
     directory = curDir / "source/launcher/target"
     
     if directory.exists():
@@ -69,11 +71,46 @@ def clean():
         shutil.rmtree(directory.as_posix())
 
 
+def export():
+    # type: () -> None
+    
+    projectFile = (curDir / "project.godot").absolute()
+    exportPath = (curDir / "bin").absolute()
+    
+    if not exportPath.exists():
+        exportPath.mkdir()
+        
+    targets = {
+        "Windows": "Windows Desktop",
+        "Linux": "Linux/X11",
+    }
+    
+    for target in targets.keys():
+        name = targets[target]
+        targetPath = (exportPath / target).absolute()
+        
+        if targetPath.exists():
+            shutil.rmtree(targetPath.as_posix())
+        
+        targetPath.mkdir()
+        
+        print("> Exporting for target:", name)
+        args = ["godot", "--export", name, "--no-window", projectFile.as_posix()]
+        print("> Running Godot export:", " ".join(args))
+        subprocess.call(args)
+        
+        print("> Copying release files to:", targetPath.as_posix())
+        shutil.copytree((curDir / "release").as_posix(), (targetPath / "release").as_posix())
+    
+    print("> Done!")
+
+
 operators = {
     "windows": lambda: build("windows"),
     "linux": lambda: build("linux"),
     "minify": lambda: minify(),
     "clean": lambda: clean(),
+    "export": lambda: export(),
 }  # type: dict[str, object]
 
 
