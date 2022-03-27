@@ -37,7 +37,6 @@ def build(target):
         print("> Deleted existing executable:", targetExe.as_posix())
         targetExe.unlink()
         
-    
     os.chdir(launcherSourcePath.as_posix())
     args = ["cargo", "build", "--target=" + toolchain, "--release"]
     print("> Running cargo build:", " ".join(args))
@@ -76,5 +75,6 @@ operators = {
     "minify": lambda: minify(),
     "clean": lambda: clean(),
 }  # type: dict[str, object]
+
 
 main()
