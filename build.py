@@ -61,10 +61,20 @@ def minify():
     subprocess.call([pythonExecutable.as_posix(), script.as_posix()])
 
 
+def clean():
+    # type: () -> None
+    directory = curDir / "source/launcher/target"
+    
+    if directory.exists():
+        print("> Deleting directory:", directory.as_posix())
+        shutil.rmtree(directory.as_posix())
+
+
 operators = {
     "windows": lambda: build("windows"),
     "linux": lambda: build("linux"),
-    "minify": minify,
+    "minify": lambda: minify(),
+    "clean": lambda: clean(),
 }  # type: dict[str, object]
 
 main()
