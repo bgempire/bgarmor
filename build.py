@@ -5,8 +5,8 @@ import shutil
 from pathlib import Path
 
 
-curDir = Path(__file__).parent
-pythonExecutable = Path(sys.executable).resolve()
+curDir = Path(__file__).parent.absolute()
+pythonExecutable = Path(sys.executable).absolute()
 
 
 def main():
@@ -27,21 +27,22 @@ def build(target):
     
     toolchain = "i686-pc-windows-gnu" if target == "windows" else "i686-unknown-linux-gnu"
     ext = ".exe" if target == "windows" else ""
-    launcherSourcePath = (curDir / "source/launcher")
-    sourceExe = launcherSourcePath / ("target/{toolchain}/release/bgarmor{ext}".format(toolchain=toolchain, ext=ext))
-    targetExe = curDir / ("release/launcher/Launcher" + ext)
+    launcherSourcePath = (curDir / "source/launcher").absolute()
+    sourceExe = (curDir / "source/launcher/target/{toolchain}/release/bgarmor{ext}".format(toolchain=toolchain, ext=ext)).absolute()
+    targetExe = (curDir / ("release/launcher/Launcher" + ext)).absolute()
     
     print("> Started build for target:", toolchain)
-    
-    os.chdir(launcherSourcePath.as_posix())
     
     if targetExe.exists():
         print("> Deleted existing executable:", targetExe.as_posix())
         targetExe.unlink()
         
+    
+    os.chdir(launcherSourcePath.as_posix())
     args = ["cargo", "build", "--target=" + toolchain, "--release"]
     print("> Running cargo build:", " ".join(args))
     subprocess.call(args)
+    os.chdir(curDir.as_posix())
     
     print("> Copying executable to:", targetExe.as_posix())
     shutil.copy2(sourceExe.as_posix(), targetExe.as_posix())
