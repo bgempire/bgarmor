@@ -28,5 +28,4 @@ build:
 	$(UPX) $(TARGET_EXE)
 
 minify:
-	$(PYTHON) -m source.scripts.pyminifier -o './release/launcher/launcher.py' --replacement-length=48 --obfuscate-classes --obfuscate-functions --obfuscate-import-methods --obfuscate-builtins './source/launcher.py' $(END) \
 	$(PYTHON) './source/scripts/minify_launcher.py'
