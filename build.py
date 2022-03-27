@@ -2,6 +2,7 @@ import sys
 import os
 import subprocess
 import shutil
+import fnmatch
 from pathlib import Path
 
 
@@ -74,6 +75,8 @@ def clean():
 def export():
     # type: () -> None
     
+    minify()
+    
     projectFile = (curDir / "project.godot").absolute()
     exportPath = (curDir / "bin").absolute()
     
@@ -96,11 +99,31 @@ def export():
         
         print("> Exporting for target:", name)
         args = ["godot", "--export", name, "--no-window", projectFile.as_posix()]
-        print("> Running Godot export:", " ".join(args))
+        print("  > Running Godot export:", " ".join(args))
         subprocess.call(args)
         
-        print("> Copying release files to:", targetPath.as_posix())
+        print("  > Copying release files to:", targetPath.as_posix())
         shutil.copytree((curDir / "release").as_posix(), (targetPath / "release").as_posix())
+        
+        print("  > Deleting ignored files from:", targetPath.as_posix())
+        ignoredPatterns = [".gitignore", "__pycache__"]
+        
+        for pattern in ignoredPatterns:
+            for folder, subfolders, files in os.walk(targetPath.as_posix()):
+                items = subfolders + files
+                
+                for item in items:
+                    curItem = (Path(folder) / item).absolute()
+                    
+                    if fnmatch.fnmatch(curItem.name, pattern):
+                        
+                        if curItem.is_file():
+                            print("    > Deleted file:", curItem.as_posix())
+                            curItem.unlink()
+                        
+                        elif curItem.is_dir():
+                            print("    > Deleted directory:", curItem.as_posix())
+                            shutil.rmtree(curItem.as_posix())
     
     print("> Done!")
 
