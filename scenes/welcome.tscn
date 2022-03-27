@@ -25,12 +25,13 @@ margin_left = -247.5
 margin_top = -69.0
 margin_right = 247.5
 margin_bottom = 69.0
+rect_min_size = Vector2( 150, 52.5 )
 popup_exclusive = true
 window_title = "Create Project"
 resizable = true
 access = 2
-current_dir = "/home/bioage/Documents/GitHub/bgarmor"
-current_path = "/home/bioage/Documents/GitHub/bgarmor/"
+current_dir = "/GitHub/bgarmor"
+current_path = "/GitHub/bgarmor/"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -44,13 +45,14 @@ margin_left = -247.5
 margin_top = -69.0
 margin_right = 247.5
 margin_bottom = 69.0
+rect_min_size = Vector2( 150, 52.5 )
 popup_exclusive = true
 window_title = "Open a Directory"
 resizable = true
 mode = 2
 access = 2
-current_dir = "/home/bioage/Documents/GitHub/bgarmor"
-current_path = "/home/bioage/Documents/GitHub/bgarmor/"
+current_dir = "/GitHub/bgarmor"
+current_path = "/GitHub/bgarmor/"
 __meta__ = {
 "_edit_use_anchors_": false
 }
