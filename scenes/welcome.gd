@@ -112,7 +112,7 @@ func _create_new_project(path: String):
 	file.close()
 	
 	print("Created new project at: " + project_file_path)
-	_load_project(project_file_path)
+	_load_project(path)
 
 
 func _load_project(path: String):
