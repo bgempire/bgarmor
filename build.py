@@ -62,8 +62,8 @@ def minify():
 
 
 operators = {
-    "build_windows": lambda: build("windows"),
-    "build_linux": lambda: build("linux"),
+    "windows": lambda: build("windows"),
+    "linux": lambda: build("linux"),
     "minify": minify,
 }  # type: dict[str, object]
 
