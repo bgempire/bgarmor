@@ -119,7 +119,7 @@ def loadConfig(args):
     import json
     
     config = {}  # type: dict[str, object]
-    configPath = curPath / "config.json" if not args.get("-f") else Path(args.get("-f").strip('" '))
+    configPath = (curPath / "config.json") if not args.get("-f") else Path(args.get("-f").strip('"\' '))
     engineCandidates = [curPlatform + "32", curPlatform + "64"] if not args.get("-e") else [args.get("-e")]
     enginePath = None  # type: Path
     
