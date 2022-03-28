@@ -488,6 +488,7 @@ func _get_resource(path: String) -> String:
 	if OS.has_feature("editor"):
 		path = ProjectSettings.globalize_path(path)
 	else:
+		path = path.replace("res://", "")
 		path = OS.get_executable_path().get_base_dir().plus_file(path)
 	
 	return path
