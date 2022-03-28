@@ -511,7 +511,7 @@ func _run_script(script_path: String, script_args: Array) -> void:
 		else:
 			text = "Task completed!"
 	else:
-		text = "Could not execute task! Error:" + str(_error)
+		text = "Could not execute task! Error: " + str(_error)
 		
 	$AcceptDialog/TextEdit.text = text
 	$AcceptDialog.popup_centered_ratio(POPUP_RATIO)
