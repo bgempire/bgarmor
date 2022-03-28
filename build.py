@@ -72,8 +72,8 @@ def clean():
         shutil.rmtree(directory.as_posix())
 
 
-def export():
-    # type: () -> None
+def export(_target=None):
+    # type: (str) -> None
     
     minify()
     
@@ -88,6 +88,9 @@ def export():
         "Windows": "Windows Desktop",
         "Linux": "Linux/X11",
     }
+    
+    if _target and _target in targets.keys():
+        targets = {_target: targets[_target]}
     
     for target in targets.keys():
         name = targets[target]
@@ -135,6 +138,8 @@ operators = {
     "minify": lambda: minify(),
     "clean": lambda: clean(),
     "export": lambda: export(),
+    "export_windows": lambda: export("Windows"),
+    "export_linux": lambda: export("Linux"),
 }  # type: dict[str, object]
 
 
