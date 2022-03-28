@@ -20,7 +20,7 @@ def main():
         
             if platform.system() == "Windows":
                 launcherPath = data["CurPath"] / "launcher/Launcher.exe"  # type: _Path
-                enginePaths = data["EngineExecutables"]  # type: list[_Path]
+                enginePaths = data["EngineExecutables"]  # type: dict[str, _Path]
                 
                 if launcherPath.exists():
                     launcherIconPath = data["CurPath"] / "icons/icon-launcher.ico"  # type: _Path
@@ -32,7 +32,7 @@ def main():
                 else:
                     print("\nX Launcher executable not found! Try using the name", _common.formatFileName(data["GameName"]) + ".exe")
                     
-                for enginePath in enginePaths:
+                for enginePath in enginePaths.values():
                     
                     if "Windows" in enginePath.parent.name:
                         engineIconPath = data["CurPath"] / "icons/icon-engine.ico"  # type: _Path
@@ -40,6 +40,8 @@ def main():
                         print("\n> Setting icon of engine...")
                         print("Command:", command)
                         subprocess.call(command)
+                        
+                print("> Done!")
                         
             else:
                 print("X Command only available on Windows")
