@@ -16,8 +16,8 @@ def main():
     if data:
         
         if args.get("--engine"):
-            ext = ".exe" if args.get("--engine").lower().startswith("Windows") else ""
-            currentLauncher = data["CurPath"] / ("launcher/Launcher" + ext)
+            ext = ".exe" if args.get("--engine").lower().startswith("windows") else ""
+            currentLauncher = data["CurPath"] / ("launcher/Launcher" + ext)  # type: _Path
             
             if currentLauncher.exists():
                 _args = [
