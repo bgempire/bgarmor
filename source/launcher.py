@@ -79,14 +79,48 @@ def debugMsg(*args, waitInput=True):
         if waitInput: input("Press any key to continue...")
 
 
-def loadConfig():
-    # type: () -> None
+def parseArgs():
+    # type: () -> dict[str, str]
+    
+    def getArgName(arg):
+        # type: (str) -> str
+        
+        result = arg
+        
+        if arg.startswith("--"):
+            result = "-"
+            
+            for c in arg:
+                if c != "-":
+                    result += c
+                    break
+                
+        return result
+    
+    args = {}  # type: dict[str, str]
+    
+    if len(sys.argv) > 1:
+        for i in range(len(sys.argv)):
+            if i > 0:
+                item = sys.argv[i]
+                
+                if item.startswith("-"):
+                    args[getArgName(item)] = "True"
+                    
+                    if i + 1 < len(sys.argv) and not sys.argv[i + 1].startswith("-"):
+                        args[getArgName(item)] = sys.argv[i + 1]
+    
+    return args
+
+
+def loadConfig(args):
+    # type: (dict[str, str]) -> None
     
     import json
     
     config = {}  # type: dict[str, object]
-    configPath = curPath / "config.json"
-    engineCandidates = [curPlatform + "32", curPlatform + "64"]
+    configPath = curPath / "config.json" if not args.get("-f") else Path(args.get("-f").strip('" '))
+    engineCandidates = [curPlatform + "32", curPlatform + "64"] if not args.get("-e") else [args.get("-e")]
     enginePath = None  # type: Path
     
     if configPath.exists():
@@ -267,7 +301,8 @@ def removeEmptyDirs(path):
                 pass
 
 
-config = loadConfig()
+args = parseArgs()
+config = loadConfig(args)
 
 if config:
     main()
