@@ -136,8 +136,13 @@ func _load_project(path: String):
 			globals.current_project_path = path
 			globals.current_project_data = file_data
 			globals.current_project_dir = cur_dir
-				
-			var _error = get_tree().change_scene("res://scenes/editor.tscn")
+			
+			var dir = Directory.new()
+			var _error = dir.copy(
+				"res://release/launcher/launcher.py",
+				globals.current_project_dir + "/launcher/launcher.py"
+			)
+			_error = get_tree().change_scene("res://scenes/editor.tscn")
 			
 		else:
 			$AcceptDialog.dialog_text = "Invalid project directory:\n" + cur_dir

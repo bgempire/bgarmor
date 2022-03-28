@@ -33,7 +33,6 @@ const DEFAULT_PROJECT_FILES: PoolStringArray = PoolStringArray([
 	"icons/icon-launcher.ico",
 	"launcher/Launcher.exe",
 	"launcher/Launcher",
-	"launcher/launcher.py",
 ])
 
 const DEFAULT_FIELDS: Dictionary = {
