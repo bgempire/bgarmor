@@ -102,7 +102,7 @@ def export(_target=None):
         targetPath.mkdir()
         
         print("> Exporting for target:", name)
-        args = ["godot", "--export", name, "--no-window", projectFile.as_posix()]
+        args = ["godot", "--export-debug", name, "--no-window", projectFile.as_posix()]
         print("  > Running Godot export:", " ".join(args))
         subprocess.call(args)
         
