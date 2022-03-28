@@ -205,12 +205,12 @@ func _notification(what):
 
 # Signal handlers
 func _on_ButtonBuildData_pressed() -> void:
-	_run_script("release/scripts/build_data.py", [])
+	_run_script("res://release/scripts/build_data.py", [])
 
 
 func _on_ButtonSetIcons_pressed() -> void:
-	_run_script("release/scripts/set_icons.py", [
-		"--resource-hacker", _get_resource("release/tools/ResourceHacker.exe")
+	_run_script("res://release/scripts/set_icons.py", [
+		"--resource-hacker", _get_resource("res://release/tools/ResourceHacker.exe")
 	])
 
 
@@ -226,7 +226,7 @@ func _on_ButtonExport_pressed(target: String) -> void:
 
 func _on_ButtonRun_pressed(target: String) -> void:
 	var args = ["--engine", target]
-	_run_script("release/scripts/run_launcher.py", args)
+	_run_script("res://release/scripts/run_launcher.py", args)
 
 
 func _on_ButtonExplore_pressed() -> void:
