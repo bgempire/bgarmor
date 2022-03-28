@@ -82,6 +82,7 @@ def export():
     
     if not exportPath.exists():
         exportPath.mkdir()
+        (exportPath / ".gdignore").touch()
         
     targets = {
         "Windows": "Windows Desktop",
