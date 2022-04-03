@@ -41,6 +41,12 @@ const NODE_FIELD_RELATIONS = [
 		"field": "ExportCompress",
 		"property": "pressed",
 	},
+	{
+		"node": "CheckBoxCompileScripts",
+		"field": "CompileScripts",
+		"property": "pressed",
+	},
+	{
 		"node": "ButtonEngineWindows32",
 		"field": "EngineWindows32",
 		"property": "text",
@@ -437,7 +443,6 @@ func _connect_line_edits() -> void:
 		
 		if globals.current_project_data.get(field) is String:
 			var line_edit: LineEdit = node
-			
 			var _error = line_edit.connect("text_changed", self, "_on_LineEdit_text_changed", [line_edit, field])
 
 

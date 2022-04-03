@@ -43,6 +43,7 @@ const DEFAULT_FIELDS: Dictionary = {
 	"DataSource": "./data",
 	"DataChunkSize": 32,
 	"CompressionLevel": 1,
+	"CompileScripts": false,
 	"ExportCompress": false,
 	"EngineWindows32": "./engine/Windows32/blenderplayer.exe",
 	"EngineWindows64": "./engine/Windows64/blenderplayer.exe",

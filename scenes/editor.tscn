@@ -107,9 +107,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 40.0
 tab_align = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Tasks" type="Tabs" parent="Panel/TabContainer"]
 anchor_right = 1.0
@@ -381,6 +378,14 @@ rounded = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="CheckBoxCompileScripts" type="CheckBox" parent="Panel/TabContainer/Project/HBoxContainer/VBoxContainer1"]
+margin_top = 264.0
+margin_right = 384.0
+margin_bottom = 288.0
+hint_tooltip = "Compile all Python scripts to .pyc and replace 
+all .py by compiled files on release."
+text = "Compile Python scripts"
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="Panel/TabContainer/Project/HBoxContainer"]
 margin_left = 388.0
