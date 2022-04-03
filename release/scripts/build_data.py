@@ -114,7 +114,7 @@ def __compileScripts(directory):
         _path = Path(path)
         
         if _path.name == "__pycache__":
-            shutil.rmtree(_path)
+            shutil.rmtree(_path.as_posix())
 
 
 def _removeCompiledScripts(directory):

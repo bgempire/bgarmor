@@ -84,7 +84,7 @@ def _performRelease():
             print("        > Copying launcher script to:", releaseTargetLauncherPath / "launcher.py")
             shutil.copy2((launcherDir / "launcher.py").as_posix(), (releaseTargetLauncherPath / "launcher.py").as_posix())
             print("        > Copying launcher config:", releaseTargetLauncherPath / "config.json")
-            shutil.copy2((data["ProjectFile"]).as_posix(), (releaseTargetLauncherPath / "config.json").as_posix())
+            shutil.copy2(Path(data["ProjectFile"]).as_posix(), (releaseTargetLauncherPath / "config.json").as_posix())
             
             launcherExecutable = None  # type: Path
             
