@@ -133,13 +133,13 @@ def export(_target=None):
 
 
 operators = {
-    "windows": lambda: build("windows"),
-    "linux": lambda: build("linux"),
-    "minify": lambda: minify(),
     "clean": lambda: clean(),
     "export": lambda: export(),
     "export_windows": lambda: export("Windows"),
     "export_linux": lambda: export("Linux"),
+    "launcher_windows": lambda: build("windows"),
+    "launcher_linux": lambda: build("linux"),
+    "minify": lambda: minify(),
 }  # type: dict[str, object]
 
 
