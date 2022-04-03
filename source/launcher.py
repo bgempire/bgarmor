@@ -219,14 +219,21 @@ def getFilesLists(path):
     # type: (Path) -> list[list[Path]]
     
     import glob
+    import os
+    from fnmatch import fnmatchcase
     
-    persistentFiles = []
-    generalFiles = []
+    persistentFiles = [] # type: list[Path]
+    generalFiles = [] # type: list[Path]
     
     # Populate persistent files list
-    for pattern in config["Persistent"]:
-        persistentFiles += [Path(p).resolve() for p in glob.glob(
-            path.as_posix() + "/**/" + pattern, recursive=True)]
+    for _folder, _subfolders, _files in os.walk(path.as_posix()):
+        for _file in _files:
+            _file = Path(_folder) / _file
+            pathToMatch = _file.as_posix().replace(path.as_posix(), "")
+            
+            for pattern in config["Persistent"]:
+                if fnmatchcase(pathToMatch, pattern):
+                    persistentFiles.append(_file.resolve())
     
     # Populate general files list
     generalFiles += [Path(p).resolve() for p in glob.glob(

@@ -47,12 +47,14 @@ def _compressDataFile(data, sourcePath, dataFile):
         for _file in glob.glob(sourcePath.as_posix() + "/**", recursive=True):
             _file = _Path(_file).resolve()
             ignore = False
-            isScriptIgnored = _file.suffix == ".py" and compileScripts
+            isIgnoredScript = _file.suffix == ".py" and compileScripts
             isCompiledScript = _file.suffix == ".pyc" and compileScripts
             
             if not isCompiledScript and "Ignore" in data.keys():
+                pathToMatch = _file.as_posix().replace(sourcePath.as_posix(), "")
+                
                 for pattern in data["Ignore"]:
-                    if isScriptIgnored or fnmatchcase(_file.name, pattern):
+                    if isIgnoredScript or fnmatchcase(pathToMatch, pattern):
                         ignore = True
                         if _file.is_file():
                             print("    - Ignored", _file.relative_to(sourcePath))
