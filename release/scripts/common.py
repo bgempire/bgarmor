@@ -1,4 +1,5 @@
 from pathlib import Path as _Path
+from json import loads as _loads
 
 
 def getArgs():
@@ -37,8 +38,21 @@ def getProjectData(projectFile=None):
         curPath = projectFile.parent.parent
         
         with open(projectFile.as_posix(), "r") as sourceFile:
-            data.update(literal_eval(sourceFile.read()))
-            print("> Read project from", projectFile.as_posix())
+            fileParsed = False
+            
+            try:
+                data = _loads(sourceFile.read())
+                fileParsed = True
+            except:
+                try:
+                    data.update(literal_eval(sourceFile.read()))
+                    fileParsed = True
+                except:
+                    print("X Could not parse project file")
+                    return data
+                    
+            if fileParsed:
+                print("> Read project from", projectFile.as_posix())
             
         engineExecutables = {}  # type: dict[str, _Path]
         
