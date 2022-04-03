@@ -37,6 +37,10 @@ const NODE_FIELD_RELATIONS = [
 		"property": "value",
 	},
 	{
+		"node": "CheckBoxExportCompress",
+		"field": "ExportCompress",
+		"property": "pressed",
+	},
 		"node": "ButtonEngineWindows32",
 		"field": "EngineWindows32",
 		"property": "text",
@@ -190,6 +194,7 @@ func _ready() -> void:
 		OS.set_window_title(app_name)
 		
 	_update_fields()
+	_connect_check_boxes()
 	_connect_line_edits()
 	_connect_file_buttons()
 	_connect_export_buttons()
@@ -278,6 +283,10 @@ func _on_ButtonDelIgnore_pressed() -> void:
 	if item_list.get_selected_items():
 		item_list.remove_item(item_list.get_selected_items()[0])
 		globals.current_project_data["Ignore"] = _get_item_list(item_list)
+
+
+func _on_CheckBox_toggled(button_pressed: bool, field: String) -> void:
+	globals.current_project_data[field] = button_pressed
 
 
 func _on_LineEdit_text_changed(new_text: String, line_edit: LineEdit, field: String) -> void:
@@ -432,6 +441,17 @@ func _connect_line_edits() -> void:
 			var _error = line_edit.connect("text_changed", self, "_on_LineEdit_text_changed", [line_edit, field])
 
 
+func _connect_check_boxes() -> void:
+	var nodes = globals.find_by_class(self, "CheckBox")
+	
+	for node in nodes:
+		var field = node.name.replace("CheckBox", "")
+		
+		if globals.current_project_data.get(field) is bool:
+			var check_box: CheckBox = node
+			var _error = check_box.connect("toggled", self, "_on_CheckBox_toggled", [field])
+
+
 func _connect_file_buttons() -> void:
 	
 	for field in BUTTON_FILE_DIALOG_RELATIONS:
@@ -515,3 +535,4 @@ func _run_script(script_path: String, script_args: Array) -> void:
 		
 	$AcceptDialog/TextEdit.text = text
 	$AcceptDialog.popup_centered_ratio(POPUP_RATIO)
+
