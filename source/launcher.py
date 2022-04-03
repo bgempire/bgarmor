@@ -117,6 +117,7 @@ def loadConfig(args):
     # type: (dict[str, str]) -> None
     
     import json
+    from ast import literal_eval
     
     config = {}  # type: dict[str, object]
     configPath = (curPath / "config.json") if not args.get("-f") else Path(args.get("-f").strip('"\' '))
@@ -126,8 +127,21 @@ def loadConfig(args):
     if configPath.exists():
         
         with open(configPath.as_posix(), "r") as sourceFile:
-            config = json.loads(sourceFile.read())
-            print("> Read config from", configPath.as_posix())
+            fileParsed = False
+            
+            try:
+                config = json.loads(sourceFile.read())
+                fileParsed = True
+            except:
+                try:
+                    config = literal_eval(sourceFile.read())
+                    fileParsed = True
+                except:
+                    print("X Could not parse config file at", configPath.as_posix())
+                    return config
+                    
+            if fileParsed:
+                print("> Read config from", configPath.as_posix())
     
         for candidate in engineCandidates:
             candidate = rootPath / (config.get("Engine" + candidate, ""))  # type: Path
