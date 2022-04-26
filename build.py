@@ -72,7 +72,7 @@ def clean():
         shutil.rmtree(directory.as_posix())
 
 
-def export(_target=None):
+def export(_target):
     # type: (str) -> None
     
     minify()
@@ -93,7 +93,7 @@ def export(_target=None):
     
     for target in targets.keys():
         
-        if target.startswith(_target):
+        if _target == "All" or target.startswith(_target):
             name = targets[target]
             targetPath = (exportPath / target).absolute()
             
@@ -135,7 +135,7 @@ def export(_target=None):
 
 operators = {
     "clean": lambda: clean(),
-    "export": lambda: export(),
+    "export": lambda: export("All"),
     "export_windows": lambda: export("Windows"),
     "export_linux": lambda: export("Linux"),
     "launcher_windows": lambda: build("windows"),
