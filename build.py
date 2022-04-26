@@ -85,49 +85,50 @@ def export(_target=None):
         (exportPath / ".gdignore").touch()
         
     targets = {
-        "Windows": "Windows Desktop",
-        "Linux": "Linux/X11",
+        "Windows32": "Windows Desktop 32",
+        "Windows64": "Windows Desktop 64",
+        "Linux32": "Linux 32",
+        "Linux64": "Linux 64",
     }
     
-    if _target and _target in targets.keys():
-        targets = {_target: targets[_target]}
-    
     for target in targets.keys():
-        name = targets[target]
-        targetPath = (exportPath / target).absolute()
         
-        if targetPath.exists():
-            shutil.rmtree(targetPath.as_posix())
-        
-        targetPath.mkdir()
-        
-        print("> Exporting for target:", name)
-        args = ["godot", "--export-debug", name, "--no-window", projectFile.as_posix()]
-        print("  > Running Godot export:", " ".join(args))
-        subprocess.call(args)
-        
-        print("  > Copying release files to:", targetPath.as_posix())
-        shutil.copytree((curDir / "release").as_posix(), (targetPath / "release").as_posix())
-        
-        print("  > Deleting ignored files from:", targetPath.as_posix())
-        ignoredPatterns = [".gitignore", "__pycache__"]
-        
-        for pattern in ignoredPatterns:
-            for folder, subfolders, files in os.walk(targetPath.as_posix()):
-                items = subfolders + files
-                
-                for item in items:
-                    curItem = (Path(folder) / item).absolute()
+        if target.startswith(_target):
+            name = targets[target]
+            targetPath = (exportPath / target).absolute()
+            
+            if targetPath.exists():
+                shutil.rmtree(targetPath.as_posix())
+            
+            targetPath.mkdir()
+            
+            print("> Exporting for target:", name)
+            args = ["godot", "--export-debug", name, "--no-window", projectFile.as_posix()]
+            print("  > Running Godot export:", " ".join(args))
+            subprocess.call(args)
+            
+            print("  > Copying release files to:", targetPath.as_posix())
+            shutil.copytree((curDir / "release").as_posix(), (targetPath / "release").as_posix())
+            
+            print("  > Deleting ignored files from:", targetPath.as_posix())
+            ignoredPatterns = [".gitignore", "__pycache__"]
+            
+            for pattern in ignoredPatterns:
+                for folder, subfolders, files in os.walk(targetPath.as_posix()):
+                    items = subfolders + files
                     
-                    if fnmatch.fnmatch(curItem.name, pattern):
+                    for item in items:
+                        curItem = (Path(folder) / item).absolute()
                         
-                        if curItem.is_file():
-                            print("    > Deleted file:", curItem.as_posix())
-                            curItem.unlink()
-                        
-                        elif curItem.is_dir():
-                            print("    > Deleted directory:", curItem.as_posix())
-                            shutil.rmtree(curItem.as_posix())
+                        if fnmatch.fnmatch(curItem.name, pattern):
+                            
+                            if curItem.is_file():
+                                print("    > Deleted file:", curItem.as_posix())
+                                curItem.unlink()
+                            
+                            elif curItem.is_dir():
+                                print("    > Deleted directory:", curItem.as_posix())
+                                shutil.rmtree(curItem.as_posix())
     
     print("> Done!")
 
