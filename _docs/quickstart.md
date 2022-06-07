@@ -4,16 +4,21 @@ description:
 ---
 
 # Quickstart Guide
-This guide will help you to quickly setup BGArmor into your BGE/UPBGE project without much hassle. 
-There's also a [video](https://www.youtube.com/watch?v=09FAA7xKrok) which presents the main features 
-of BGArmor.
+This guide will help you to quickly setup BGArmor into your BGE/UPBGE project without much hassle.
 
 ## Download the latest release
-In order to use BGArmor, download the latest release of BGArmor from the 
-[releases page](https://github.com/bgempire/bgarmor/releases). This release already contains the 
-launcher executables for both Windows and Linux and the needed directory structure for the development 
-pipeline. Extract this archive somewhere and rename its directory to any name you want. You may also 
-want to rename the `BGArmor` launcher executable (recommended: use your game name).
+In order to use the BGArmor panel, download the latest release of BGArmor from the 
+[releases page](https://github.com/bgempire/bgarmor/releases).
+
+## Create a project
+Open the BGArmor panel and you will see the welcome screen.
+
+![]({{ site.baseurl }}/assets/img/quickstart-01.png)
+
+Click on `New Project`, and on this new dialog go to a folder (e.g. your `Documents` folder), 
+choose a game directory name to be created and click `OK` to create your project.
+
+![]({{ site.baseurl }}/assets/img/quickstart-02.png)
 
 ## Copy the needed files to BGArmor's directory
 Once you have the BGArmor's release extracted in a directory you need two main contents into this 
