@@ -29,6 +29,7 @@ dependencies = [
  "clap",
  "json",
  "subprocess",
+ "winapi",
  "winres",
 ]
 

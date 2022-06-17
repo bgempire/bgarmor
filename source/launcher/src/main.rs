@@ -40,6 +40,12 @@ fn main() {
         if executables.len() == 2 {
             let mut args: Vec<String> = Vec::new();
 
+            if matches.is_present("console") {
+                args.push("--console".to_string());
+            } else {
+                hide_console_window();
+            }
+
             if matches.is_present("args") {
                 args.push("--args".to_string());
                 args.push([quote, matches.value_of("args").unwrap(), quote].join("").to_string());
@@ -58,6 +64,23 @@ fn main() {
             run_python_executable(executables, args, &matches);
         } else {
             println!("X Could not find any Python and engine executable")
+        }
+    }
+}
+
+fn hide_console_window() {
+
+    if env::consts::FAMILY == "windows" {
+        use std::ptr;
+        use winapi::um::wincon::GetConsoleWindow;
+        use winapi::um::winuser::{ShowWindow, SW_HIDE};
+
+        let window = unsafe {GetConsoleWindow()};
+
+        if window != ptr::null_mut() {
+            unsafe {
+                ShowWindow(window, SW_HIDE);
+            }
         }
     }
 }
