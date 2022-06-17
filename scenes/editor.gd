@@ -104,7 +104,6 @@ const EXPORT_TARGETS := PoolStringArray([
 	"Windows32",
 	"Windows64",
 ])
-
 var BUTTON_FILE_DIALOG_RELATIONS = [
 	{
 		"node": "ButtonMainFile",
@@ -263,6 +262,7 @@ func _on_ButtonAddPersistent_pressed() -> void:
 		item_list.add_item(line_edit.text)
 		globals.current_project_data["Persistent"] = _get_item_list(item_list)
 		line_edit.text = ""
+		globals.save_project()
 
 
 func _on_ButtonDelPersistent_pressed() -> void:
@@ -271,6 +271,7 @@ func _on_ButtonDelPersistent_pressed() -> void:
 	if item_list.get_selected_items():
 		item_list.remove_item(item_list.get_selected_items()[0])
 		globals.current_project_data["Persistent"] = _get_item_list(item_list)
+		globals.save_project()
 
 
 func _on_ButtonAddIgnore_pressed() -> void:
@@ -281,6 +282,7 @@ func _on_ButtonAddIgnore_pressed() -> void:
 		item_list.add_item(line_edit.text)
 		globals.current_project_data["Ignore"] = _get_item_list(item_list)
 		line_edit.text = ""
+		globals.save_project()
 
 
 func _on_ButtonDelIgnore_pressed() -> void:
@@ -289,24 +291,30 @@ func _on_ButtonDelIgnore_pressed() -> void:
 	if item_list.get_selected_items():
 		item_list.remove_item(item_list.get_selected_items()[0])
 		globals.current_project_data["Ignore"] = _get_item_list(item_list)
+		globals.save_project()
 
 
 func _on_CheckBox_toggled(button_pressed: bool, field: String) -> void:
 	globals.current_project_data[field] = button_pressed
+	globals.save_project()
 
 
 func _on_LineEdit_text_changed(new_text: String, line_edit: LineEdit, field: String) -> void:
 	
 	if new_text:
 		globals.current_project_data[field] = line_edit.text
+		
+	globals.save_project()
 
 
 func _on_SpinBoxDataChunkSize_value_changed(value: float) -> void:
 	globals.current_project_data["DataChunkSize"] = int(value)
+	globals.save_project()
 
 
 func _on_SpinBoxCompressionLevel_value_changed(value: float) -> void:
 	globals.current_project_data["CompressionLevel"] = int(value)
+	globals.save_project()
 
 
 func _on_FileButton_pressed(data: Dictionary) -> void:
@@ -433,6 +441,8 @@ func _update_task_buttons() -> void:
 			
 		button_export.hint_tooltip = cur_tooltip
 		button_run.hint_tooltip = cur_tooltip
+		
+	globals.save_project()
 
 
 func _connect_line_edits() -> void:
