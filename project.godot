@@ -41,6 +41,7 @@ window/size/height=450
 
 custom=false
 use_custom_dir=false
+app_version=111
 
 [physics]
 
