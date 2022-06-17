@@ -10,7 +10,9 @@ def main():
     # type: () -> None
 
     import subprocess
-    
+    import platform
+    import stat
+
     print("Run launcher")
 
     if data:
@@ -20,6 +22,10 @@ def main():
             currentLauncher = data["CurPath"] / ("launcher/Launcher" + ext)  # type: _Path
 
             if currentLauncher.exists():
+
+                if platform.system() != "Windows":
+                    currentLauncher.chmod(currentLauncher.stat().st_mode | stat.S_IEXEC)
+
                 _args = [
                     currentLauncher.as_posix(),
                     "--engine", args.get("--engine"),
@@ -35,6 +41,5 @@ def main():
 
 try:
     main()
-
 except Exception as e:
     print(e)
