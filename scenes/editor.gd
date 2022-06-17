@@ -538,10 +538,10 @@ func _get_resource(path: String) -> String:
 
 
 func _run_script(script_path: String, script_args: Array) -> void:
-	var result = []
-	var args = [_get_resource(script_path), "--project", globals.current_project_path]
+	var result := []
+	var args := [_get_resource(script_path), "--project", globals.current_project_path]
 	args.append_array(script_args)
-	var text = "Please wait, running task..."
+	var text := "Please wait, running task..."
 	
 	$AcceptDialog/TextEdit.text = text
 	$AcceptDialog.popup_centered_ratio(POPUP_RATIO)
@@ -555,7 +555,10 @@ func _run_script(script_path: String, script_args: Array) -> void:
 			text = "Task completed!"
 	else:
 		text = "Could not execute task! Error: " + str(_error)
+		var _args := PoolStringArray(args)
+		text += "\nCommand: " + str(_get_python_current_os()) + " " + _args.join(" ")
 		
 	$AcceptDialog/TextEdit.text = text
 	$AcceptDialog.popup_centered_ratio(POPUP_RATIO)
+	_update_task_buttons()
 
