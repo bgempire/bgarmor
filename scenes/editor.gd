@@ -407,6 +407,7 @@ func _update_task_buttons() -> void:
 	var cur_dir: Directory = Directory.new()
 	var _error = cur_dir.open(globals.current_project_dir)
 	var python_valid = _get_python_current_os() and true
+	var data_file_valid = cur_dir.file_exists(project["DataFile"])
 	
 	var tooltip = "" if python_valid else "Python executable for current platform must be set first."
 	
@@ -426,8 +427,15 @@ func _update_task_buttons() -> void:
 		if python_valid:
 			
 			if cur_dir.file_exists(project["Python" + platform]) and cur_dir.file_exists(project["Engine" + platform]):
-				button_export.disabled = false
-				button_run.disabled = false
+				
+				if data_file_valid:
+					button_export.disabled = false
+					button_run.disabled = false
+					
+				else:
+					button_export.disabled = true
+					button_run.disabled = true
+					cur_tooltip = "Build the game data first to run or export."
 			
 			else:
 				button_export.disabled = true
