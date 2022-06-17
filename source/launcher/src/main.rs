@@ -159,7 +159,7 @@ fn get_executables(config: &json::JsonValue, matches: &ArgMatches) -> Vec<String
 }
 
 // Run the launcher script in the Python executable.
-fn run_python_executable(executables: Vec<String>, _args: Vec<String>, matches: &ArgMatches) {
+fn run_python_executable(executables: Vec<String>, _args: Vec<String>, matches: &ArgMatches) -> bool {
 
     // Enable executable execution on Linux
     if env::consts::FAMILY != "windows" {
@@ -181,7 +181,7 @@ fn run_python_executable(executables: Vec<String>, _args: Vec<String>, matches: 
 
     if !launcher_script.exists() {
         println!("X Could not find script launcher.py");
-        return;
+        return false
     }
 
     let launcher_script = launcher_script.canonicalize().unwrap();
@@ -208,6 +208,8 @@ fn run_python_executable(executables: Vec<String>, _args: Vec<String>, matches: 
 
         let _exit_status = _process.wait().expect("X Could not get exit status");
         println!("Exit success: {}", _exit_status.success());
-        return;
+        return true
     }
+
+    return false;
 }
