@@ -70,7 +70,8 @@ fn main() {
 
 fn hide_console_window() {
 
-    if env::consts::FAMILY == "windows" {
+    #[cfg(target_os = "windows")]
+    {
         use std::ptr;
         use winapi::um::wincon::GetConsoleWindow;
         use winapi::um::winuser::{ShowWindow, SW_HIDE};
