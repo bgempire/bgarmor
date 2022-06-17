@@ -33,11 +33,13 @@ const DEFAULT_PROJECT_FILES: PoolStringArray = PoolStringArray([
 	"icons/icon-launcher.ico",
 	"launcher/Launcher.exe",
 	"launcher/Launcher",
+	"launcher/launcher.py",
 ])
 
 const DEFAULT_FIELDS: Dictionary = {
 	"GameName": "Game",
 	"Version": "0.0.1",
+	"BGArmorVersion": 0,
 	"MainFile": "Example Game.blend",
 	"DataFile": "./data.dat",
 	"DataSource": "./data",
