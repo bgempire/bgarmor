@@ -1,13 +1,13 @@
 ---
 title: Quickstart Guide
-description: 
+description:
 ---
 
 # Quickstart Guide
 This guide will help you to quickly setup BGArmor into your BGE/UPBGE project without much hassle.
 
 ## Download the latest release
-In order to use the BGArmor panel, download the latest release of BGArmor from the 
+In order to use the BGArmor panel, download the latest release of BGArmor from the
 [releases page](https://github.com/bgempire/bgarmor/releases).
 
 ## Create a project
@@ -15,100 +15,70 @@ Open the BGArmor panel and you will see the welcome screen.
 
 ![]({{ site.baseurl }}/assets/img/quickstart-01.png)
 
-Click on `New Project`, and on this new dialog go to a folder (e.g. your `Documents` folder), 
+Click on `New Project`, and on this new dialog go to a folder (e.g. your `Documents` folder),
 choose a game directory name to be created and click `OK` to create your project.
 
 ![]({{ site.baseurl }}/assets/img/quickstart-02.png)
 
+With your project created, you will see the main BGArmor Panel.
+
+![]({{ site.baseurl }}/assets/img/quickstart-03.png)
+
+Click on **Explore** to open your project's folder, as we need copy some files there manually.
+
 ## Copy the needed files to BGArmor's directory
-Once you have the BGArmor's release extracted in a directory you need two main contents into this 
+Once you have the BGArmor's release extracted in a directory you need two main contents into this
 directory: the game data into the `data` directory and the engine runtimes at `engine` directory.
 
 ### Game data
-First delete all the files from the `data` directory, they are just for example. If you you already 
-have an ongoing project or are creating a new project from scratch, all you have to do is ensure that 
-all your project files (blends, textures, scripts, sounds and so on) are contained into the `data` 
-directory. Your main blend file (the one which your game is supposed to be launched from) is supposed 
-to be at the root directory of `data` and named according to your game's name (because this file name 
+First delete any file from the `data` directory, they are just for example. If you you already
+have an ongoing project or are creating a new project from scratch, all you have to do is ensure that
+all your project files (blends, textures, scripts, sounds and so on) are contained into the `data`
+directory. Your main blend file (the one which your game is supposed to be launched from) is supposed
+to be at the root directory of `data` and named according to your game's name (because this file name
 will be shown at the runtime's titlebar).
 
 ### Engine runtimes
-Copy the engine runtimes to the respective directories at `engine`, that is, the BGE / UPBGE's Windows 
-executable files to `engine/Windows32` / `engine/Windows64` and respectively the same for the Linux executable files. You can 
-actually copy all the contents of the Blender/UPBGE directory, but the `blender` executable and the 
+Copy the engine runtimes to the respective directories at `engine`, that is, the BGE / UPBGE's Windows
+executable files to `engine/Windows32` / `engine/Windows64` and respectively the same for the Linux executable files.
+You can actually copy all the contents of the Blender/UPBGE directory, but the `blender` executable and the
 directories `datafiles` and `scripts` from `engine/xxx/2.xx/` directory can be safely deleted.
 
 ## Setup the paths
-Once all the runtime files and game data were correctly put into their directories, you just need to 
-point to them on the configuration text files.
+Once all the runtime files and game data were correctly put into their directories, you just need to
+point to them on the project configuration. Go back to BGArmor Panel and head to the **Paths** tab.
 
-### File: launcher/config.json
-This file contains global game information valid for both Windows and Linux releases, such as main blend 
-file name, which files are persistent at runtime, game version, etc. Change all the fields to fit your 
-game's needs.
+![]({{ site.baseurl }}/assets/img/quickstart-04.png)
 
-**Note:** Keep in mind that `DataFile` and `DataSource` are relative paths from BGArmor's root folder.
+On this tab you can set the paths to any runtime executable. The red paths indicate the executable in
+question was not found. Click on the missing path to select an existing executable. You don't need to set all
+executables, only the ones whose platforms/architectures you wish to release your game on. On the other hand,
+you must set **both** engine and Python executables to be able to run and export to this platform.
 
-```json
-{
-    "GameName" : "Example Game",
-    "Version" : "0.0.2",
-    "MainFile" : "Example Game.blend",
-    "DataFile" : "./data.dat",
-    "DataSource" : "./data",
-    "Persistent" : [
-        "*.bgeconf",
-        "*.sav",
-    ]
-}
-```
+### Engine executable paths
+These executables points to the `blenderplayer` executables. This is needed for the
+BGArmor's launcher executable to be able to run the game and for tasks such as icon changing.
 
-### File: launcher/xxx/engine_executable.txt
-This file is platform specific because it points to the `blenderplayer` executable. This is needed for the 
-BGArmor's launcher executable to be able to run the game and for utility scripts be able to find the runtime 
-for other tasks (such as icon changing).
+### Python executable paths
+These executables points to the `python` executable of the engine. This is needed for the
+BGArmor's launcher executable to be able to run the game and for most of the tasks to run (because
+they actually run Python scripts under the hood).
 
-**Notes:** Keep the correct path standard for Windows and Linux (double quotes and single quotes, respectively). 
-Keep in mind that `ENGINE_EXECUTABLE` is a relative path from BGArmor's root folder.
+## Set the main blend file
+Now head to the **Project** tab and set the main blend file by clicking on its field and selecting it on the dialog.
 
-```python
-ENGINE_EXECUTABLE="./engine/Windows32/blenderplayer.exe"
-ENGINE_EXECUTABLE="./engine/Windows64/blenderplayer.exe"
-ENGINE_EXECUTABLE='./engine/Linux32/blenderplayer'
-ENGINE_EXECUTABLE='./engine/Linux64/blenderplayer'
-```
+![]({{ site.baseurl }}/assets/img/quickstart-05.png)
 
-### File: launcher/xxx/python_executable.txt
-This file is platform specific because it points to the `python` executable of the engine. This is needed for the 
-BGArmor's launcher executable to be able to run the game and for most of the utility shell scripts to run, because 
-they actually run Python scripts.
-
-**Notes:** Keep the correct path standard for Windows and Linux (double quotes and single quotes, respectively). 
-Keep in mind that `PYTHON_EXECUTABLE` is a relative path from BGArmor's root folder.
-
-```python
-PYTHON_EXECUTABLE="./engine/Windows32/2.79/python/bin/python.exe"
-PYTHON_EXECUTABLE="./engine/Windows64/2.79/python/bin/python.exe"
-PYTHON_EXECUTABLE='./engine/Linux32/2.79/python/bin/python3.5m'
-PYTHON_EXECUTABLE='./engine/Linux64/2.79/python/bin/python3.5m'
-```
+On this tab you can also customize relevant project data.
 
 ## Create a data.dat file and test run the launcher
-To test if the environment is correctly set up, try to create a `data.dat` file by running the shell script 
-`xxx-build-data.xxx` (name and extension varies if you're in Windows or Linux). If a new `data.dat` shows up 
-in the root directory after running the shell script, the Python path has been correctly set up and you can 
-run any other shell script without problems. Once the `data.dat` file is present, you may try to run the 
-BGArmor's launcher. If the game launches correctly, everything has been set up correctly. If anything do not 
-work as expected, review the settings regarding executable paths as explained above.
-
-**Note:** In Linux you may need to add the execution permission to all the shell scripts and related executables 
-mentioned above.
+To test if the environment is correctly set up, try to create a `data.dat` file by going to the **Tasks** tab
+and clicking in the button **Build Data** (it should be clickable now since you set up the correct Python and
+engine executables on the **Paths** tab).
+If a new `data.dat` shows up in the root directory after running the task, the project has been
+correctly set up and you can run any tasks without problems.
+Once the game data was built, you can also test run your game directly inside BGArmor by clicking in the **Run Game** buttons.
 
 ## Releasing the game
-Once everything mentioned above is correctly set up you can proceed with the game development normally at the 
-`data` directory. Once you are ready to release the game to a specific platform, you only need to run 
-`xxx-build-release.xxx` (name and extension varies if you're in Windows or Linux) and follow the instructions 
-shown. This script will generate automatically the selected releases on the `release` directory.
-
-If you need an example of how the release file structure looks, take a look at an 
-[example game release](https://github.com/bgempire/bgarmor/releases).
+If you were able to **Build Data** and **Run Game**, you're also able to export your game.
+The **Export** tasks will generate the selected releases automatically on the `release` directory.
