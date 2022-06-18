@@ -22,11 +22,12 @@ def main():
             currentLauncher = data["CurPath"] / ("launcher/Launcher" + ext)  # type: _Path
 
             if currentLauncher.exists():
+                useWine = platform.system() != "Windows" and args.get("--engine").lower().startswith("windows")
 
                 if platform.system() != "Windows":
                     currentLauncher.chmod(currentLauncher.stat().st_mode | stat.S_IEXEC)
 
-                _args = [
+                _args = (["wine"] if useWine else []) + [
                     currentLauncher.as_posix(),
                     "--engine", args.get("--engine"),
                     "--file", args.get("--project"),
